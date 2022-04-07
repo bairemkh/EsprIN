@@ -1,0 +1,37 @@
+{% extends 'base-back.html.twig' %}
+{% block title %} AddNewUser {% endblock %}
+
+{% block body %}
+    <main class="page-center">
+        <article class="sign-up">
+            <h1 class="sign-up__title">Add Extern</h1>
+            <p class="sign-up__subtitle"> you can add company or offer provider  </p>
+
+            <form class="sign-up-form form" action="" method="">
+                <label class="form-label-wrapper">
+                    <p class="form-label">Company ID</p>
+                    <input class="form-input" type="text" placeholder="Enter Company ID" required>
+                </label>
+                <label class="form-label-wrapper">
+                    <p class="form-label">Company Name</p>
+                    <input class="form-input" type="text" placeholder="Enter Company name" required>
+                </label>
+                <label class="form-label-wrapper">
+                    <p class="form-label">Email</p>
+                    <input class="form-input" type="email" placeholder="Enter Company email" required>
+                </label>
+                <label class="form-label-wrapper">
+                    <p class="form-label">Password</p>
+                    <input class="form-input" type="password" placeholder="Enter Company password" required>
+                </label>
+                <label class="form-label-wrapper">
+                    <p class="form-label">Location</p>
+                    <input class="form-input" type="text" placeholder="Enter your Company location" required>
+                </label>
+                <button class="form-btn primary-default-btn transparent-btn">Add Company</button>
+            </form>
+        </article>
+    </main>
+
+
+{% endblock %}
