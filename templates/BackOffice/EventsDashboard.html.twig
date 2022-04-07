@@ -1,0 +1,200 @@
+{% extends 'base-back.html.twig' %}
+{% block title %} EventsDashboard {% endblock %}
+
+{% block body %}
+
+
+        <!-- ! Main -->
+        <main class="main users chart-page" id="skip-target">
+            <div class="container">
+                <h2 class="main-title">Events</h2>
+
+
+
+                <div class="users-table table-wrapper">
+                    <table class="posts-table">
+                        <thead>
+                        <tr class="users-table-info">
+                            <th>
+                                <label class="users-table__checkbox ms-20">
+                                    <input type="checkbox" class="check-all">Title
+                                </label>
+                            </th>
+                            <th>Organizer</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+
+
+                        <tbody>
+                        <tr>
+                            <!-- Title -->
+                            <td>
+                                <label class="users-table__checkbox">
+                                    <input type="checkbox" class="check">
+                                    Starting your traveling blog with Vasco
+                                </label>
+                            </td>
+                            <!-- Organizer -->
+                            <td>
+                                <div class="pages-table-img">
+                                    <picture><source srcset="./img/avatar/avatar-face-04.webp" type="image/webp"><img src="./img/avatar/avatar-face-04.png" alt="User Name"></picture>
+                                    Jenny Wilson
+                                </div>
+                            </td>
+                            <!-- Date Debut -->
+                            <td>
+                                17.04.2022
+                            </td>
+                            <!-- Date fin-->
+                            <td>
+                                20.04.2021
+                            </td>
+                            <!-- Edit -->
+                            <td>
+                                  <span class="p-relative">
+                                    <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                                      <div class="sr-only">More info</div>
+                                      <i data-feather="more-horizontal" aria-hidden="true"></i>
+                                    </button>
+                                    <ul class="users-item-dropdown dropdown">
+                                      <li><a href="##">Edit</a></li>
+                                      <li><a href="##">Delete</a></li>
+                                      <li><a href="{{ path('ParticipatesDashboard') }}">Participates list</a></li>
+                                    </ul>
+                                  </span>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <!-- Title -->
+                            <td>
+                                <label class="users-table__checkbox">
+                                    <input type="checkbox" class="check">
+                                    Start a blog to reach your creative peak
+
+                                </label>
+                            </td>
+                            <!-- Organizer -->
+                            <td>
+                                <div class="pages-table-img">
+                                    <picture><source srcset="./img/avatar/avatar-face-03.webp" type="image/webp"><img src="./img/avatar/avatar-face-03.png" alt="User Name"></picture>
+                                    Annette Black
+                                </div>
+                            </td>
+                            <!-- Date Debut -->
+                            <td>
+                                24.02.2022
+                            </td>
+                            <!-- Date fin -->
+                            <td>
+                                24.02.2022
+                            </td>
+                            <!-- Edit -->
+                            <td>
+                          <span class="p-relative">
+                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                              <div class="sr-only">More info</div>
+                              <i data-feather="more-horizontal" aria-hidden="true"></i>
+                            </button>
+                            <ul class="users-item-dropdown dropdown">
+                              <li><a href="##">Edit</a></li>
+                              <li><a href="##">Delete</a></li>
+                              <li><a href="{{ path('ParticipatesDashboard') }}">Participates list</a></li>
+                            </ul>
+                          </span>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <!-- Title -->
+                            <td>
+                                <label class="users-table__checkbox">
+                                    <input type="checkbox" class="check">
+                                    Helping a local business reinvent itself
+
+                                </label>
+                            </td>
+                            <!-- Organizer -->
+                            <td>
+                                <div class="pages-table-img">
+                                    <picture><source srcset="./img/avatar/avatar-face-02.webp" type="image/webp"><img src="./img/avatar/avatar-face-02.png" alt="User Name"></picture>
+                                    Kathryn Murphy
+                                </div>
+                            </td>
+                            <!-- Date Debut -->
+                            <td>
+                                02.03.2022
+                            </td>
+                            <!-- Date Fin-->
+                            <td>06.03.2022</td>
+                            <!-- Edit -->
+                            <td>
+                          <span class="p-relative">
+                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                              <div class="sr-only">More info</div>
+                              <i data-feather="more-horizontal" aria-hidden="true"></i>
+                            </button>
+                            <ul class="users-item-dropdown dropdown">
+                              <li><a href="##">Edit</a></li>
+                              <li><a href="##">Delete</a></li>
+                              <li><a href="{{ path('ParticipatesDashboard') }}">Participates list</a></li>
+                            </ul>
+                          </span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <!-- Title -->
+                            <td>
+                                <label class="users-table__checkbox">
+                                    <input type="checkbox" class="check">
+                                    Caring is the new marketing
+
+                                </label>
+                            </td>
+                            <!-- Organizer -->
+                            <td>
+                                <div class="pages-table-img">
+                                    <picture><source srcset="./img/avatar/avatar-face-05.webp" type="image/webp"><img src="./img/avatar/avatar-face-05.png" alt="User Name"></picture>
+                                    Guy Hawkins
+                                </div>
+                            </td>
+                            <!-- Date Debut -->
+                            <td>
+                                23.04.2021
+                            </td>
+                            <!-- Date fin-->
+                            <td>23.04.2021</td>
+                            <!-- Edit -->
+                            <td>
+                          <span class="p-relative">
+                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                              <div class="sr-only">More info</div>
+                              <i data-feather="more-horizontal" aria-hidden="true"></i>
+                            </button>
+                            <ul class="users-item-dropdown dropdown">
+                              <li><a href="##">Edit</a></li>
+                              <li><a href="##">Delete</a></li>
+                              <li><a href="{{ path('ParticipatesDashboard') }}">Participates list</a></li>
+                            </ul>
+                          </span>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </main>
+
+
+
+
+
+
+
+
+{% endblock %}
