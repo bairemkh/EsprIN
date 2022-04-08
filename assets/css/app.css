@@ -17712,6 +17712,9 @@ body.compensate-for-scrollbar {
 .mdi-heart::before {
   content: "\F2D1"
 }
+.mdi-participate::before {
+  content: "\F64C"
+}
 
 .mdi-heart-box::before {
   content: "\F2D2"
