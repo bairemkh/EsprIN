@@ -1,0 +1,97 @@
+
+/*region Event*/
+
+.card.event, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card {
+    background-color: #84001c
+}
+.card.event .card-heading .dropdown.is-spaced > div .button:hover, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-heading .dropdown.is-spaced > div .button:hover {
+    background: #84001c !important
+}
+/*endregion Event*/
+/*region Announce*/
+
+.card.announce, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card {
+    background-color: #c30007
+}
+.card.announce .card-heading .dropdown.is-spaced > div .button:hover, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-heading .dropdown.is-spaced > div .button:hover {
+    background: #c30007 !important
+}
+/*endregion Announce*/
+/*region Offer*/
+
+.card.offer, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card {
+    background-color: #83054d
+}
+.card.offer .card-heading .dropdown.is-spaced > div .button:hover, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-heading .dropdown.is-spaced > div .button:hover {
+    background: #83054d !important
+}
+/*endregion Offer*/
+.card.is-feed-card .card-heading, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-heading {
+    padding: 16px 16px 0 16px
+}
+.card.is-feed-card .card-heading > svg, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-heading > svg {
+    stroke: #fff
+}
+
+.card.is-feed-card .card-body, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-body {
+    padding: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 290px
+}
+
+.card.is-feed-card .card-body .feed-avatar, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-body .feed-avatar {
+    position: relative;
+    width: 45px;
+    margin: 0 auto 16px auto
+}
+
+.card.is-feed-card .card-body .feed-avatar img, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-body .feed-avatar img {
+    display: block;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%
+}
+
+.card.is-feed-card .card-body .feed-avatar .feed-indicator, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-body .feed-avatar .feed-indicator {
+    position: absolute;
+    top: -6px;
+    right: -14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    border: 2px solid #b70728;
+    font-size: .7rem;
+    color: #fff;
+    font-weight: 500;
+    background: #c52274
+}
+
+.card.is-feed-card .card-body .feed-content, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-body .feed-content {
+    text-align: center;
+    color: #fff
+}
+
+.card.is-feed-card .card-body .feed-content h4, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-body .feed-content h4 {
+    font-weight: 500
+}
+
+.card.is-feed-card .card-body .feed-content p, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-body .feed-content p {
+    font-size: .9rem
+}
+
+.card.is-feed-card .card-body .feed-content button, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-body .feed-content button {
+    line-height: 0;
+    margin: 16px 0
+}
+body.is-dark .card:not(.is-new-job-card):not(.is-weather-card), body.is-dark .shop-wrapper .cart-container .cart-content .cart-summary .summary-card:not(.is-new-job-card):not(.is-weather-card), .shop-wrapper .cart-container .cart-content .cart-summary body.is-dark .summary-card:not(.is-new-job-card):not(.is-weather-card) {
+    border-color: #811c34;
+    background: #ffffff
+}
+body.is-dark .card.is-feed-card, body.is-dark .shop-wrapper .cart-container .cart-content .cart-summary .summary-card, .shop-wrapper .cart-container .cart-content .cart-summary body.is-dark .summary-card {
+    border-color: #d64141
+}
