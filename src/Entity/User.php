@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -510,4 +512,93 @@ class User
         $this->idforum = $idforum;
     }
 
+    public function addCinfollower(User $cinfollower): self
+    {
+        if (!$this->cinfollower->contains($cinfollower)) {
+            $this->cinfollower[] = $cinfollower;
+            $cinfollower->addCinfollowed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCinfollower(User $cinfollower): self
+    {
+        if ($this->cinfollower->removeElement($cinfollower)) {
+            $cinfollower->removeCinfollowed($this);
+        }
+
+        return $this;
+    }
+
+    public function addIdoffer(Offre $idoffer): self
+    {
+        if (!$this->idoffer->contains($idoffer)) {
+            $this->idoffer[] = $idoffer;
+            $idoffer->addCinintrested($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdoffer(Offre $idoffer): self
+    {
+        if ($this->idoffer->removeElement($idoffer)) {
+            $idoffer->removeCinintrested($this);
+        }
+
+        return $this;
+    }
+
+    public function addLikepost(Post $likepost): self
+    {
+        if (!$this->likepost->contains($likepost)) {
+            $this->likepost[] = $likepost;
+        }
+
+        return $this;
+    }
+
+    public function removeLikepost(Post $likepost): self
+    {
+        $this->likepost->removeElement($likepost);
+
+        return $this;
+    }
+
+    public function addIdevent(Event $idevent): self
+    {
+        if (!$this->idevent->contains($idevent)) {
+            $this->idevent[] = $idevent;
+        }
+
+        return $this;
+    }
+
+    public function removeIdevent(Event $idevent): self
+    {
+        $this->idevent->removeElement($idevent);
+
+        return $this;
+    }
+
+    public function addIdforum(Forum $idforum): self
+    {
+        if (!$this->idforum->contains($idforum)) {
+            $this->idforum[] = $idforum;
+        }
+
+        return $this;
+    }
+
+    public function removeIdforum(Forum $idforum): self
+    {
+        $this->idforum->removeElement($idforum);
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return(String)$this->getFirstname();
+    }
 }

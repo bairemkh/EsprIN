@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -276,6 +278,25 @@ class Event
     public function setCinuser($cinuser): void
     {
         $this->cinuser = $cinuser;
+    }
+
+    public function addCinuser(User $cinuser): self
+    {
+        if (!$this->cinuser->contains($cinuser)) {
+            $this->cinuser[] = $cinuser;
+            $cinuser->addIdevent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCinuser(User $cinuser): self
+    {
+        if ($this->cinuser->removeElement($cinuser)) {
+            $cinuser->removeIdevent($this);
+        }
+
+        return $this;
     }
 
 }

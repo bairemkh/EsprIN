@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="forum", indexes={@ORM\Index(name="FK owner", columns={"idOwner"})})
  * @ORM\Entity
+ *  * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
  */
 class Forum
 {
@@ -200,18 +203,14 @@ class Forum
         $this->state = $state;
     }
 
-    /**
-     * @return \User
-     */
-    public function getIdowner(): \User
+
+    public function getIdowner(): ?User
     {
         return $this->idowner;
     }
 
-    /**
-     * @param \User $idowner
-     */
-    public function setIdowner(\User $idowner): void
+
+    public function setIdowner(?User $idowner): self
     {
         $this->idowner = $idowner;
     }
@@ -230,6 +229,25 @@ class Forum
     public function setIdcreater($idcreater): void
     {
         $this->idcreater = $idcreater;
+    }
+
+    public function addIdcreater(User $idcreater): self
+    {
+        if (!$this->idcreater->contains($idcreater)) {
+            $this->idcreater[] = $idcreater;
+            $idcreater->addIdforum($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdcreater(User $idcreater): self
+    {
+        if ($this->idcreater->removeElement($idcreater)) {
+            $idcreater->removeIdforum($this);
+        }
+
+        return $this;
     }
 
 }

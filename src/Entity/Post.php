@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="post", indexes={@ORM\Index(name="IDX_5A8A6C8DC6C397F0", columns={"idOwer"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
 class Post
 {
@@ -200,18 +204,14 @@ class Post
         $this->state = $state;
     }
 
-    /**
-     * @return \User
-     */
-    public function getIdower(): \User
+
+    public function getIdower(): ?User
     {
         return $this->idower;
     }
 
-    /**
-     * @param \User $idower
-     */
-    public function setIdower(\User $idower): void
+
+    public function setIdower(?User $idower): self
     {
         $this->idower = $idower;
     }
@@ -231,5 +231,26 @@ class Post
     {
         $this->likeuser = $likeuser;
     }
+
+    public function addLikeuser(User $likeuser): self
+    {
+        if (!$this->likeuser->contains($likeuser)) {
+            $this->likeuser[] = $likeuser;
+            $likeuser->addLikepost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikeuser(User $likeuser): self
+    {
+        if ($this->likeuser->removeElement($likeuser)) {
+            $likeuser->removeLikepost($this);
+        }
+
+        return $this;
+    }
+
+
 
 }

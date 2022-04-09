@@ -27,23 +27,23 @@
                         </tr>
                         </thead>
 
-
+                        {% for announce in announces %}
                         <tbody>
                         <tr>
                             <!-- Title -->
                             <td>
                                 <label class="users-table__checkbox">
                                     <input type="checkbox" class="check">
-                                    Starting your traveling blog with Vasco
+                                    {{ announce.subject }}
                                 </label>
                             </td>
                             <!-- Created at -->
                             <td>
-                                17.04.2021
+                                {{ announce.createdat|date }}
                             </td>
                             <!-- Destination -->
                             <td>
-                                    Jenny Wilson
+                                    {{ announce.destination}}
 
                             </td>
                             <!-- Category -->
@@ -65,149 +65,9 @@
                                   </span>
                             </td>
                         </tr>
-                        <tr>
 
-                            <!-- Title -->
-                            <td>
-                                <label class="users-table__checkbox">
-                                    <input type="checkbox" class="check">
-                                    Start a blog to reach your creative peak
-
-                                </label>
-                            </td>
-
-                            <!-- Created at -->
-                            <td>23.04.2021</td>
-                            <!-- Destination -->
-                            <td>
-                                    Annette Black
-                            </td>
-                            <!-- Category -->
-                            <td>
-                                <span class="badge-default">Default</span>
-                            </td>
-                            <!-- Edit -->
-                            <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <!-- Title -->
-                            <td>
-                                <label class="users-table__checkbox">
-                                    <input type="checkbox" class="check">
-                                    Helping a local business reinvent itself
-
-                                </label>
-                            </td>
-
-                            <!-- Created at -->
-                            <td>23.04.2021</td>
-                            <!-- Destination -->
-                            <td>
-                                    Kathryn Murphy
-                            </td>
-                            <!-- Category -->
-                            <td>
-                                <span class="badge-default">Default</span>
-                            </td>
-                            <!-- Edit -->
-                            <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <!-- Title -->
-                            <td>
-                                <label class="users-table__checkbox">
-                                    <input type="checkbox" class="check">
-                                    Caring is the new marketing
-
-                                </label>
-                            </td>
-
-                            <!-- Created at -->
-                            <td>23.04.2021</td>
-                            <!-- Destination -->
-                            <td>
-                                Guy Hawkins
-                            </td>
-                            <!-- Category -->
-                            <td>
-                                <span class="badge-default">Default</span>
-                            </td>
-                            <!-- Edit -->
-                            <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <!-- Title -->
-                            <td>
-                                <label class="users-table__checkbox">
-                                    <input type="checkbox" class="check">
-                                    How to build a loyal community online and offline
-                                </label>
-                            </td>
-                            <!-- created at -->
-                            <td>23.04.2021</td>
-                            <!-- Destination -->
-                            <td>
-                                    Robert Fox
-                            </td>
-                            <!-- Category -->
-                            <td>
-                                <span class="badge-default">Default</span>
-                            </td>
-                            <!-- Edit -->
-                            <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                            </td>
-
-                        </tr>
                         </tbody>
+                        {% endfor %}
                     </table>
                 </div>
 

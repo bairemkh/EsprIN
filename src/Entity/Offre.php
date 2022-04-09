@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -215,6 +217,22 @@ class Offre
     public function setCinintrested($cinintrested): void
     {
         $this->cinintrested = $cinintrested;
+    }
+
+    public function addCinintrested(User $cinintrested): self
+    {
+        if (!$this->cinintrested->contains($cinintrested)) {
+            $this->cinintrested[] = $cinintrested;
+        }
+
+        return $this;
+    }
+
+    public function removeCinintrested(User $cinintrested): self
+    {
+        $this->cinintrested->removeElement($cinintrested);
+
+        return $this;
     }
 
 }

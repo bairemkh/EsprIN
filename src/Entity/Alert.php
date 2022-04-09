@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="alert", indexes={@ORM\Index(name="FK sender", columns={"idSender"}), @ORM\Index(name="FK cat alert", columns={"catAlert"})})
  * @ORM\Entity
+ *  * @ORM\Entity(repositoryClass="App\Repository\AlertRepository")
  */
 class Alert
 {
@@ -188,18 +189,14 @@ class Alert
         $this->catalert = $catalert;
     }
 
-    /**
-     * @return \User
-     */
-    public function getIdsender(): \User
+
+    public function getIdsender(): ?User
     {
         return $this->idsender;
     }
 
-    /**
-     * @param \User $idsender
-     */
-    public function setIdsender(\User $idsender): void
+
+    public function setIdsender(?User $idsender): self
     {
         $this->idsender = $idsender;
     }
