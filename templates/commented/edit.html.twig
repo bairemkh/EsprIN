@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Commented{% endblock %}
+
+{% block body %}
+    <h1>Edit Commented</h1>
+
+    {{ include('commented/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_commented_index') }}">back to list</a>
+
+    {{ include('commented/_delete_form.html.twig') }}
+{% endblock %}

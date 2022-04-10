@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * User
  *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
+
  * @ORM\Entity
  */
 class User
@@ -119,19 +119,8 @@ class User
      */
     private $state = '\'Active\'';
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="cinfollowed")
-     */
-    private $cinfollower;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Offre", mappedBy="cinintrested")
-     */
-    private $idoffer;
+
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -148,35 +137,9 @@ class User
      */
     private $likepost;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Event", inversedBy="cinuser")
-     * @ORM\JoinTable(name="participate",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="cinUser", referencedColumnName="cinUser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idEvent", referencedColumnName="idEvent")
-     *   }
-     * )
-     */
-    private $idevent;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Forum", inversedBy="idcreater")
-     * @ORM\JoinTable(name="reacted forum",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idCreater", referencedColumnName="cinUser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idForum", referencedColumnName="idForum")
-     *   }
-     * )
-     */
-    private $idforum;
+
+
 
     /**
      * Constructor
@@ -430,37 +393,6 @@ class User
         $this->state = $state;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCinfollower()
-    {
-        return $this->cinfollower;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $cinfollower
-     */
-    public function setCinfollower($cinfollower): void
-    {
-        $this->cinfollower = $cinfollower;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getIdoffer()
-    {
-        return $this->idoffer;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $idoffer
-     */
-    public function setIdoffer($idoffer): void
-    {
-        $this->idoffer = $idoffer;
-    }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
@@ -478,36 +410,6 @@ class User
         $this->likepost = $likepost;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getIdevent()
-    {
-        return $this->idevent;
-    }
 
-    /**
-     * @param \Doctrine\Common\Collections\Collection $idevent
-     */
-    public function setIdevent($idevent): void
-    {
-        $this->idevent = $idevent;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getIdforum()
-    {
-        return $this->idforum;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $idforum
-     */
-    public function setIdforum($idforum): void
-    {
-        $this->idforum = $idforum;
-    }
 
 }

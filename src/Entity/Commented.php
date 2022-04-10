@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 /**
  * Commented
  *
- * @ORM\Table(name="commented", indexes={@ORM\Index(name="Fk post commented", columns={"postCommented"}), @ORM\Index(name="IDX_5FA1A85B35321851", columns={"userWhoCommented"})})
  * @ORM\Entity
  */
 class Commented
@@ -16,15 +17,24 @@ class Commented
      * @var string
      *
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
+     * @Assert\NotBlank(message="comment is required")
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 1000,
+     *      minMessage = "la description doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "la description ne peut pas dépasser {{ limit }} caractères"
+     * )
      */
     private $content;
-
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $idcomment;
+    /**
+     *
+     * @ORM\Column(name="createdAt", type="datetime", nullable=true, options={"default"="current_timestamp()"})
      */
     private $createdat = 'current_timestamp()';
 
@@ -36,10 +46,8 @@ class Commented
     private $state = '\'Active\'';
 
     /**
-     * @var \User
+     * @var User
      *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userWhoCommented", referencedColumnName="cinUser")
@@ -48,10 +56,7 @@ class Commented
     private $userwhocommented;
 
     /**
-     * @var \Post
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @var Post
      * @ORM\OneToOne(targetEntity="Post")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="postCommented", referencedColumnName="idPost")
@@ -59,82 +64,71 @@ class Commented
      */
     private $postcommented;
 
-    /**
-     * @return string
-     */
-    public function getContent(): string
+
+    public function getContent()
     {
         return $this->content;
     }
 
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
+
+    public function setContent(string $content)
     {
         $this->content = $content;
     }
 
-    /**
-     * @return \DateTime
-     */
+
     public function getCreatedat()
     {
         return $this->createdat;
     }
 
-    /**
-     * @param \DateTime $createdat
-     */
-    public function setCreatedat($createdat): void
+
+    public function setCreatedat($createdat)
     {
-        $this->createdat = $createdat;
+     $this->createdat = $createdat;
     }
 
-    /**
-     * @return string
-     */
-    public function getState(): string
+    public function getIdcomment()
+    {
+        return $this->idcomment;
+    }
+
+
+    public function setIdcomment($id)
+    {
+        $this->idcomment = $id;
+    }
+    public function getState()
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
+
+    public function setState(string $state)
     {
         $this->state = $state;
     }
 
-    /**
-     * @return \User
-     */
-    public function getUserwhocommented(): \User
+
+    public function getUserwhocommented()
     {
         return $this->userwhocommented;
     }
 
-    /**
-     * @param \User $userwhocommented
-     */
-    public function setUserwhocommented(\User $userwhocommented): void
+
+    public function setUserwhocommented(User $userwhocommented)
     {
         $this->userwhocommented = $userwhocommented;
     }
 
-    /**
-     * @return \Post
-     */
-    public function getPostcommented(): \Post
+
+    public function getPostcommented()
     {
         return $this->postcommented;
     }
 
-    /**
-     * @param \Post $postcommented
-     */
-    public function setPostcommented(\Post $postcommented): void
+
+    public function setPostcommented( Post $postcommented)
     {
         $this->postcommented = $postcommented;
     }

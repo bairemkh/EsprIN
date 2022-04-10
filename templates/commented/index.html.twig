@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commented index{% endblock %}
+
+{% block body %}
+    <h1>Commented index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Content</th>
+                <th>Createdat</th>
+                <th>State</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commented in commenteds %}
+            <tr>
+                <td>{{ commented.content }}</td>
+                <td>{{ commented.idcomment ? commented.createdat|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ commented.state }}</td>
+                <td>
+                    <a href="{{ path('app_commented_show', {'createdat': commented.idcomment}) }}">show</a>
+                    <a href="{{ path('app_commented_edit', {'createdat': commented.idcomment}) }}">edit</a>
+                    <a href="{{ path('app_commented_delete', {'createdat': commented.idcomment}) }}">supp</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_commented_new') }}">Create new</a>
+{% endblock %}
