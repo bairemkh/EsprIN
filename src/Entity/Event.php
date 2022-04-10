@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="event", indexes={@ORM\Index(name="FK organizer", columns={"idOrganizer"})})
  * @ORM\Entity
+ * * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
 {
@@ -248,18 +249,14 @@ class Event
         $this->datefin = $datefin;
     }
 
-    /**
-     * @return \User
-     */
-    public function getIdorganizer(): \User
+
+    public function getIdorganizer(): ?User
     {
         return $this->idorganizer;
     }
 
-    /**
-     * @param \User $idorganizer
-     */
-    public function setIdorganizer(\User $idorganizer): void
+
+    public function setIdorganizer(?User $idorganizer): self
     {
         $this->idorganizer = $idorganizer;
     }

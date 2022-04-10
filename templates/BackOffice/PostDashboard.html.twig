@@ -27,6 +27,7 @@
                         </tr>
                         </thead>
                         {% for post in posts %}
+                            {% if post.state == "Active" %}
                         <tbody>
                             <tr>
                                 <!-- Post -->
@@ -60,13 +61,14 @@
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
                                       <li><a href="##">Edit</a></li>
-                                      <li><a href="##">Delete</a></li>
+                                      <li><a href={{ path('deletepost', {'id': post.idpost}) }}>Delete</a></li>
                                       <li><a href="##">Trash</a></li>
                                     </ul>
                                   </span>
                                 </td>
                             </tr>
                         </tbody>
+                            {% endif %}
                         {% endfor %}
                     </table>
                 </div>

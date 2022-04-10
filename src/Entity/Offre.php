@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK Provider", columns={"offerProvider"})})
  * @ORM\Entity
+ * * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
  */
 class Offre
 {

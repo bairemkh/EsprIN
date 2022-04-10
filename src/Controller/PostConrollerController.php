@@ -19,6 +19,19 @@ class PostConrollerController extends AbstractController
         return $this->render('BackOffice/PostDashboard.html.twig',['posts'=>$posts]);
     }
     /**
+     * @Route ("/PostDashboard/{id}",name="deletepost")
+     */
+    public function delete($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $post = $this->getDoctrine()
+                    ->getRepository(Post::class)
+                    ->find($id);
+        $post->setState("Desactive");
+        $em->flush();
+        return $this->redirectToRoute('PostDashboard');
+    }
+    /**
      * @Route("/php bin\console make:entity --regenerate", name="app_post_conroller")
      */
     public function index(): Response
