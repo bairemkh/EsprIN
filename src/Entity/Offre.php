@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK Provider", columns={"offerProvider"})})
  * @ORM\Entity
+ * * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
  */
 class Offre
 {
@@ -215,6 +218,22 @@ class Offre
     public function setCinintrested($cinintrested): void
     {
         $this->cinintrested = $cinintrested;
+    }
+
+    public function addCinintrested(User $cinintrested): self
+    {
+        if (!$this->cinintrested->contains($cinintrested)) {
+            $this->cinintrested[] = $cinintrested;
+        }
+
+        return $this;
+    }
+
+    public function removeCinintrested(User $cinintrested): self
+    {
+        $this->cinintrested->removeElement($cinintrested);
+
+        return $this;
     }
 
 }

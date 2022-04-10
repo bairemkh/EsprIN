@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="event", indexes={@ORM\Index(name="FK organizer", columns={"idOrganizer"})})
  * @ORM\Entity
+ * * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
 {
@@ -246,18 +249,14 @@ class Event
         $this->datefin = $datefin;
     }
 
-    /**
-     * @return \User
-     */
-    public function getIdorganizer(): \User
+
+    public function getIdorganizer(): ?User
     {
         return $this->idorganizer;
     }
 
-    /**
-     * @param \User $idorganizer
-     */
-    public function setIdorganizer(\User $idorganizer): void
+
+    public function setIdorganizer(?User $idorganizer): self
     {
         $this->idorganizer = $idorganizer;
     }
@@ -276,6 +275,25 @@ class Event
     public function setCinuser($cinuser): void
     {
         $this->cinuser = $cinuser;
+    }
+
+    public function addCinuser(User $cinuser): self
+    {
+        if (!$this->cinuser->contains($cinuser)) {
+            $this->cinuser[] = $cinuser;
+            $cinuser->addIdevent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCinuser(User $cinuser): self
+    {
+        if ($this->cinuser->removeElement($cinuser)) {
+            $cinuser->removeIdevent($this);
+        }
+
+        return $this;
     }
 
 }

@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="annoncement", indexes={@ORM\Index(name="FK annonce sender", columns={"idSender"})})
  * @ORM\Entity
+ *  * @ORM\Entity(repositoryClass="App\Repository\AnnoncementRepository")
  */
 class Annoncement
 {
@@ -185,18 +186,14 @@ class Annoncement
         $this->state = $state;
     }
 
-    /**
-     * @return \User
-     */
-    public function getIdsender(): \User
+
+    public function getIdsender(): ?User
     {
         return $this->idsender;
     }
 
-    /**
-     * @param \User $idsender
-     */
-    public function setIdsender(\User $idsender): void
+
+    public function setIdsender(?User $idsender): self
     {
         $this->idsender = $idsender;
     }

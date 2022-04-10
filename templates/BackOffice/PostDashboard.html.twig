@@ -26,31 +26,31 @@
                             <th>Action</th>
                         </tr>
                         </thead>
-
-
+                        {% for post in posts %}
+                            {% if post.state == "Active" %}
                         <tbody>
                             <tr>
                                 <!-- Post -->
                                 <td>
                                     <label class="users-table__checkbox">
                                         <input type="checkbox" class="check">
-                                        Starting your traveling blog with Vasco
+                                        {{ post.content }}
                                     </label>
                                 </td>
                                 <!-- Author -->
                                 <td>
                                     <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-04.webp" type="image/webp"><img src="./img/avatar/avatar-face-04.png" alt="User Name"></picture>
-                                        Jenny Wilson
+                                        <picture><source srcset={{ post.mediaurl }} type="image/webp"><img src={{ post.mediaurl }}alt="User Name"></picture>
+                                        {{ post.idower.getFirstname() }}
                                     </div>
                                 </td>
                                 <!-- Category -->
                                 <td>
-                                    <span class="badge-default">Default</span>
+                                    <span class="badge-default">{{ post.categorie }}</span>
                                 </td>
                                 <!-- Date -->
                                 <td>
-                                    17.04.2021
+                                    {{ post.createdat|date }}
                                 </td>
                                 <!-- Edit -->
                                 <td>
@@ -61,202 +61,15 @@
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
                                       <li><a href="##">Edit</a></li>
-                                      <li><a href="##">Delete</a></li>
+                                      <li><a href={{ path('deletepost', {'id': post.idpost}) }}>Delete</a></li>
                                       <li><a href="##">Trash</a></li>
                                     </ul>
                                   </span>
                                 </td>
                             </tr>
-                            <tr>
-
-                                <!-- Post -->
-                                <td>
-                                    <label class="users-table__checkbox">
-                                        <input type="checkbox" class="check">
-                                        Start a blog to reach your creative peak
-
-                                    </label>
-                                </td>
-                                <!-- Author -->
-                                <td>
-                                    <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-03.webp" type="image/webp"><img src="./img/avatar/avatar-face-03.png" alt="User Name"></picture>
-                                        Annette Black
-                                    </div>
-                                </td>
-                                <!-- Category -->
-                                <td>
-                                    <span class="badge-default">Default</span>
-                                </td>
-                                <!-- Date -->
-                                <td>23.04.2021</td>
-                                <!-- Edit -->
-                                <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <!-- Post -->
-                                <td>
-                                    <label class="users-table__checkbox">
-                                        <input type="checkbox" class="check">
-                                        Helping a local business reinvent itself
-
-                                    </label>
-                                </td>
-                                <!-- Author -->
-                                <td>
-                                    <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-02.webp" type="image/webp"><img src="./img/avatar/avatar-face-02.png" alt="User Name"></picture>
-                                        Kathryn Murphy
-                                    </div>
-                                </td>
-                                <!-- Category -->
-                                <td>
-                                    <span class="badge-default">Default</span>
-                                </td>
-                                <!-- Date -->
-                                <td>23.04.2021</td>
-                                <!-- Edit -->
-                                <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <!-- Post -->
-                                <td>
-                                    <label class="users-table__checkbox">
-                                        <input type="checkbox" class="check">
-                                        Caring is the new marketing
-
-                                    </label>
-                                </td>
-                                <!-- Author -->
-                                <td>
-                                    <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-05.webp" type="image/webp"><img src="./img/avatar/avatar-face-05.png" alt="User Name"></picture>
-                                        Guy Hawkins
-                                    </div>
-                                </td>
-                                <!-- Category -->
-                                <td>
-                                    <span class="badge-default">Default</span>
-                                </td>
-                                <!-- Date -->
-                                <td>23.04.2021</td>
-                                <!-- Edit -->
-                                <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <!-- Post -->
-                                <td>
-                                    <label class="users-table__checkbox">
-                                        <input type="checkbox" class="check">
-                                        How to build a loyal community online and offline
-                                    </label>
-                                </td>
-                                <!-- Author -->
-                                <td>
-                                    <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-03.webp" type="image/webp"><img src="./img/avatar/avatar-face-03.png" alt="User Name"></picture>
-                                        Robert Fox
-                                    </div>
-                                </td>
-                                <!-- Category -->
-                                <td>
-                                    <span class="badge-default">Default</span>
-                                </td>
-                                <!-- Date -->
-                                <td>23.04.2021</td>
-                                <!-- Edit -->
-                                <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <!-- Post -->
-                                <td>
-                                    <label class="users-table__checkbox">
-                                        <input type="checkbox" class="check">
-                                        How to build a loyal community online and offline
-
-                                    </label>
-                                </td>
-                                <!-- Author -->
-                                <td>
-                                    <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-03.webp" type="image/webp"><img src="./img/avatar/avatar-face-03.png" alt="User Name"></picture>
-                                        Robert Fox
-                                    </div>
-                                </td>
-                                <!-- Category -->
-                                <td>
-                                    <span class="badge-default">Default</span>
-                                </td>
-                                <!-- Date -->
-                                <td>23.04.2021</td>
-                                <!-- Edit -->
-                                <td>
-                          <span class="p-relative">
-                            <button class="dropdown-btn transparent-btn" type="button" title="More info">
-                              <div class="sr-only">More info</div>
-                              <i data-feather="more-horizontal" aria-hidden="true"></i>
-                            </button>
-                            <ul class="users-item-dropdown dropdown">
-                              <li><a href="##">Edit</a></li>
-                              <li><a href="##">Delete</a></li>
-                              <li><a href="##">Trash</a></li>
-                            </ul>
-                          </span>
-                                </td>
-
-                            </tr>
                         </tbody>
+                            {% endif %}
+                        {% endfor %}
                     </table>
                 </div>
 
