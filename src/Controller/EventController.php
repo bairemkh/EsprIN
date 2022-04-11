@@ -21,6 +21,17 @@ class EventController extends AbstractController
     }
 
     /**
+     * @Route("/navbar-v2-events", name="navbar-v2-event")
+     */
+    public function getlistevents():Response
+    {
+        $events = $this->getDoctrine()
+            ->getRepository(Event::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-events.html.twig',['events'=>$events]);
+    }
+
+    /**
      * @Route ("/EventsDashboard/{id}",name="deleteevent")
      */
     public function deleteevent($id)

@@ -18,6 +18,18 @@ class PostConrollerController extends AbstractController
             ->findAll();
         return $this->render('BackOffice/PostDashboard.html.twig',['posts'=>$posts]);
     }
+
+    /**
+     * @Route ("/navbar-v2-feed",name="navbar-v2-feed")
+     */
+    public function getlistposts():Response
+    {
+        $posts = $this->getDoctrine()
+            ->getRepository(Post::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-feed.html.twig',['posts'=>$posts]);
+    }
+
     /**
      * @Route ("/PostDashboard/{id}",name="deletepost")
      */
