@@ -29,7 +29,7 @@ let verifCIN = false;
 let verifPasswd=false;
 let next = false;
 
-regForm.action = 'createStudentAccount';
+regForm.action = 'user/createStudentAccount';
 
 
 let i = 0;
@@ -55,18 +55,18 @@ roleSelector.addEventListener('change', function () {
         roleForms[1].classList.remove('show');
         roleForms[0].classList.add('show');
         //specStudent.selectedIndex===0
-        regForm.action = 'createStudentAccount';
+        regForm.action = 'user/createStudentAccount';
 
     } else if (this.value === "Professor") {
         roleForms[0].classList.remove('show');
         roleForms[2].classList.remove('show');
         roleForms[1].classList.add('show');
-        regForm.action = 'createProfAccount';
+        regForm.action = 'Professor';
     } else if (this.value === "Club") {
         roleForms[0].classList.remove('show');
         roleForms[1].classList.remove('show');
         roleForms[2].classList.add('show');
-        regForm.action = 'createProfAccount';
+        regForm.action = 'club';
     } else {
         roleForms[0].classList.remove('show');
         roleForms[1].classList.remove('show');
