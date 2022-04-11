@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -65,6 +66,27 @@ class NavigationFrontOfficeController extends AbstractController
     {
         return $this->render('FrontOffice/navbar-v2-feed.html.twig', [
             'controller_name' => 'NavigationFrontOfficeController',
+        ]);
+    }
+
+    /**
+     * @Route("/userProfile", name="userProfile")
+     */
+    public function profil(): Response
+    {
+
+        return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
+            'user' => 'bairem',
+        ]);
+    }
+
+    /**
+     * @Route("/register", name="userProfile")
+     */
+    public function register(): Response
+    {
+
+        return $this->render('FrontOffice/register.html.twig', [
         ]);
     }
 
