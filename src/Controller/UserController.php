@@ -3,102 +3,141 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Persistence\ObjectManager;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Test;
-use App\Form\TestType;
-use App\Repository\TestRepository;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
+/**
+ * @Route("/user")
+ */
 class UserController extends AbstractController
 {
     /**
-     * @Route ("/UserDashboard",name="UserDashboard")
+     * @Route("/", name="app_user_index", methods={"GET"})
      */
-    public function getUsers():Response
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        $users = $this->getDoctrine()
+        $users = $entityManager
             ->getRepository(User::class)
             ->findAll();
-        return $this->render('BackOffice/UserDashboard.html.twig',['users'=>$users]);
-    }
-    /**
-     * @Route("/user", name="app_user")
-     */
-    public function index(): Response
-    {
+
         return $this->render('user/index.html.twig', [
-            'controller_name' => 'UserController',
+            'users' => $users,
         ]);
     }
 
     /**
-     * @Route("/addUser", name="addUser")
+     * @Route("/new", name="app_user_new", methods={"GET", "POST"})
      */
-    public function FunctionName(): Response
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('$0.html.twig', []);
-    }
-
-    /**
-     * @Route("/new", name="app_test_new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, TestRepository $testRepository): Response
-    {
-        $test = new Test();
-        $form = $this->createForm(TestType::class, $test);
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $testRepository->add($test);
-            return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('test/new.html.twig', [
-            'test' => $test,
+        return $this->render('user/new.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="app_test_show", methods={"GET"})
+     * @Route("/createStudentAccount", name="create_student_Account",methods={"GET", "POST"})
      */
-    public function show(Test $test): Response
+    public function StudentRegister(Request $request): Response
     {
-        return $this->render('test/show.html.twig', [
-            'test' => $test,
+        dump($request);
+        if ($request->request->count() > 0) {
+            $user = new User();
+            echo (int)$request->get('userCin');
+            echo $request->get('userCin');
+            $user->setCinuser($request->get('userCin'));
+            $user->setPasswd($request->get('password'));
+            $user->setEmail($request->get('email'));
+            $user->setRole('Etudiant');
+            $user->setFirstname($request->get('firstName'));
+            $user->setLastname($request->get('lastName'));
+            $class = $request->get('grade') . " " . $request->get('classSpec') . " " . $request->get('classNum');
+            $user->setClass($class);
+            $user->setDomaine($request->get('specStudent'));
+            $user->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->redirectToRoute('profile',['userCin'=>$user->getCinuser()]);
+        }
+
+
+        return $this->render('FrontOffice/register.html.twig', [
         ]);
     }
 
     /**
-     * @Route("/{id}/edit", name="app_test_edit", methods={"GET", "POST"})
+     * @Route("/profile/{userCin}", name="profile", methods={"GET"})
      */
-    public function edit(Request $request, Test $test, TestRepository $testRepository): Response
+    public function profile(User $user): Response
     {
-        $form = $this->createForm(TestType::class, $test);
+        echo "salem";
+        return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
+            'user'=>$user
+        ]);
+    }
+
+    /**
+     * @Route("/{cinuser}", name="app_user_show", methods={"GET"})
+     */
+    public function show(User $user): Response
+    {
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+        ]);
+    }
+
+    /**
+     * @Route("/{cinuser}/edit", name="app_user_edit", methods={"GET", "POST"})
+     */
+    public function edit(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $testRepository->add($test);
-            return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('test/edit.html.twig', [
-            'test' => $test,
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/{id}", name="app_test_delete", methods={"POST"})
+     * @Route("/{cinuser}", name="app_user_delete", methods={"POST"})
      */
-    public function delete(Request $request, Test $test, TestRepository $testRepository): Response
+    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $test->getId(), $request->request->get('_token'))) {
-            $testRepository->remove($test);
+        if ($this->isCsrfTokenValid('delete' . $user->getCinuser(), $request->request->get('_token'))) {
+            $entityManager->remove($user);
+            $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_test_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 }

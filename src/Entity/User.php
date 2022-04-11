@@ -37,9 +37,9 @@ class User
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="createdAt", type="datetime", nullable=true, options={"default"="current_timestamp()"})
      */
-    private $createdat = 'current_timestamp()';
+    private $createdat ;
 
     /**
      * @var string
@@ -114,9 +114,9 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Connected"})
      */
-    private $state = 'Active';
+    private $state = "Connected";
 
     /**
      * @var \Doctrine\Common\Collections\Collection
