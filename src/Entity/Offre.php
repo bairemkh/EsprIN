@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK Provider", columns={"offerProvider"})})
  * @ORM\Entity
+ * * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
  */
 class Offre
 {
@@ -45,7 +48,6 @@ class Offre
     /**
      * @var string
      *
-     * @Assert\NotBlank(message=" description doit etre non vide")
      * @ORM\Column(name="descOffer", type="text", length=65535, nullable=false)
      */
     private $descoffer;
@@ -53,7 +55,7 @@ class Offre
     /**
      * @var string|null
      *
-     * @ORM\Column(name="imgOffre", type="string", length=55, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="imgOffre", type="text", length=65535, nullable=true, options={"default"="NULL"})
      */
     private $imgoffre = 'NULL';
 
@@ -148,7 +150,7 @@ class Offre
     /**
      * @return string
      */
-    public function getDescoffer(): ?string
+    public function getDescoffer(): string
     {
         return $this->descoffer;
     }
