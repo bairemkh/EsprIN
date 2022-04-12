@@ -26,7 +26,7 @@ class OffreController extends AbstractController
     {
         $offres = $this->getDoctrine()
             ->getRepository(Offre::class)
-            ->findAll();
+            ->findByStateField('Active');
         return $this->render('BackOffice/OfferDashboard.html.twig',['offres'=>$offres]);
     }
 

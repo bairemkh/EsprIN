@@ -4,12 +4,9 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Mime\Email;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -25,146 +22,55 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return User[]
+     * @throws ORMException
+     * @throws OptimisticLockException
      */
-    public function sortByDateAsc(): array
+    public function add(User $entity, bool $flush = true): void
     {
-        $em=$this->getEntityManager();
-       /* $res=$em->createQueryBuilder('user')
-            ->orderBy('user.email', 'ASC')
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(User $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    // /**
+    //  * @return User[] Returns an array of User objects
+    //  */
+    /*
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('u.id', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
-            ->getResult();*/
-        //SELECT * FROM User u ORDER BY u.email ASC
-       $res= $em->createQueryBuilder()
-           ->select('u')
-           ->from('App\Entity\User', 'u')
-           ->orderBy('u.createdat ', 'ASC')
-           ->getQuery();
-        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
-
-       return $res->getArrayResult();
-
+            ->getResult()
+        ;
     }
+    */
 
-    /**
-     * @return User[]
-     */
-    public function sortByDateDesc(): array
+
+    public function findOneBySomeField($value): ?User
     {
-        $em=$this->getEntityManager();
-        /* $res=$em->createQueryBuilder('user')
-             ->orderBy('user.email', 'ASC')
-             ->getQuery()
-             ->getResult();*/
-        //SELECT * FROM User u ORDER BY u.email ASC
-        $res= $em->createQueryBuilder()
-            ->select('u')
-            ->from('App\Entity\User', 'u')
-            ->orderBy('u.createdat ', 'DESC')
-            ->getQuery();
-        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
-
-        return $res->getArrayResult();
-
-    }
-
-    /**
-     * @return User[]
-     */
-    public function showAdmins(): array
-    {
-        $em=$this->getEntityManager();
-        $res= $em->createQueryBuilder()
-            ->select('u')
-            ->from('App\Entity\User', 'u')
-            ->where('u.role=\'Admin\' ')
-            ->getQuery();
-        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
-
-        return $res->getArrayResult();
-
-    }
-
-    /**
-     * @return User[]
-     */
-    public function showStudents(): array
-    {
-        $em=$this->getEntityManager();
-        $res= $em->createQueryBuilder()
-            ->select('u')
-            ->from('App\Entity\User', 'u')
-            ->where('u.role=\'Etudiant\' ')
-            ->getQuery();
-        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
-
-        return $res->getArrayResult();
-
-    }
-
-    /**
-     * @return User[]
-     */
-    public function showClubs(): array
-    {
-        $em=$this->getEntityManager();
-        $res= $em->createQueryBuilder()
-            ->select('u')
-            ->from('App\Entity\User', 'u')
-            ->where('u.role=\'Club\' ')
-            ->getQuery();
-        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
-
-        return $res->getArrayResult();
-
-    }
-
-    /**
-     * @return User[]
-     */
-    public function showProfs(): array
-    {
-        $em=$this->getEntityManager();
-        $res= $em->createQueryBuilder()
-            ->select('u')
-            ->from('App\Entity\User', 'u')
-            ->where('u.role=\'Professeur\' ')
-            ->getQuery();
-        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
-
-        return $res->getArrayResult();
-
-    }
-
-    /**
-     * @return User[]
-     */
-    public function showExterns(): array
-    {
-        $em=$this->getEntityManager();
-        $res= $em->createQueryBuilder()
-            ->select('u')
-            ->from('App\Entity\User', 'u')
-            ->where('u.role=\'Extern\' ')
-            ->getQuery();
-        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
-
-        return $res->getArrayResult();
-
-    }
-
-    public function test(): array
-    {
-        $em=$this->getEntityManager();
-
-        $res =$em->createQueryBuilder()
-            ->select('o.titleoffer,o.descoffer,o.catoffre,u.firstname as offre')
-            ->from('App\Entity\Offre', 'o')
-            ->innerJoin('App\Entity\User','u','with', "u.cinuser = o.offerprovider")
-            ->getQuery();
-        dump($res->getArrayResult());
-        return $res->getArrayResult();
-
+        return $this->createQueryBuilder('u')
+            ->andWhere('u.idalert = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
     }
 
 }
