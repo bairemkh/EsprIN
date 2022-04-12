@@ -188,10 +188,8 @@ class Offre
         $this->state = $state;
     }
 
-    /**
-     * @return \User
-     */
-    public function getOfferprovider(): \User
+
+    public function getOfferprovider(): ?User
     {
         return $this->offerprovider;
     }

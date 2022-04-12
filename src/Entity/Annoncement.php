@@ -51,7 +51,7 @@ class Annoncement
     private $createdat = 'current_timestamp()';
 
     /**
-     * @var int
+     * @var \Catannonce
      *
      * @ORM\Column(name="catAnn", type="integer", nullable=false)
      */
@@ -154,10 +154,8 @@ class Annoncement
         $this->createdat = $createdat;
     }
 
-    /**
-     * @return int
-     */
-    public function getCatann(): int
+
+    public function getCatann(): ?Catannonce
     {
         return $this->catann;
     }

@@ -15,7 +15,7 @@ class AnnoncementController extends AbstractController
     public function getAnnounces():Response{
         $announces= $this->getDoctrine()
             ->getRepository(Annoncement::class)
-            ->findAll();
+            ->findByStateField('Active');
         return $this->render('BackOffice/AnnounceDashboard.html.twig',['announces'=>$announces]);
     }
     /**
@@ -26,5 +26,19 @@ class AnnoncementController extends AbstractController
         return $this->render('annoncement/index.html.twig', [
             'controller_name' => 'AnnoncementController',
         ]);
+    }
+
+    /**
+     * @Route("/AnnounceDashboard/{id}", name="deleteannounce")
+     */
+    public function delete($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $post = $this->getDoctrine()
+            ->getRepository(Annoncement::class)
+            ->find($id);
+        $post->setState("Deleted");
+        $em->flush();
+        return $this->redirectToRoute('AnnounceDashboard');
     }
 }

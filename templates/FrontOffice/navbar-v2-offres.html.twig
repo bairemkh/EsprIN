@@ -299,6 +299,7 @@
                         <!--#region Offer -->
                         <!-- /partials/pages/feed/posts/feed-post1.html -->
                         <!-- POST #1 -->
+                        {% for offre in offres %}
                         <div  class="card is-post">
                             <!-- Main wrap -->
                             <div class="content-wrap">
@@ -312,14 +313,14 @@
                                                  alt="">
                                         </div>
                                         <div class="user-info">
-                                            <a href="#">Vermeg</a>
+                                            <a href="#">Sofrecom</a>
                                             <span class="time">June 4 2022, 12:11pm</span>
                                         </div>
                                     </div>
                                     <!-- Right side dropdown -->
                                     <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
                                     <div class="OffreCategorie">
-                                        <h4>Stage</h4>
+                                        <h4>{{ offre.catoffre }}</h4>
                                     </div>
                                 </div>
                                 <!-- /Post header -->
@@ -328,9 +329,9 @@
                                 <div class="card-body">
                                     <!-- Post body text -->
                                     <div class="post-text">
-                                        <p> Stage d'été en Aout
+                                        <p> {{ offre.titleoffer}}
                                         </p>
-                                        <p>lorem lorem lorem</p>
+                                        <p>{{ offre.descoffer }}</p>
                                     </div>
                                     <!-- Featured image -->
                                     <div class="post-image">
@@ -350,117 +351,12 @@
                                 </div>
                             </div>
                         </div>
+                        {% endfor %}
                         <!--#endregion Offer -->
                         <!--#region Offer1 -->
                         <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- POST #1 -->
-                        <div  class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
-                                <div class="card-heading">
-                                    <!-- User meta -->
-                                    <div class="user-block">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                 alt="">
-                                        </div>
-                                        <div class="user-info">
-                                            <a href="#">Fanta</a>
-                                            <span class="time">October 30 2019, 01:03pm</span>
-                                        </div>
-                                    </div>
-                                    <!-- Right side dropdown -->
-                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="OffreCategorie">
-                                        <h4>Alternance</h4>
-                                    </div>
-                                </div>
-                                <!-- /Post header -->
 
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
-                                    <div class="post-text">
-                                        <p> Alternance
-                                        </p>
-                                        <p>lorem lorem lorem</p>
-                                    </div>
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <a data-fancybox="post1" data-lightbox-type="comments"
-                                           data-thumb="FrontOffice/assets/img/demo/unsplash/17.jpg"
-                                           href="https://via.placeholder.com/1600x900"
-                                           data-demo-href="FrontOffice/assets/img/demo/unsplash/17.jpg">
-                                            <img src="https://via.placeholder.com/1600x900"
-                                                 data-demo-src="FrontOffice/assets/img/demo/unsplash/17.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="container-participate">
-                                        <button type="button" class="button-participate">
-                                            <span>Participate!</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--#endregion Offer1 -->
-                        <!--#region Offer2 -->
-                        <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- POST #1 -->
-                        <div  class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
-                                <div class="card-heading">
-                                    <!-- User meta -->
-                                    <div class="user-block">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                 alt="">
-                                        </div>
-                                        <div class="user-info">
-                                            <a href="#">Ooranda</a>
-                                            <span class="time">July 26 2018, 01:03pm</span>
-                                        </div>
-                                    </div>
-                                    <!-- Right side dropdown -->
-                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="OffreCategorie">
-                                        <h4>Offre De Travail</h4>
-                                    </div>
-                                </div>
-                                <!-- /Post header -->
 
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
-                                    <div class="post-text">
-                                        <p> Offre de Travail en Ooranda
-                                        </p>
-                                        <p>lorem lorem lorem</p>
-                                    </div>
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <a data-fancybox="post1" data-lightbox-type="comments"
-                                           data-thumb="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg"
-                                           href="https://via.placeholder.com/1600x900"
-                                           data-demo-href="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg">
-                                            <img src="https://via.placeholder.com/1600x900"
-                                                 data-demo-src="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="container-participate">
-                                        <button type="button" class="button-participate">
-                                            <span>Participate!</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--#endregion Offer2 -->
                     </div>
                     <!-- /Middle column -->
 
