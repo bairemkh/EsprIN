@@ -16,7 +16,7 @@ class EventController extends AbstractController
     {
         $events = $this->getDoctrine()
             ->getRepository(Event::class)
-            ->findAll();
+            ->findByExampleField('Active');
         return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
     }
 

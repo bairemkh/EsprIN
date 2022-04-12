@@ -27,7 +27,7 @@ class PostConrollerController extends AbstractController
         $post = $this->getDoctrine()
                     ->getRepository(Post::class)
                     ->find($id);
-        $post->setState("Desactive");
+        $post->setState("Deleted");
         $em->flush();
         return $this->redirectToRoute('PostDashboard');
     }

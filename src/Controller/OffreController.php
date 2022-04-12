@@ -16,8 +16,19 @@ class OffreController extends AbstractController
     {
         $offres = $this->getDoctrine()
             ->getRepository(Offre::class)
-            ->findAll();
+            ->findByStateField('Active');
         return $this->render('BackOffice/OfferDashboard.html.twig',['offres'=>$offres]);
+    }
+
+    /**
+     * @Route ("/navbar-v2-offres",name="navbar-v2-offres")
+     */
+    public function getOffresMenu():Response
+    {
+        $offres = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-offres.html.twig',['offres'=>$offres]);
     }
     /**
      * @Route("/offre", name="app_offre")
@@ -27,5 +38,19 @@ class OffreController extends AbstractController
         return $this->render('offre/index.html.twig', [
             'controller_name' => 'OffreController',
         ]);
+    }
+
+    /**
+     * @Route ("/OfferDashboard/{id}",name="deleteoffer")
+     */
+    public function delete($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $offer = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->find($id);
+        $offer->setState("Deleted");
+        $em->flush();
+        return $this->redirectToRoute('OfferDashboard');
     }
 }
