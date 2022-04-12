@@ -9,6 +9,8 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EventController extends AbstractController
 {
+
+    //affichage back
     /**
      * @Route ("/EventsDashboard",name="EventsDashboard")
      */
@@ -20,6 +22,19 @@ class EventController extends AbstractController
         return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
     }
 
+    // affichage front
+    /**
+     * @Route("/navbar-v2-events", name="navbar-v2-event")
+     */
+    public function getlistevents():Response
+    {
+        $events = $this->getDoctrine()
+            ->getRepository(Event::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-events.html.twig',['events'=>$events]);
+    }
+
+    // delete back
     /**
      * @Route ("/EventsDashboard/{id}",name="deleteevent")
      */
@@ -33,6 +48,24 @@ class EventController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('EventsDashboard');
     }
+
+    // delete front
+    /**
+     * @Route ("/navbar-v2-events/{id}",name="deleteventfront")
+     */
+    public function deleteeventfront($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $event = $this->getDoctrine()
+            ->getRepository(Event::class)
+            ->find($id);
+        $event->setState("Deleted");
+        $em->flush();
+        return $this->redirectToRoute('navbar-v2-event');
+    }
+
+
+
     /**
      * @Route("/event", name="app_event")
      */

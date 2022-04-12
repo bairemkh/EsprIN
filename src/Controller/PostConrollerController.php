@@ -18,6 +18,18 @@ class PostConrollerController extends AbstractController
             ->findAll();
         return $this->render('BackOffice/PostDashboard.html.twig',['posts'=>$posts]);
     }
+
+    /**
+     * @Route ("/navbar-v2-feed",name="navbar-v2-feed")
+     */
+    public function getlistposts():Response
+    {
+        $posts = $this->getDoctrine()
+            ->getRepository(Post::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-feed.html.twig',['posts'=>$posts]);
+    }
+
     /**
      * @Route ("/PostDashboard/{id}",name="deletepost")
      */
@@ -27,11 +39,27 @@ class PostConrollerController extends AbstractController
         $post = $this->getDoctrine()
                     ->getRepository(Post::class)
                     ->find($id);
-        $post->setState("Desactive");
+        $post->setState("Deleted");
         $em->flush();
         return $this->redirectToRoute('PostDashboard');
     }
+
     /**
+     * @Route ("/navbar-v2-feed/{id}",name="deletepostfront")
+     */
+    public function deletepostfront($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $post = $this->getDoctrine()
+            ->getRepository(Post::class)
+            ->find($id);
+        $post->setState("Deleted");
+        $em->flush();
+        return $this->redirectToRoute('navbar-v2-feed');
+    }
+
+    /**
+     *
      * @Route("/php bin\console make:entity --regenerate", name="app_post_conroller")
      */
     public function index(): Response
