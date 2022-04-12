@@ -194,10 +194,8 @@ class Offre
         return $this->offerprovider;
     }
 
-    /**
-     * @param \User $offerprovider
-     */
-    public function setOfferprovider(\User $offerprovider): void
+
+    public function setOfferprovider(\User $offerprovider): self
     {
         $this->offerprovider = $offerprovider;
     }
