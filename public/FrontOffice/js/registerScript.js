@@ -61,7 +61,7 @@ roleSelector.addEventListener('change', function () {
         roleForms[0].classList.remove('show');
         roleForms[2].classList.remove('show');
         roleForms[1].classList.add('show');
-        regForm.action = 'Professor';
+        regForm.action = 'user/createProfAccount';
     } else if (this.value === "Club") {
         roleForms[0].classList.remove('show');
         roleForms[1].classList.remove('show');
