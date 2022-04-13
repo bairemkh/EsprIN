@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class PostConrollerController extends AbstractController
+class PostController extends AbstractController
 {
     /**
      * @Route ("/PostDashboard",name="PostDashboard")

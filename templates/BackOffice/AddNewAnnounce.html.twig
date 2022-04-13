@@ -6,32 +6,50 @@
     <main class="page-center">
         <article class="sign-up">
             <h1 class="sign-up__title">Add Announce!</h1>
-            <form class="sign-up-form form" action="" method="">
+            <form class="sign-up-form form" action="{{ path('add_new_annoncement') }}" method="post">
                 <label class="form-label-wrapper">
                     <p class="form-label">Subject</p>
-                    <input class="form-input" type="text" placeholder="Enter Subject" required>
+                    <input class="form-input" type="text" placeholder="Enter Subject" required name="subject" id="subjectF">
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
                 <label class="form-label-wrapper">
                     <p class="form-label">Content</p>
-                    <input class="form-input-content" type="text" placeholder="content!.." required>
+                    <input class="form-input-content" type="text" placeholder="content!.." required name="content" id="contentF">
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
                 <label class="form-label-wrapper">
                     <p class="form-label">Destination</p>
-                    <input class="form-input" type="text" placeholder="Enter Destination" required>
+                    <input class="form-input" type="text" placeholder="Enter Destination" required name="destination" id="destinationF">
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
                 <label class="form-label-wrapper">
                     <p class="form-label">Category</p>
-                    <select class="form-select" name="Category">
-                        <option value ="selectCategory">Category</option>
-                        <option value ="category1">Categ1</option>
-                        <option value ="category2">Categ2</option>
-                        <option value ="category3">Categ3</option>
+                    <select class="form-select" name="Category" id="CategoryF">
+                        <option value ="selectCategory" selected>Select a Category</option>
+                        <option value ="Administrative decisions">Administrative decisions</option>
+                        <option value ="Schedule">Schedule</option>
+                        <option value ="Checkout">Checkout</option>
+                        <option value ="Distribution of exams">Distribution of exams</option>
                     </select>
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
 
-                <button class="form-btn primary-default-btn transparent-btn">Add </button>
+                <button class="form-btn primary-default-btn transparent-btn" id="submitBtn">Add </button>
             </form>
         </article>
     </main>
-
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/formsStyle.css') }}">
+    <script src="{{ asset('FrontOffice/js/addAnnounceVerification.js') }}"></script>
 {% endblock %}

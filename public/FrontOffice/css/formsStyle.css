@@ -1,0 +1,20 @@
+.errorMsg{
+    alignment: center;
+    justify-content: space-between;
+    justify-items: center;
+
+    color: #c30007;
+    font-weight: 600;
+    font-family: "Airbnb Cereal App";
+}
+.msg{
+    display:none ;
+}
+.msg.show{
+    color: #c30007;
+    font-weight: 600;
+    font-family: "Airbnb Cereal App";
+    display: block;
+    justify-content: space-between;
+    justify-items: flex-end;
+}

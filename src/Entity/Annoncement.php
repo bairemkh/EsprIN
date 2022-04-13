@@ -193,7 +193,7 @@ class Annoncement
     }
 
 
-    public function setIdsender(?User $idsender): self
+    public function setIdsender(?User $idsender):void
     {
         $this->idsender = $idsender;
     }
