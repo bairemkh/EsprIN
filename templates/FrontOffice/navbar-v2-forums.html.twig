@@ -700,6 +700,7 @@
                             <!-- /partials/pages/feed/posts/feed-post1.html -->
                             <!--#region post without picture -->
                             {% for forum in forums %}
+
                             <div class="card is-post is-simple">
                                 <!-- Main wrap -->
                                 <div class="content-wrap">
@@ -713,7 +714,7 @@
                                                      alt="">
                                             </div>
                                             <div class="user-info">
-                                                <a href="#">{{ forum.idowner }}</a>
+                                                <a href="#">{{ forum.idowner.getFirstName() }} {{ forum.idowner.getLastName() }}</a>
                                                 <span class="time">{{ forum.datecreation|date }}</span>
                                             </div>
                                         </div>
@@ -787,7 +788,7 @@
                                         <div class="social-count">
                                             <div class="likes-count">
                                                 <i data-feather="heart"></i>
-                                                <span>2</span>
+                                                <span>{{ forum.nbrlikesforum }}</span>
                                             </div>
                                             <div class="comments-count">
                                                 <i data-feather="message-circle"></i>
@@ -814,24 +815,58 @@
                                     <!-- /Header -->
 
                                     <!-- Comments body -->
+
+                                    {% for response in responses %}
+                                    {% if response.idforum.getIdForum() == forum.idforum %}
                                     <div class="comments-body has-slimscroll">
-                                        <div class="comments-placeholder">
-                                            <img src="FrontOffice/assets/img/icons/feed/bubble.svg" alt="">
-                                            <h3>Nothing in here yet</h3>
-                                            <p>Be the first to forul a response.</p>
+                                        <div class="media is-comment">
+                                            <!-- User image -->
+                                            <div class="media-left">
+                                                <div class="image">
+                                                    <img src="https://via.placeholder.com/300x300"
+                                                         data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
+                                                         alt="">
+                                                </div>
+                                            </div>
+                                            <!-- Content -->
+                                            <div class="media-content">
+                                                <a href="#">{{ response.cinuser.getFirstName() }} {{ response.cinuser.getLastName() }}</a>
+                                                <span class="time">{{ response.createdat|date }}</span>
+                                                <p>{{ response.content }}</p>
+                                                <!-- Actions -->
+                                                <div class="controls">
+                                                    <div class="like-count">
+                                                        <i data-feather="thumbs-up"></i>
+                                                        <span>4</span>
+                                                    </div>
+                                                    <div class="reply">
+                                                        <a href="#">Reply</a>
+                                                    </div>
+                                                    <div class="edit">
+                                                        <a href="#">Edit</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
                                         </div>
+
                                     </div>
+                                       {% endif %}
+                                    {% endfor %}
                                     <!-- /Comments body -->
 
                                     <!-- Comments footer -->
                                     <div class="card-footer">
                                         <div class="media post-comment has-emojis">
                                             <!-- Textarea -->
+
                                             <div class="media-content">
+                                                <form method="post" action= {{  path('createresponse',{'idforum':forum.idforum}) }}>
                                                 <div class="field">
                                                     <p class="control">
                                                     <textarea class="textarea comment-textarea" rows="5"
-                                                              placeholder="Write a comment..."></textarea>
+                                                              placeholder="Write a response..." name="responsecontent"></textarea>
                                                     </p>
                                                 </div>
                                                 <!-- Additional actions -->
@@ -852,16 +887,19 @@
                                                             <i data-feather="camera"></i>
                                                             <input type="file">
                                                         </div>
-                                                        <a class="button is-solid primary-button raised">Forum response</a>
+                                                        <button type="submit" class="button is-solid primary-button raised">Forum response</button>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </form>
+                                        </div>
+
                                         </div>
                                     </div>
                                     <!-- /Comments footer -->
                                 </div>
                                 <!-- /Post #6 comments -->
                             </div>
+
                             {% endfor %}
                         </div>
                         <!-- /Middle column -->

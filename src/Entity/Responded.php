@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\RespondedRepository")
  */
 class Responded
 {
@@ -23,7 +24,6 @@ class Responded
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $createdat = 'current_timestamp()';
@@ -84,34 +84,26 @@ class Responded
         $this->createdat = $createdat;
     }
 
-    /**
-     * @return \Forum
-     */
-    public function getIdforum(): \Forum
+
+    public function getIdforum(): ?Forum
     {
         return $this->idforum;
     }
 
-    /**
-     * @param \Forum $idforum
-     */
-    public function setIdforum(\Forum $idforum): void
+
+    public function setIdforum(?Forum $idforum): void
     {
         $this->idforum = $idforum;
     }
 
-    /**
-     * @return \User
-     */
-    public function getCinuser(): \User
+
+    public function getCinuser(): ?User
     {
         return $this->cinuser;
     }
 
-    /**
-     * @param \User $cinuser
-     */
-    public function setCinuser(\User $cinuser): void
+
+    public function setCinuser(?User $cinuser): void
     {
         $this->cinuser = $cinuser;
     }

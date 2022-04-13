@@ -451,12 +451,13 @@
 
                                     <!-- Tab content -->
                                     <div class="tab-content">
+                                        <form method="post" action= {{  path('createpost') }}>
                                         <!-- Compose form -->
                                         <div class="compose">
                                             <div class="compose-form">
                                                 <img src="FrontOffice/assets/img/avatars/jenna.png" data-demo-src="FrontOffice/assets/img/avatars/jenna.png" alt="">
                                                 <div class="control">
-                                                    <textarea id="publish" class="textarea" rows="3" placeholder="Write something about you..." spellcheck="false"></textarea><grammarly-extension data-grammarly-shadow-root="true" style="position: absolute; top: 0px; left: 0px; pointer-events: none; z-index: auto;" class="cGcvT"></grammarly-extension><grammarly-extension data-grammarly-shadow-root="true" style="mix-blend-mode: darken; position: absolute; top: 0px; left: 0px; pointer-events: none; z-index: auto;" class="cGcvT"></grammarly-extension>
+                                                    <textarea id="publish" class="textarea" rows="3" placeholder="Write something about you..." spellcheck="false" name="postcontent"></textarea><grammarly-extension data-grammarly-shadow-root="true" style="position: absolute; top: 0px; left: 0px; pointer-events: none; z-index: auto;" class="cGcvT"></grammarly-extension><grammarly-extension data-grammarly-shadow-root="true" style="mix-blend-mode: darken; position: absolute; top: 0px; left: 0px; pointer-events: none; z-index: auto;" class="cGcvT"></grammarly-extension>
                                                 </div>
                                             </div>
 
@@ -652,10 +653,11 @@
                                         <!-- Footer buttons -->
                                         <div class="more-wrap">
                                             <!-- Publish button -->
-                                            <button id="publish-button" type="button" class="button is-solid accent-button is-fullwidth is-disabled">
+                                            <button id="publish-button" type="submit" class="button is-solid accent-button is-fullwidth is-disabled">
                                                 Publish
                                             </button>
                                         </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -824,39 +826,6 @@
                                                         <a href="#">Edit</a>
                                                     </div>
                                                 </div>
-
-                                                <!-- Nested Comment -->
-                                                <div class="media is-comment">
-                                                    <!-- User image -->
-                                                    <div class="media-left">
-                                                        <div class="image">
-                                                            <img src="https://via.placeholder.com/300x300"
-                                                                 data-demo-src="FrontOffice/assets/img/avatars/david.jpg"
-                                                                 data-user-popover="4" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <!-- Content -->
-                                                    <div class="media-content">
-                                                        <a href="#">David Kim</a>
-                                                        <span class="time">15 minutes ago</span>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                            eiusmod tempo incididunt ut labore et
-                                                            dolore magna aliqua.</p>
-                                                        <!-- Actions -->
-                                                        <div class="controls">
-                                                            <div class="like-count">
-                                                                <i data-feather="thumbs-up"></i>
-                                                                <span>0</span>
-                                                            </div>
-                                                            <div class="reply">
-                                                                <a href="#">Reply</a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- Right side dropdown -->
-
-                                                </div>
-                                                <!-- /Nested Comment -->
 
                                             </div>
 

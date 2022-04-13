@@ -4,7 +4,10 @@ namespace App\Controller;
 
 
 use App\Entity\Forum;
+use App\Entity\Responded;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -22,14 +25,37 @@ class ForumController extends AbstractController
     }
 
     /**
-     * @Route("/navbar-v2-events", name="navbar-v2-events")
+     * @Route("/navbar-v2-forums", name="navbar-v2-forum")
      */
     public function getlistforums(): Response
     {
         $forums= $this->getDoctrine()
             ->getRepository(Forum::class)
             ->findAll();
-        return $this->render('FrontOffice/navbar-v2-forums.html.twig',['forums'=>$forums]);
+        $responded= $this->getDoctrine()
+            ->getRepository(Responded::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-forums.html.twig',['forums'=>$forums,'responses'=>$responded]);
+    }
+
+    /**
+     * @Route("/addresponse/{idforum}", name="createresponse",methods={"GET", "POST"})
+     */
+    public function addresponse(Request $request,$idforum): Response
+    {
+        dump($request);
+        $response = new Responded();
+        $forum=$this->getDoctrine()->getRepository(Forum::class)->find($idforum);
+        $user=$this->getDoctrine()->getRepository(User::class)->find(10020855);
+        $response->setContent($request->get('responsecontent'));
+        $response->setIdforum($forum);
+        $response->setCinuser($user);
+        $response->setCreatedat(new \DateTime('@' . strtotime('now')));
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($response);
+        $manager->flush();
+
+        return $this->redirectToRoute('navbar-v2-forum');
     }
 
     /**
