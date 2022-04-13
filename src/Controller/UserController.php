@@ -88,13 +88,98 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/createProfAccount", name="create_prof_Account",methods={"GET", "POST"})
+     */
+    public function profRegister(Request $request): Response//typeClub
+    {
+        dump($request);
+        if ($request->request->count() > 0) {
+            $user = new User();
+            echo (int)$request->get('userCin');
+            echo $request->get('userCin');
+            $user->setCinuser($request->get('userCin'));
+            $user->setPasswd($request->get('password'));
+            $user->setEmail($request->get('email'));
+            $user->setRole('Professor');
+            $user->setFirstname($request->get('firstName'));
+            $user->setLastname($request->get('lastName'));
+            $user->setDomaine($request->get('specProf'));
+            $user->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->redirectToRoute('profile',['userCin'=>$user->getCinuser()]);
+        }
+
+
+        return $this->render('FrontOffice/register.html.twig', [
+        ]);
+    }
+
+    /**
+     * @Route("/createClubAccount", name="create_club_Account",methods={"GET", "POST"})
+     */
+    public function clubRegister(Request $request): Response
+    {
+        dump($request);
+        if ($request->request->count() > 0) {
+            $user = new User();
+            echo (int)$request->get('userCin');
+            echo $request->get('userCin');
+            $user->setCinuser($request->get('userCin'));
+            $user->setPasswd($request->get('password'));
+            $user->setEmail($request->get('email'));
+            $user->setRole('Club');
+            $user->setFirstname($request->get('firstName'));
+            $user->setLastname($request->get('lastName'));
+            $user->setTypeclub($request->get('typeClub'));
+            $user->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($user);
+            $manager->flush();
+
+            return $this->redirectToRoute('profile',['userCin'=>$user->getCinuser()]);
+        }
+
+
+        return $this->render('FrontOffice/register.html.twig', [
+        ]);
+    }
+    /**
+     * @Route("/addExtern", name="add_new_Extern_Account", methods={"GET", "POST"})
+     */
+    public function addExtern(Request $request): Response
+    {
+        dump($request);
+        if ($request->request->count() > 0) {
+            $announce=new Annoncement();
+            $announce->setSubject($request->get('subject'));
+            $user=$this->getDoctrine()->getRepository(User::class)->find(10020855);
+            echo $user->getLastname()." ".$user->getFirstname();
+            $announce->setIdsender($user);
+            $announce->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $announce->setContent($request->get('content'));
+            $announce->setDestination($request->get('destination'));//libCatAnn
+            $catAnn=$this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann'=>$request->get('Category')]);
+            $announce->setCatann($catAnn->getIdcatann());
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($announce);
+            $manager->flush();
+            return $this->redirectToRoute('AnnounceDashboard',[]);
+        }
+        return $this->render('BackOffice/AddNewAnnounce.html.twig', [
+        ]);
+    }
+
+    /**
      * @Route("/profile/{userCin}", name="profile", methods={"GET"})
      */
-    public function profile(User $user): Response
+    public function profile($userCin): Response
     {
         echo "salem";
         return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
-            'user'=>$user
+            'user'=>$userCin
         ]);
     }
 
