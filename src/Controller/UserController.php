@@ -153,20 +153,20 @@ class UserController extends AbstractController
     {
         dump($request);
         if ($request->request->count() > 0) {
-            $announce=new Annoncement();
-            $announce->setSubject($request->get('subject'));
-            $user=$this->getDoctrine()->getRepository(User::class)->find(10020855);
-            echo $user->getLastname()." ".$user->getFirstname();
-            $announce->setIdsender($user);
-            $announce->setCreatedat(new \DateTime('@' . strtotime('now')));
-            $announce->setContent($request->get('content'));
-            $announce->setDestination($request->get('destination'));//libCatAnn
-            $catAnn=$this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann'=>$request->get('Category')]);
-            $announce->setCatann($catAnn->getIdcatann());
+            $user = new User();
+            echo (int)$request->get('compId');
+            echo $request->get('compId');
+            $user->setCinuser($request->get('compId'));
+            $user->setPasswd($request->get('compPasswd'));
+            $user->setEmail($request->get('compEmail'));
+            $user->setRole('Extern');
+            $user->setEntreprisename($request->get('CompName'));
+            $user->setLocalisation($request->get('local'));
+            $user->setCreatedat(new \DateTime('@' . strtotime('now')));
             $manager = $this->getDoctrine()->getManager();
-            $manager->persist($announce);
+            $manager->persist($user);
             $manager->flush();
-            return $this->redirectToRoute('AnnounceDashboard',[]);
+            return $this->redirectToRoute('UserDashboard',[]);
         }
         return $this->render('BackOffice/AddNewAnnounce.html.twig', [
         ]);
