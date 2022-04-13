@@ -600,6 +600,6 @@ class User
     }
     public function __toString()
     {
-        return(String)$this->getFirstname();
+        return(string)$this->getcinuser();
     }
 }

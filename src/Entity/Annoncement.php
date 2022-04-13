@@ -48,7 +48,7 @@ class Annoncement
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
      */
-    private $createdat ;
+    private $createdat = 'current_timestamp()';
 
     /**
      * @var int
@@ -93,7 +93,7 @@ class Annoncement
     /**
      * @return string
      */
-    public function getSubject(): ?string
+    public function getSubject(): string
     {
         return $this->subject;
     }
@@ -109,7 +109,7 @@ class Annoncement
     /**
      * @return string
      */
-    public function getContent(): ?string
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -125,7 +125,7 @@ class Annoncement
     /**
      * @return string
      */
-    public function getDestination(): ?string
+    public function getDestination(): string
     {
         return $this->destination;
     }
@@ -154,8 +154,10 @@ class Annoncement
         $this->createdat = $createdat;
     }
 
-
-    public function getCatann(): ?int
+    /**
+     * @return int
+     */
+    public function getCatann(): int
     {
         return $this->catann;
     }
@@ -191,7 +193,7 @@ class Annoncement
     }
 
 
-    public function setIdsender(?User $idsender): void
+    public function setIdsender(?User $idsender):void
     {
         $this->idsender = $idsender;
     }
