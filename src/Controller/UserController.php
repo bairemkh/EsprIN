@@ -14,9 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Date;
 
-/**
- * @Route("/user")
- */
+
 class UserController extends AbstractController
 {
     /**
@@ -156,7 +154,7 @@ class UserController extends AbstractController
      */
     public function profile($userCin): Response
     {
-        $user=$this->getDoctrine()->getRepository(User::class)->find($userCin);
+        $user = $this->getDoctrine()->getRepository(User::class)->find($userCin);
         echo $user->getCinuser();
         return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
             'user' => $user
@@ -166,12 +164,12 @@ class UserController extends AbstractController
     /**
      * @Route("/{cinuser}", name="app_user_show", methods={"GET"})
      */
-    public function show(User $user): Response
+    /*public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
-    }
+    }*/
 
     /**
      * @Route("/{cinuser}/edit", name="app_user_edit", methods={"GET", "POST"})
@@ -204,5 +202,16 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route ("/UserDashboard",name="UserDashboard")
+     */
+    public function getUsers(): Response
+    {
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+        return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
     }
 }
