@@ -1,5 +1,5 @@
 {% extends 'base-front.html.twig' %}
-{% block title %}Announces{% endblock %}
+{% block title %}Forums{% endblock %}
 {% block navigation %}
 <div class="sub-nav">
     <div class="sub-nav-tabs">
@@ -432,7 +432,7 @@
 
                         <!-- Middle column -->
                         <div class="column is-6">
-
+                            <button id="open" value="click me">Click me</button>
                             <!-- Publishing Area -->
                             <!-- /partials/pages/feed/compose-card.html -->
                             <div id="compose-card" class="card is-new-content">
@@ -709,8 +709,8 @@
                                         <!-- User image -->
                                         <div class="user-block">
                                             <div class="image">
-                                                <img src="https://via.placeholder.com/300x300"
-                                                     data-demo-src="FrontOffice/assets/img/avatars/bobby.jpg" data-user-popover="8"
+                                                <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fprofile%2520picture%2F&psig=AOvVaw0HGrxZNJc9TQz3TmBJ1Vsv&ust=1649981176396000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCMim6IOhkvcCFQAAAAAdAAAAABAD"
+                                                      data-user-popover="8"
                                                      alt="">
                                             </div>
                                             <div class="user-info">
@@ -729,10 +729,17 @@
                                                 <div class="dropdown-content">
                                                     <a href="#" class="dropdown-item">
                                                         <div class="media">
-                                                            <i data-feather="bookmark"></i>
                                                             <div class="media-content">
                                                                 <h3>Delete</h3>
-                                                                <small>Delete this post.</small>
+                                                                <small>Delete this forum.</small>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a href="#" class="dropdown-item">
+                                                        <div class="media">
+                                                            <div class="media-content">
+                                                                <h3>Edit</h3>
+                                                                <small>Edit this forum.</small>
                                                             </div>
                                                         </div>
                                                     </a>
@@ -744,9 +751,13 @@
 
                                     <!-- Post body -->
                                     <div class="card-body">
+                                        <div class="title">
+                                            <h5>{{ forum.title }}</h5>
+                                        </div>
                                         <!-- Post body text -->
                                         <div class="post-text">
                                             <p>{{ forum.content }}</p>
+                                            <a href="#">#{{ forum.categorieforum }}</a>
                                         </div>
                                         <!-- Post actions -->
                                         <div class="post-actions">
@@ -831,7 +842,7 @@
                                             <!-- Content -->
                                             <div class="media-content">
                                                 <a href="#">{{ response.cinuser.getFirstName() }} {{ response.cinuser.getLastName() }}</a>
-                                                <span class="time">{{ response.createdat|date }}</span>
+                                                <span class="time">{{ response.getCreatedat()|date }}</span>
                                                 <p>{{ response.content }}</p>
                                                 <!-- Actions -->
                                                 <div class="controls">
@@ -3967,4 +3978,31 @@
                 </div>
             </div>
         </div>
+    <div class="model-container" id="model-container">
+
+        <form action={{ path('addforum') }} method="post">
+            <div class="form">
+                <div class="title">Add new forum</div>
+                <div class="subtitle">Let's create a new forum</div>
+                <div class="input-container ic1">
+                    <input id="field1" class="input" type="text" placeholder="Title" name="title"/>
+                    <div class="cut"></div>
+                    <label for="field1" class="placeholder">Title</label>
+                </div>
+                <div class="input-container ic2">
+                    <input id="field2" class="input" type="text" placeholder="Content" name="content" />
+                    <div class="cut"></div>
+                    <label for="field2" class="placeholder">Content</label>
+                </div>
+                <div class="input-container ic2">
+                    <input id="field3" class="input" type="text" placeholder="tag" name="tag"/>
+                    <div class="cut cut-short"></div>
+                    <label for="field3" class="placeholder">Tag</label>
+                </div>
+                <button type="submit" class="submit">Submit</button>
+                <button type="button" class="exit" id="close">X</button>
+            </div>
+        </form>
+
+    </div>
 {% endblock %}

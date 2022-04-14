@@ -32,6 +32,7 @@
                         <!-- ********* -->
                         <!--Contenue de tableau -->
                         {% for offre in offres %}
+                            {% if offre.state == "Active" %}
                         <tbody>
                         <tr>
                             <!-- Author -->
@@ -41,7 +42,7 @@
                                     <div class="pages-table-img">
                                         <picture><source srcset="./img/avatar/avatar-face-04.webp" type="image/webp"><img src="./img/avatar/avatar-face-04.png" alt="User Name"></picture>
                                     </div>
-                                    Jenny Wilson
+                                    {{ offre.offerprovider.getFirstName() }}
                                 </label>
                             </td>
                             <!-- Title -->
@@ -52,7 +53,7 @@
 
                             <!-- Category -->
                             <td>
-                                <span class="badge-default">{{ offre.catoffer }}</span>
+                                <span class="badge-default">{{ offre.getCatoffre() }}</span>
                             </td>
                             <!-- Edit -->
                             <td>
@@ -63,13 +64,14 @@
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
                                       <li><a href="##">Edit</a></li>
-                                      <li><a href="##">Delete</a></li>
+                                      <li><a href={{ path('deleteoffer', {'id': offre.idoffer}) }}>Delete</a></li>
                                       <li><a href="##">Trash</a></li>
                                     </ul>
                                   </span>
                             </td>
                         </tr>
                         </tbody>
+                            {% endif %}
                         {% endfor %}
                     </table>
                 </div>

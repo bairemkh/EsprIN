@@ -57,7 +57,26 @@ class ForumController extends AbstractController
 
         return $this->redirectToRoute('navbar-v2-forum');
     }
+    /**
+     * @Route("/addforum", name="addforum",methods={"GET", "POST"})
+     */
+    public function addforum(Request $request): Response
+    {
+        dump($request);
+        $forum = new Forum();
+        $user=$this->getDoctrine()->getRepository(User::class)->find(10020855);
+        $forum->setTitle($request->get('title'));
+        $forum->setContent($request->get('content'));
+        $forum->setCategorieforum($request->get('tag'));
+        $forum->setIdowner($user);
+        $forum->setNbrlikesforum(0);
+        $forum->setDatecreation(new \DateTime('@' . strtotime('now')));
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($forum);
+        $manager->flush();
 
+        return $this->redirectToRoute('navbar-v2-forum');
+    }
     /**
      * @Route("/forum", name="app_forum")
      */

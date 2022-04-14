@@ -210,7 +210,7 @@ class Forum
     }
 
 
-    public function setIdowner(?User $idowner): self
+    public function setIdowner(?User $idowner): void
     {
         $this->idowner = $idowner;
     }
