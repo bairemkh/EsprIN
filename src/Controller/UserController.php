@@ -34,28 +34,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="app_user_new", methods={"GET", "POST"})
-     */
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        $user = new User();
-        $form = $this->createForm(UserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
-        }
-
-        return $this->render('user/new.html.twig', [
-            'user' => $user,
-            'form' => $form->createView(),
-        ]);
-    }
-
-    /**
      * @Route("/createStudentAccount", name="create_student_Account",methods={"GET", "POST"})
      */
     public function StudentRegister(Request $request): Response
@@ -79,7 +57,7 @@ class UserController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('profile',['userCin'=>$user->getCinuser()]);
+            return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
         }
 
 
@@ -109,7 +87,7 @@ class UserController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('profile',['userCin'=>$user->getCinuser()]);
+            return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
         }
 
 
@@ -139,13 +117,14 @@ class UserController extends AbstractController
             $manager->persist($user);
             $manager->flush();
 
-            return $this->redirectToRoute('profile',['userCin'=>$user->getCinuser()]);
+            return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
         }
 
 
         return $this->render('FrontOffice/register.html.twig', [
         ]);
     }
+
     /**
      * @Route("/addExtern", name="add_new_Extern_Account", methods={"GET", "POST"})
      */
@@ -166,7 +145,7 @@ class UserController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
-            return $this->redirectToRoute('UserDashboard',[]);
+            return $this->redirectToRoute('UserDashboard', []);
         }
         return $this->render('BackOffice/AddNewAnnounce.html.twig', [
         ]);
@@ -177,9 +156,10 @@ class UserController extends AbstractController
      */
     public function profile($userCin): Response
     {
-        echo "salem";
+        $user=$this->getDoctrine()->getRepository(User::class)->find($userCin);
+        echo $user->getCinuser();
         return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
-            'user'=>$userCin
+            'user' => $user
         ]);
     }
 
