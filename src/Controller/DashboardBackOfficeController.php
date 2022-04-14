@@ -129,5 +129,25 @@ public function addannounce():Response{
         );
     }
 
+    /**
+     * @Route ("/AnnounceCatDashboard",name="AnnounceCatDashboard")
+     */
+    public function AnnounceCatDashboard():Response{
+        return $this->render('BackOffice/AnnounceCatDashboard.html.twig',[
+                'controller_name'=>'DashboardBackOfficeController',
+            ]
+        );
+    }
+
+    /**
+     * @Route ("/AlertCatDashboard",name="AlertCatDashboard")
+     */
+    public function AlertCatDashboard():Response{
+        return $this->render('BackOffice/AlertCatDashboard.html.twig',[
+                'controller_name'=>'DashboardBackOfficeController',
+            ]
+        );
+    }
+
 
 }

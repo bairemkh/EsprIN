@@ -20,6 +20,7 @@ class User
      *
      * @ORM\Column(name="cinUser", type="integer", nullable=false)
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $cinuser;
 
@@ -40,9 +41,9 @@ class User
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime", nullable=true, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
      */
-    private $createdat ;
+    private $createdat = 'current_timestamp()';
 
     /**
      * @var string
@@ -117,9 +118,9 @@ class User
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Connected"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
-    private $state = "Connected";
+    private $state = '\'Active\'';
 
     /**
      * @var \Doctrine\Common\Collections\Collection

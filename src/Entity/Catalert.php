@@ -60,5 +60,10 @@ class Catalert
         $this->libcatalert = $libcatalert;
     }
 
+    public function __toString()
+    {
+        return $this->getLibcatalert();
+    }
+
 
 }
