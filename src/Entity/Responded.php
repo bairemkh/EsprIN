@@ -22,7 +22,7 @@ class Responded
 
     /**
      * @var \DateTime
-     *
+
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
      * @ORM\GeneratedValue(strategy="NONE")
      */
