@@ -29150,7 +29150,8 @@ body.is-dark .error-container .error-wrapper .error-inner h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0
+    padding: 10px 0;
+    margin-top: 50px;
 }
 
 .profile-subheader .subheader-start, .profile-subheader .subheader-end {
@@ -47975,6 +47976,10 @@ body.is-dark .elements-wrap .element-block code {
 .button-participate:hover:after {
     -webkit-transform: translateX(-9%) translateY(-25%) rotate(45deg);
     transform: translateX(-9%) translateY(-25%) rotate(45deg);
+}
+
+.view-wrapper.profile{
+    margin-top: 150px;
 }
 
 /*# sourceMappingURL=scss */

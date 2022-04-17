@@ -1,8 +1,8 @@
 {% extends 'base-front.html.twig' %}
-{% block title %}Profile {{ user }}{% endblock %}
+{% block title %}Profile {{ user.firstname }}{% endblock %}
 
 {% block main %}
-    <div class="view-wrapper" id="profilMenu">
+    <div class="view-wrapper profile" id="profileMenu">
 
         <!-- Container -->
         <div class="container is-custom">
@@ -17,7 +17,7 @@
                         <div class="cover-bg">
                             <div class="avatar">
                                 <img id="user-avatar" class="avatar-image" src="assets/img/logo/logo_app.svg"
-                                     data-demo-src="assets/img/avatars/jenna.png" alt="">
+                                     data-demo-src="{{ asset(image) }}" alt="">
                             </div>
 
 
@@ -110,12 +110,16 @@
 
                         <div class="profile-subheader">
                             <div class="subheader-start is-hidden-mobile">
-                                <span>3.4K</span>
-                                <span>Followers</span>
+                                <span></span>
+                                <span></span>
                             </div>
                             <div class="subheader-middle">
-                                <h2>Jenna Davis</h2>
-                                <span>Media Influencer</span>
+                                {% if  user.role=="Extern" %}
+                                    <h2>{{ user.entreprisename }}</h2>
+                                {% else %}
+                                    <h2>{{ user.firstname }} {{ user.lastname }} </h2>
+                                {% endif %}
+                                <span>{{ user.role }}</span>
                             </div>
                             <div class="subheader-end is-hidden-mobile">
                             </div>
@@ -184,154 +188,59 @@
                         <div class="basic-infos-wrapper">
                             <div class="card is-profile-info">
 
-
-                                <div class="info-row">
-                                    <div>
-                                        <span>Speciality</span>
-                                        <a class="is-inverted">Computer Science</a>
+                                {% if user.role=="Extern" %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>Location</span>
+                                            <a class="is-inverted">{{ user.localisation }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
                                     </div>
-                                    <i class="mdi mdi-earth"></i>
-                                </div>
-                                <div class="info-row">
-                                    <div>
-                                        <span>Class</span>
-                                        <a class="is-inverted">3A25</a>
+                                {% elseif user.role=="Admin" %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>departement</span>
+                                            <a class="is-inverted">{{ user.departement }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
                                     </div>
-                                    <i class="mdi mdi-map-marker"></i>
-                                </div>
-                                <div class="info-row">
-                                    <div>
-                                        <span>Followers</span>
-                                        <a class="is-muted">258 followers</a>
+                                {% elseif user.role=="Etudiant" %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>speciality</span>
+                                            <a class="is-inverted">{{ user.domaine }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
                                     </div>
-                                    <i class="mdi mdi-bell-ring"></i>
+                                    <div class="info-row">
+                                        <div>
+                                            <span>class</span>
+                                            <a class="is-inverted">{{ user.class }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
+                                    </div>
+                                {% elseif user.role=="Professeur" %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>speciality</span>
+                                            <a class="is-inverted">{{ user.domaine }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
+                                    </div>
+                                    {% else %}
+                                        <div class="info-row">
+                                            <div>
+                                                <span>test</span>
+                                                <a class="is-muted">okay</a>
+                                            </div>
+                                            <i class="mdi mdi-bell-ring"></i>
+                                        </div>
+                                {% endif %}
                                 </div>
-                            </div>
                         </div>
                         <!-- Photos widget -->
                         <!-- html/partials/pages/profile/timeline/widgets/photos-widget.html -->
 
-
-                        <!-- Star friends widget -->
-                        <!-- html/partials/pages/profile/timeline/widgets/star-friends-widget.html -->
-                        <div class="box-heading">
-                            <h4>Followers</h4>
-
-                        </div>
-
-                        <div class="friend-cards-list">
-                            <div class="card is-friend-card">
-
-                                <div class="friend-item">
-                                    <img src="assets/img/avatars/dan.jpg" data-demo-src="assets/img/avatars/dan.jpg"
-                                         alt="" data-user-popover="1">
-                                    <div class="text-content">
-                                        <a>Dan Walker</a>
-                                        <span>4 mutual friend(s)</span>
-                                    </div>
-                                    <div class="star-friend">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-star">
-                                            <polygon
-                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                <div class="friend-item">
-                                    <img src="assets/img/avatars/milly.jpg" data-demo-src="assets/img/avatars/milly.jpg"
-                                         alt="" data-user-popover="7">
-                                    <div class="text-content">
-                                        <a>Milly Augustine</a>
-                                        <span>3 mutual friend(s)</span>
-                                    </div>
-                                    <div class="star-friend is-active">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-star">
-                                            <polygon
-                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                <div class="friend-item">
-                                    <img src="assets/img/avatars/edward.jpeg"
-                                         data-demo-src="assets/img/avatars/edward.jpeg" alt="" data-user-popover="5">
-                                    <div class="text-content">
-                                        <a>Edward Mayers</a>
-                                        <span>35 mutual friend(s)</span>
-                                    </div>
-                                    <div class="star-friend is-active">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-star">
-                                            <polygon
-                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                <div class="friend-item">
-                                    <img src="assets/img/avatars/stella.jpg"
-                                         data-demo-src="assets/img/avatars/stella.jpg" alt="" data-user-popover="2">
-                                    <div class="text-content">
-                                        <a>Stella Bergmann</a>
-                                        <span>48 mutual friend(s)</span>
-                                    </div>
-                                    <div class="star-friend">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-star">
-                                            <polygon
-                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                <div class="friend-item">
-                                    <img src="assets/img/avatars/elise.jpg" data-demo-src="assets/img/avatars/elise.jpg"
-                                         alt="" data-user-popover="6">
-                                    <div class="text-content">
-                                        <a>Elise Walker</a>
-                                        <span>1 mutual friend(s)</span>
-                                    </div>
-                                    <div class="star-friend">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-star">
-                                            <polygon
-                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                <div class="friend-item">
-                                    <img src="assets/img/avatars/nelly.png" data-demo-src="assets/img/avatars/nelly.png"
-                                         alt="" data-user-popover="9">
-                                    <div class="text-content">
-                                        <a>Nelly Schwartz</a>
-                                        <span>11 mutual friend(s)</span>
-                                    </div>
-                                    <div class="star-friend">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-star">
-                                            <polygon
-                                                    points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
                         <!-- Videos widget -->
                         <!-- html/partials/pages/profile/timeline/widgets/videos-widget.html -->
 
@@ -3165,7 +3074,7 @@
                     <div class="recipient-block">
                         <div class="avatar-container">
                             <img class="user-avatar" src="https://via.placeholder.com/300x300"
-                                 data-demo-src="assets/img/avatars/dan.jpg" alt="">
+                                 data-demo-src="{{ asset(image) }}" alt="">
                         </div>
                         <div class="username">
                             <span>Dan Walker</span>

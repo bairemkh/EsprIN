@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alert index{% endblock %}
+
+{% block body %}
+    <h1>Alert index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idalert</th>
+                <th>Alerttitle</th>
+                <th>Content</th>
+                <th>Destclass</th>
+                <th>Createdat</th>
+                <th>State</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for alert in alerts %}
+            <tr>
+                <td>{{ alert.idalert }}</td>
+                <td>{{ alert.alerttitle }}</td>
+                <td>{{ alert.content }}</td>
+                <td>{{ alert.destclass }}</td>
+                <td>{{ alert.createdat ? alert.createdat|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ alert.state }}</td>
+                <td>
+                    <a href="{{ path('app_alert_crud_show', {'idalert': alert.idalert}) }}">show</a>
+                    <a href="{{ path('app_alert_crud_edit', {'idalert': alert.idalert}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_alert_crud_new') }}">Create new</a>
+{% endblock %}

@@ -1,13 +1,11 @@
 {% extends 'base-back.html.twig' %}
-{% block title %} AnnounceDashboard {% endblock %}
+{% block title %} AlertDashboard {% endblock %}
 
 {% block body %}
-
-
         <!-- ! Main -->
         <main class="main users chart-page" id="skip-target">
             <div class="container">
-                <h2 class="main-title">Announce</h2>
+                <h2 class="main-title">Alert</h2>
 
 
 
@@ -22,33 +20,34 @@
                             </th>
                             <th>Created At</th>
                             <th>Destination</th>
-                            <th>Category</th>
-                            <th>Action</th>
+                            <th>Sender</th>
                         </tr>
                         </thead>
 
-                        {% for announce in announces %}
+                        {% for alert in alerts %}
                         <tbody>
                         <tr>
                             <!-- Title -->
                             <td>
                                 <label class="users-table__checkbox">
                                     <input type="checkbox" class="check">
-                                    {{ announce.subject }}
+                                    {{ alert.alerttitle }}
                                 </label>
                             </td>
                             <!-- Created at -->
                             <td>
-                                {{ announce.createdat|date }}
+                                {{ alert.createdat|date }}
                             </td>
                             <!-- Destination -->
                             <td>
-                                    {{ announce.destination}}
+                                {{ alert.destclass }}
 
                             </td>
                             <!-- Category -->
                             <td>
-                                <span class="badge-default">aaa</span>
+                                <span class="badge-default">{{ alert.getIdsender().getFirstname() }}
+
+                                    </span>
                             </td>
                             <!-- Edit -->
                             <td>
@@ -59,13 +58,12 @@
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
                                       <li><a href="##">Edit</a></li>
-                                      <li><a href="{{ path('deleteannounce', {'id':announce.idann}) }}">Delete</a></li>
+                                      <li><a href="##">Delete</a></li>
                                       <li><a href="##">Trash</a></li>
                                     </ul>
                                   </span>
                             </td>
                         </tr>
-
                         </tbody>
                         {% endfor %}
                     </table>
@@ -73,7 +71,8 @@
 
             </div>
         </main>
-        <!-- ! Footer -->
+
+
 
 
 {% endblock %}

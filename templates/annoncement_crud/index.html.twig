@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annoncement index{% endblock %}
+
+{% block body %}
+    <h1>Annoncement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Idann</th>
+                <th>Subject</th>
+                <th>Content</th>
+                <th>Destination</th>
+                <th>Createdat</th>
+                <th>Catann</th>
+                <th>State</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for annoncement in annoncements %}
+            <tr>
+                <td>{{ annoncement.idann }}</td>
+                <td>{{ annoncement.subject }}</td>
+                <td>{{ annoncement.content }}</td>
+                <td>{{ annoncement.destination }}</td>
+                <td>{{ annoncement.createdat ? annoncement.createdat|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ annoncement.catann }}</td>
+                <td>{{ annoncement.state }}</td>
+                <td>
+                    <a href="{{ path('app_annoncement_crud_show', {'idann': annoncement.idann}) }}">show</a>
+                    <a href="{{ path('app_annoncement_crud_edit', {'idann': annoncement.idann}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_annoncement_crud_new') }}">Create new</a>
+{% endblock %}
