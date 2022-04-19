@@ -27,7 +27,7 @@
                         </tr>
                         </thead>
                         {% for post in posts %}
-                            {% if post.state == "Active" %}
+                            {% if post.state == "'Active'" %}
                         <tbody>
                             <tr>
                                 <!-- Post -->
@@ -45,13 +45,9 @@
                                     </div>
                                 </td>
                                 <!-- Category -->
-                                <td>
-                                    <span class="badge-default">{{ post.categorie }}</span>
-                                </td>
+
                                 <!-- Date -->
-                                <td>
-                                    {{ post.createdat|date }}
-                                </td>
+
                                 <!-- Edit -->
                                 <td>
                                   <span class="p-relative">
@@ -60,9 +56,8 @@
                                       <i data-feather="more-horizontal" aria-hidden="true"></i>
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
-                                      <li><a href="##">Edit</a></li>
                                       <li><a href={{ path('deletepost', {'id': post.idpost}) }}>Delete</a></li>
-                                      <li><a href="##">Trash</a></li>
+
                                     </ul>
                                   </span>
                                 </td>
