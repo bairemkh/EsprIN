@@ -28,4 +28,34 @@ class OffreController extends AbstractController
             'controller_name' => 'OffreController',
         ]);
     }
+
+    /**
+     * @Route("/navbar-v2-offres", name="navbar-v2-offres")
+     */
+    public function getListOffres():Response
+    {
+        $offres = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-offres.html.twig',['offres'=>$offres]);
+    }
+
+    /**
+     * @Route("/deleteOffer/{id}", name="deleteOffer")
+     */
+    public function deleteOffer($id): Response
+    {
+        $em=$this->getDoctrine()->getManager();
+        $offer = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->find($id);
+        $offer->setState("Deleted");
+        $em->flush();
+
+        return $this->redirectToRoute('navbar-v2-offres');
+
+    }
+
+
+
 }

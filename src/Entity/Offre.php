@@ -191,7 +191,7 @@ class Offre
     /**
      * @return \User
      */
-    public function getOfferprovider(): \User
+    public function getOfferprovider(): ?User
     {
         return $this->offerprovider;
     }

@@ -21,10 +21,12 @@
                         <tr class="users-table-info">
                             <th>
                                 <label class="users-table__checkbox ms-20">
-                                    <input type="checkbox" class="check-all">Provider
+                                   Provider
                                 </label>
                             </th>
                             <th>Title</th>
+                            <th>Description</th>
+                            <th>Image</th>
                             <th>Category</th>
                             <th>Action</th>
                         </tr>
@@ -34,15 +36,9 @@
                         {% for offre in offres %}
                         <tbody>
                         <tr>
-                            <!-- Author -->
+                            <!-- Offre Provider -->
                             <td>
-                                <label class="users-table__checkbox">
-                                    <input type="checkbox" class="check">
-                                    <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-04.webp" type="image/webp"><img src="./img/avatar/avatar-face-04.png" alt="User Name"></picture>
-                                    </div>
-                                    Jenny Wilson
-                                </label>
+                                {{ offre.offerprovider }}
                             </td>
                             <!-- Title -->
                             <td>
@@ -50,11 +46,17 @@
 
                             </td>
 
+                            <!-- Description-->
+                            <td>{{ offre.descoffer }}</td>
+
+                            <!-- Image-->
+                            <td>{{ offre.imgoffre }}</td>
+
                             <!-- Category -->
                             <td>
-                                <span class="badge-default">{{ offre.catoffer }}</span>
+                                <span class="badge-default">{{ offre.catoffre }}</span>
                             </td>
-                            <!-- Edit -->
+                            <!-- Delete -->
                             <td>
                                   <span class="p-relative">
                                     <button class="dropdown-btn transparent-btn" type="button" title="More info">
@@ -62,9 +64,7 @@
                                       <i data-feather="more-horizontal" aria-hidden="true"></i>
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
-                                      <li><a href="##">Edit</a></li>
                                       <li><a href="##">Delete</a></li>
-                                      <li><a href="##">Trash</a></li>
                                     </ul>
                                   </span>
                             </td>
