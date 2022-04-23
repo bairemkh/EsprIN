@@ -101,6 +101,7 @@
                         <!-- ********* -->
                         <!--Contenue de tableau -->
                         {% for user in users %}
+                            {% if user.state == "Connected" or user.state == "Disconnected" or user.state == "Banned"%}
                        <tbody>
                             <tr>
                                 <!-- Image -->
@@ -146,6 +147,7 @@
                             </tr>
 
                       </tbody>
+                            {% endif %}
                         {% endfor %}
                         <!-- ********* -->
                     </table>

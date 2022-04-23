@@ -22,7 +22,7 @@
         <div class="sidebar-start">
             <div class="sidebar-head">
 
-                <a href="BackOffice/index.html" class="logo-wrapper" title="Home">
+                <a href="{{ path('app_dashboard_back_office') }}" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
@@ -183,9 +183,6 @@
                         <ul class="cat-sub-menu">
                             <li>
                                 <a href="{{ path('EventsDashboard') }}">All Event</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('ParticipatesDashboard') }}">Participate</a>
                             </li>
 
                         </ul>

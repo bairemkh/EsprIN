@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Event;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -45,22 +46,45 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Event[] Returns an array of Event objects
-    //  */
-    /*
+     /**
+     * @return Event[] Returns an array of Event objects
+      */
+
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
+            ->andWhere('e.state = :val')
             ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('e.idevent', 'DESC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
+
+
+    /**
+     * @return Event[] Returns an array of Event objects
+     */
+
+     public function addParticipate($idevent): ?User
+      {
+      }
+
+
+    /**
+     * @return Event[] Returns an array of Event objects
+     */
+
+    public function findByIdEvent($id): ?User
+    {
+        $em= $this->getEntityManager();
+        $query = $em -> createQuery('SELECT * FROM `participate` where 	`idEvent` == :id')
+            ->setParameter('id', $id);
+
+        return $query->getResult();
+    }
+
 
     /*
     public function findOneBySomeField($value): ?Event

@@ -40,7 +40,7 @@
                             <!-- Organizer -->
                             <td>
                                 <div class="pages-table-img">
-                                    <picture><source srcset={{ event.imgurl }} type="image/webp"><img src={{ event.imgurl }} alt="User Name"></picture>
+                                    <picture><source srcset={{ event.imgurl }} type="image/webp"><img src={{ event.imgurl }} alt="UserName"></picture>
                                     {{ event.idorganizer.firstname }}
                                 </div>
                             </td>
@@ -62,7 +62,7 @@
                                     <ul class="users-item-dropdown dropdown">
                                       <li><a href="##">Edit</a></li>
                                       <li><a href={{ path('deleteevent', {'id': event.idevent}) }}>Delete</a></li>
-                                      <li><a href="{{ path('ParticipatesDashboard') }}">Participates list</a></li>
+                                      <li><a href="{{ path('ParticipateList', {'id': event.idevent}) }}">Participates list</a></li>
                                     </ul>
                                   </span>
                             </td>

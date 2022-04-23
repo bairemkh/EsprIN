@@ -43,7 +43,7 @@ class Event
      *
      * @ORM\Column(name="imgURL", type="text", length=65535, nullable=true, options={"default"="NULL"})
      */
-    private $imgurl = 'NULL';
+    private $imgurl = NULL;
 
     /**
      * @var string
@@ -64,21 +64,21 @@ class Event
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
-    private $state = '\'Active\'';
+    private $state = 'Active';
 
     /**
-     * @var \DateTime|null
+     * @var ?DateTime
      *
      * @ORM\Column(name="dateDebut", type="date", nullable=true, options={"default"="NULL"})
      */
-    private $datedebut = 'NULL';
+    private $datedebut = null;
 
     /**
-     * @var \DateTime|null
+     * @var ?DateTime
      *
      * @ORM\Column(name="dateFin", type="date", nullable=true, options={"default"="NULL"})
      */
-    private $datefin = 'NULL';
+    private $datefin = null ;
 
     /**
      * @var \User
@@ -156,7 +156,7 @@ class Event
     /**
      * @return string|null
      */
-    public function getImgurl(): ?string
+    public function getImgurl()
     {
         return $this->imgurl;
     }
@@ -164,7 +164,7 @@ class Event
     /**
      * @param string|null $imgurl
      */
-    public function setImgurl(?string $imgurl): void
+    public function setImgurl(?string $imgurl)
     {
         $this->imgurl = $imgurl;
     }
@@ -256,7 +256,7 @@ class Event
     }
 
 
-    public function setIdorganizer(?User $idorganizer): self
+    public function setIdorganizer(?User $idorganizer): void
     {
         $this->idorganizer = $idorganizer;
     }

@@ -45,22 +45,21 @@ class OffreRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Offre[] Returns an array of Offre objects
-    //  */
-    /*
-    public function findByExampleField($value)
+      /**
+      * @return Offre[] Returns an array of Offre objects
+      */
+
+    public function findByStateField($value)
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
+            ->andWhere('o.state = :val')
             ->setParameter('val', $value)
-            ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('o.idoffer', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Offre
