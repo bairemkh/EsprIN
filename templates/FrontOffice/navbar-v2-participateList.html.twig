@@ -1,0 +1,30 @@
+{% extends 'base-front.html.twig' %}
+{% block title %}Participates {% endblock %}
+ {% block css %}
+     <link rel="stylesheet" href="{{ asset('FrontOffice/assets/css/Participate.css') }}">
+
+ {% endblock %}
+
+
+
+
+
+{% block main %}
+<div class="wrapper">
+
+    {% for participate in participates %}
+    <div class="card" >
+        <div class="contentPart">
+            <div class="img"><img src="../../FrontOffice/assets/img/images/img-5.jpg" alt=""></div>
+            <div class="details">
+                <span class="name">{{ participate.getFirstname() }}  {{ participate.getLastname }}</span>
+                <p>{{ participate.getRole() }}</p>
+            </div>
+        </div>
+        <a class="profBtn" href="#">Profile</a>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

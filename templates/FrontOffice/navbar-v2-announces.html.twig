@@ -5,13 +5,13 @@
         <div class="sub-nav-tabs">
             <div class="tabs is-centered">
                 <ul>
-                    <li >
+                    <li>
                         <a href="{{ path('navbar-v2-feed') }}">Posts</a>
                     </li>
                     <li class="is-active">
                         <a href="{{ path('navbar-v2-announces') }}">Announces</a>
                     </li>
-                    <li>
+                    <li >
                         <a href="{{ path('navbar-v2-forums') }}">Forums</a>
                     </li>
                     <li>
@@ -282,11 +282,14 @@
                 </div>
             </div>
             <!-- Feed page main wrapper -->
+
+
+
+
             <div id="activity-feed" class="view-wrap true-dom is-hidden">
                 <div class="columns">
                     <!-- Left side column -->
-                    <div class="column is-3 is-hidden-mobile">
-                    </div>
+                    <div class="column is-3 is-hidden-mobile"></div>
                     <!-- /Left side column -->
 
                     <!-- Middle column -->
@@ -427,13 +430,11 @@
                             </div>
                         </div>
                         <!--#endregion Announce -->
-
-
+                    </div>
+                </div>
             </div>
+                    <!-- /Feed page main wrapper -->
 
-            <!-- /Feed page main wrapper -->
-        </div>
 
     </div>
-        </div>
 {% endblock %}

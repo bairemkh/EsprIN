@@ -45,22 +45,21 @@ class ForumRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Forum[] Returns an array of Forum objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+     * @return Forum[] Returns an array of Forum objects
+      */
+
+    public function findByStateField($value)
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
+            ->andWhere('f.state = :val')
             ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('f.idforum', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Forum
