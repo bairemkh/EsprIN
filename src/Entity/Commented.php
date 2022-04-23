@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Commented
  *
- * @ORM\Table(name="commented", indexes={@ORM\Index(name="Fk post commented", columns={"postCommented"}), @ORM\Index(name="IDX_5FA1A85B35321851", columns={"userWhoCommented"})})
+ * @ORM\Table(name="commented", indexes={@ORM\Index(name="Fk_post_commented", columns={"postCommented"}), @ORM\Index(name="IDX_5FA1A85B35321851", columns={"userWhoCommented"})})
  * @ORM\Entity
  */
 class Commented

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Annoncement
  *
- * @ORM\Table(name="annoncement", indexes={@ORM\Index(name="FK annonce sender", columns={"idSender"})})
+ * @ORM\Table(name="annoncement", indexes={@ORM\Index(name="FK_annonce_sender", columns={"idSender"})})
  * @ORM\Entity
  *  * @ORM\Entity(repositoryClass="App\Repository\AnnoncementRepository")
  */

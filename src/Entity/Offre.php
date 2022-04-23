@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Offre
  *
- * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK Provider", columns={"offerProvider"})})
+ * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK_Provider", columns={"offerProvider"})})
  * @ORM\Entity
  * * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
  */

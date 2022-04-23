@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Alert
  *
- * @ORM\Table(name="alert", indexes={@ORM\Index(name="FK sender", columns={"idSender"}), @ORM\Index(name="FK cat alert", columns={"catAlert"})})
+ * @ORM\Table(name="alert", indexes={@ORM\Index(name="FK_sender", columns={"idSender"}), @ORM\Index(name="FK_cat_alert", columns={"catAlert"})})
  * @ORM\Entity
  *  * @ORM\Entity(repositoryClass="App\Repository\AlertRepository")
  */
