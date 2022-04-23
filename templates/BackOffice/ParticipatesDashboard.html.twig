@@ -20,6 +20,8 @@
                     </thead>
                     <!-- ********* -->
                     <!--Contenue de tableau -->
+
+                    {% for participate in participates %}
                     <tbody>
                     <tr>
                         <!-- Image -->
@@ -32,147 +34,23 @@
                         </td>
                         <!-- Name -->
                         <td>
-                            Jenny Wilson
+                            {{ participate }}
                         </td>
                         <!-- Role -->
                         <td>
                             <div class="pages-table-img">
-                                Admin
+                                {{ participate.getRole() }}
+
                             </div>
                         </td>
                         <!-- Status -->
                         <td>
-                            <span class="badge-pending">Pending</span>
+                            <span class="badge-pending">{{ participate.getState() }}</span>
                         </td>
 
                     </tr>
-                    <tr>
-                        <!-- Image -->
-                        <td>
-                            <label class="users-table__checkbox">
-                                <div class="pages-table-img">
-                                    <picture><source srcset="BackOffice/img/avatar/avatar-face-03.webp" type="image/webp"><img src="../../elegant/img/avatar/avatar-face-03.png" alt="User Name"></picture>
-                                </div>
-                            </label>
-                        </td>
-                        <!-- Name -->
-                        <td>
-                            Annette Black
-                        </td>
-                        <!-- Role -->
-                        <td>
-                            <div class="pages-table-img">
-                                Professor
-                            </div>
-                        </td>
-                        <!-- Status -->
-                        <td>
-                            <span class="badge-pending">Pending</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <!-- Image -->
-                        <td>
-                            <label class="users-table__checkbox">
-                                <div class="pages-table-img">
-                                    <picture><source srcset="BackOffice/img/avatar/avatar-face-02.webp" type="image/webp"><img src="../../elegant/img/avatar/avatar-face-02.png" alt="User Name"></picture>
-                                </div>
-                            </label>
-                        </td>
-                        <!-- Name -->
-                        <td>
-                            Kathryn Murphy
-                        </td>
-                        <!-- Role -->
-                        <td>
-                            <div class="pages-table-img">
-                                Professor
-                            </div>
-                        </td>
-                        <!-- Status -->
-                        <td>
-                            <span class="badge-active">Active</span>
-                        </td>
-
-
-                    </tr>
-                    <tr>
-                        <!-- Image -->
-                        <td>
-                            <label class="users-table__checkbox">
-                                <div class="pages-table-img">
-                                    <picture><source srcset="BackOffice/img/avatar/avatar-face-05.webp" type="image/webp"><img src="../../elegant/img/avatar/avatar-face-05.png" alt="User Name"></picture>
-                                </div>
-                            </label>
-                        </td>
-                        <!-- Name -->
-                        <td>
-                            Guy Hawkins
-                        </td>
-                        <!-- Role -->
-                        <td>
-                            <div class="pages-table-img">
-                                Admin
-                            </div>
-                        </td>
-                        <!-- Status -->
-                        <td>
-                            <span class="badge-active">Active</span>
-                        </td>
-                    </tr>
-                    <tr>
-                        <!-- Image -->
-                        <td>
-                            <label class="users-table__checkbox">
-                                <div class="pages-table-img">
-                                    <picture><source srcset="BackOffice/img/avatar/avatar-face-03.webp" type="image/webp"><img src="../../elegant/img/avatar/avatar-face-03.png" alt="User Name"></picture>
-                                </div>
-                            </label>
-                        </td>
-                        <!-- Name -->
-                        <td>
-                            Robert Fox
-                        </td>
-                        <!-- Role -->
-                        <td>
-                            <div class="pages-table-img">
-                                Extern
-                            </div>
-                        </td>
-                        <!-- Status -->
-                        <td>
-                            <span class="badge-pending">Pending</span>
-                        </td>
-
-                    </tr>
-                    <tr>
-                        <!-- Image -->
-                        <td>
-                            <label class="users-table__checkbox">
-                                <div class="pages-table-img">
-                                    <picture><source srcset="BackOffice/img/avatar/avatar-face-03.webp" type="image/webp"><img src="../../elegant/img/avatar/avatar-face-03.png" alt="User Name"></picture>
-                                </div>
-                            </label>
-                        </td>
-                        <!-- Name -->
-                        <td>
-                            Robert Fox
-                        </td>
-                        <!-- Role -->
-                        <td>
-                            <div class="pages-table-img">
-                                Student
-                            </div>
-                        </td>
-                        <!-- Status -->
-                        <td>
-                            <span class="badge-active">Active</span>
-                        </td>
-
-
-                    </tr>
-
                     </tbody>
+                    {% endfor %}
                     <!-- ********* -->
                 </table>
             </div>

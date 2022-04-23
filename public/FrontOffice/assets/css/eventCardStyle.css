@@ -95,3 +95,9 @@ body.is-dark .card:not(.is-new-job-card):not(.is-weather-card), body.is-dark .sh
 body.is-dark .card.is-feed-card, body.is-dark .shop-wrapper .cart-container .cart-content .cart-summary .summary-card, .shop-wrapper .cart-container .cart-content .cart-summary body.is-dark .summary-card {
     border-color: #d64141
 }
+
+is-active a {
+    font-weight: 500;
+    color: #c30007;
+    border-color: #b90b0b
+}

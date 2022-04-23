@@ -1230,12 +1230,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/persistence.git",
-                "reference": "4473480044c88f30e0e8288e7123b60c7eb9efa3"
+                "reference": "f8776dd9a0bdcd838812951a75f4ada72065a82a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/persistence/zipball/4473480044c88f30e0e8288e7123b60c7eb9efa3",
-                "reference": "4473480044c88f30e0e8288e7123b60c7eb9efa3",
+                "url": "https://api.github.com/repos/doctrine/persistence/zipball/f8776dd9a0bdcd838812951a75f4ada72065a82a",
+                "reference": "f8776dd9a0bdcd838812951a75f4ada72065a82a",
                 "shasum": ""
             },
             "require": {
@@ -1308,9 +1308,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/persistence/issues",
-                "source": "https://github.com/doctrine/persistence/tree/2.5.1"
+                "source": "https://github.com/doctrine/persistence/tree/2.5.0"
             },
-            "time": "2022-04-14T21:47:17+00:00"
+            "time": "2022-04-06T14:59:40+00:00"
         },
         {
             "name": "doctrine/sql-formatter",

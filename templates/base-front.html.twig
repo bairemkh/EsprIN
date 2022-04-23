@@ -3,10 +3,9 @@
 
 
 
-
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/><!-- /Added by HTTrack -->
 <head>
-    <!-- Added by HTTrack -->
-    <meta http-equiv="content-type" content="text/html;charset=utf-8"/><!-- /Added by HTTrack -->
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -23,15 +22,26 @@
     <link rel="stylesheet" href="{{ asset('FrontOffice/assets/css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('FrontOffice/assets/css/core.css') }}">
     <link rel="stylesheet" href="{{ asset('FrontOffice/assets/css/eventCardStyle.css') }}">
-    <link rel="stylesheet" href="{{ asset('FrontOffice/assets/css/formsFrontOfficeStyle.css') }}">
+    <link rel="stylesheet" href="{{ asset('FrontOffice/assets/css/form.css') }}">
+    {% block css %}
+    {% endblock %}
 </head>
 
 <body>
+
+{% block form %}
+
+
+{% endblock %}
+
+
 
 <!-- Pageloader -->
 <div class="pageloader"></div>
 <div class="infraloader is-active"></div>
 <div class="app-overlay"></div>
+
+
 
 <div class="navbar-v2">
     <div class="top-nav">
@@ -63,32 +73,31 @@
             <label class="theme-toggle">
                 <input type="checkbox">
                 <span class="toggler">
-                                            <span class="dark">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                     class="feather feather-moon"><path
-                                                            d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                                            </span>
-                                    <span class="light">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                     class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line
-                                                            x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21"
-                                                                                                       x2="12"
-                                                                                                       y2="23"></line><line
-                                                            x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36"
-                                                                                                                 y1="18.36"
-                                                                                                                 x2="19.78"
-                                                                                                                 y2="19.78"></line><line
-                                                            x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12"
-                                                                                                       x2="23"
-                                                                                                       y2="12"></line><line
-                                                            x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line
-                                                            x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-                                            </span>
-                                    </span>
+                   <span class="dark">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-moon">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                   </span>
+                   <span class="light">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                             stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-sun">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                   </span>
+                </span>
             </label>
 
 
@@ -104,7 +113,7 @@
                         <div class="nav-drop-body account-items">
 
 
-                            <a href="options-settings.html" class="account-item">
+                            <a href="#" class="account-item">
                                 <div class="media">
                                     <div class="icon-wrap">
                                         <i data-feather="settings"></i>
@@ -146,38 +155,22 @@
             </div>
         </div>
     </div>
+
     {% block navigation %}
-    <div class="sub-nav">
-        <div class="sub-nav-tabs">
-            <div class="tabs is-centered">
-                <ul>
-                    <li class="is-active">
-                        <a href="{{ path('showP') }}">Posts</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-announces') }}">Announces</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-forums') }}">Forums</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-events') }}">Events</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-offres') }}">Offers</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+
+    {% endblock %}
 </div>
-{% endblock %}
+
+
+
 {% block main %}
 
     {% endblock %}
+
+
     <!-- Concatenated js plugins and jQuery -->
     <script src="{{ asset('FrontOffice/assets/js/app.js') }}"></script>
-
+    <script src="{{ asset('https://js.stripe.com/v3/') }}"></script>
     <script src="{{ asset('FrontOffice/assets/data/tipuedrop_content.js') }}"></script>
 
     <!-- Core js -->
@@ -196,6 +189,7 @@
     <script src="{{ asset('FrontOffice/assets/js/touch.js') }}"></script>
     <script src="{{ asset('FrontOffice/assets/js/tour.js') }}"></script>
 
+
     <!-- Components js -->
     <script src="{{ asset('FrontOffice/assets/js/explorer.js') }}"></script>
     <script src="{{ asset('FrontOffice/assets/js/widgets.js') }}"></script>
@@ -204,14 +198,18 @@
     <script src="{{ asset('FrontOffice/assets/js/popovers-pages.js') }}"></script>
     <script src="{{ asset('FrontOffice/assets/js/lightbox.js') }}"></script>
 
+
     <!-- Landing page js -->
 
     <!-- Signup page js -->
 
     <!-- Feed pages js -->
     <script src="{{ asset('FrontOffice/assets/js/feed.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/formcheck.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/formedit.js') }}"></script>
+
+    <script src="{{ asset('FrontOffice/assets/js/webcam.js') }}"></script>
+    <script src="{{ asset('FrontOffice/assets/js/compose.js') }}"></script>
+    <script src="{{ asset('FrontOffice/assets/js/autocompletes.js') }}"></script>
+    <script src="{{ asset('FrontOffice/assets/js/formpopupscript.js') }}"></script>
 
 
     <!-- profile js -->
@@ -225,6 +223,8 @@
     <!-- video js -->
 
     <!-- events js -->
+    <script src="{{ asset('FrontOffice/assets/js/events.js') }}"></script>
+
 
     <!-- news js -->
 
