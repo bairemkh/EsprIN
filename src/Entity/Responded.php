@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Responded
  *
- * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
+ * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK_responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
  * @ORM\Entity
  * @ORM\Entity(repositoryClass="App\Repository\RespondedRepository")
  */

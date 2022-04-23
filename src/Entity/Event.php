@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Event
  *
- * @ORM\Table(name="event", indexes={@ORM\Index(name="FK organizer", columns={"idOrganizer"})})
+ * @ORM\Table(name="event", indexes={@ORM\Index(name="FK_organizer", columns={"idOrganizer"})})
  * @ORM\Entity
  * * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
