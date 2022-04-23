@@ -17,9 +17,21 @@ class ForumController extends AbstractController
     {
         $forums= $this->getDoctrine()
             ->getRepository(Forum::class)
-            ->findAll();
+            ->findByStateField('Active');
         return $this->render('BackOffice/ForumDashboard.html.twig',['forums'=>$forums]);
     }
+
+    /**
+     * @Route("/navbar-v2-events", name="navbar-v2-events")
+     */
+    public function getlistforums(): Response
+    {
+        $forums= $this->getDoctrine()
+            ->getRepository(Forum::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-forums.html.twig',['forums'=>$forums]);
+    }
+
     /**
      * @Route("/forum", name="app_forum")
      */
@@ -28,5 +40,18 @@ class ForumController extends AbstractController
         return $this->render('forum/index.html.twig', [
             'controller_name' => 'ForumController',
         ]);
+    }
+    /**
+     * @Route ("/ForumDashboard/{id}",name="deleteforum")
+     */
+    public function delete($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $forum = $this->getDoctrine()
+            ->getRepository(Forum::class)
+            ->find($id);
+        $forum->setState("Deleted");
+        $em->flush();
+        return $this->redirectToRoute('ForumDashboard');
     }
 }

@@ -5,13 +5,13 @@
         <div class="sub-nav-tabs">
             <div class="tabs is-centered">
                 <ul>
-                    <li >
+                    <li>
                         <a href="{{ path('navbar-v2-feed') }}">Posts</a>
                     </li>
                     <li >
                         <a href="{{ path('navbar-v2-announces') }}">Announces</a>
                     </li>
-                    <li>
+                    <li >
                         <a href="{{ path('navbar-v2-forums') }}">Forums</a>
                     </li>
                     <li class="is-active">
@@ -522,206 +522,226 @@
                         </div>
 
                         <!--#region test-->
-                        <div class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
+                        {% for event in events %}
+                            {% if event.state=='Active' %}
+                                <div class="card is-post">
+                                    <!-- Main wrap -->
+                                    <div class="content-wrap">
+                                        <!-- Event header -->
 
-                                <!-- /Post header -->
+                                        <!-- /Event header -->
+                                        <div class="card-heading">
+                                            <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                <div>
+                                                    <div class="button">
+                                                        <i data-feather="more-vertical"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <div class="dropdown-content">
+                                                        <a href="{{ path('deleteventfront', {'id':event.idevent})  }}" class="dropdown-item">
+                                                            <div class="media">
+                                                                <i data-feather="flag"></i>
+                                                                <div class="media-content">
+                                                                    <h3>Delete</h3>
+                                                                    <small>Delete this event.</small>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
+                                        <!-- Event body -->
+                                        <div class="card-body">
+                                            <!-- Event body text -->
 
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <img src="FrontOffice/assets/img/demo/unsplash/1.jpg" data-demo-src="FrontOffice/assets/img/demo/unsplash/1.jpg" alt="">
-                                    </div>
-                                    <div class="post-text">
-                                        <p>Yesterday with
-                                            <a href="#">@Karen Miller</a> and
-                                            <a href="#">@Marvin Stemperd</a> at the
-                                            <a href="#">#Rock'n'Rolla</a> concert in LA. Was totally fantastic! People
-                                            were really excited about this one!
-                                        </p>
-                                    </div>
-                                    <div class="card-heading">
-                                        <!-- User meta -->
-                                        <div class="user-block">
-                                            <div class="image">
+                                            <!-- Featured image -->
+                                            <div class="post-image">
+                                                <img src="FrontOffice/assets/img/demo/unsplash/1.jpg" data-demo-src="FrontOffice/assets/img/demo/unsplash/1.jpg" alt="">
+                                            </div>
+                                            <div class="post-text">
+                                                <p>{{ event.contentevent }}</p>
+                                            </div>
+                                            <div class="card-heading">
+                                                <!-- User meta -->
+                                                <div class="user-block">
+                                                    <div class="image">
+                                                        <img src="FrontOffice/assets/img/avatars/dan.jpg" data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1" alt="">
+                                                    </div>
+                                                    <div class="user-info">
+                                                        <a href="#">{{ event.idorganizer }}</a>
+                                                        <span class="time">{{ event.datedebut|date }}</span>
+                                                    </div>
+                                                    <div class="event-subtitle">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                                                        <small>{{ event.eventlocal}} | {{ event.datedebut|date }} - {{ event.datefin|date }}</small>
+                                                    </div>
+                                                </div>
+                                                <!-- Right side dropdown -->
+                                                <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
+
+                                            </div>
+                                        </div>
+                                        <!-- /Event body -->
+
+                                        <!-- Event footer -->
+                                        <div class="card-footer">
+                                            <!-- Followers avatars -->
+                                            <div class="likers-group">
                                                 <img src="FrontOffice/assets/img/avatars/dan.jpg" data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1" alt="">
+                                                <img src="FrontOffice/assets/img/avatars/david.jpg" data-demo-src="FrontOffice/assets/img/avatars/david.jpg" data-user-popover="4" alt="">
+                                                <img src="FrontOffice/assets/img/avatars/edward.jpeg" data-demo-src="FrontOffice/assets/img/avatars/edward.jpeg" data-user-popover="5" alt="">
+                                                <img src="FrontOffice/assets/img/avatars/milly.jpg" data-demo-src="FrontOffice/assets/img/avatars/milly.jpg" data-user-popover="7" alt="">
                                             </div>
-                                            <div class="user-info">
-                                                <a href="#">Dan Walker</a>
-                                                <span class="time">July 26 2018, 01:03pm</span>
+                                            <!-- Followers text -->
+                                            <div class="likers-text">
+                                                <p>
+                                                    <a href="#">Milly</a>,
+                                                    <a href="#">David</a>
+                                                </p>
+                                                <p>and 23 more liked this</p>
                                             </div>
-                                            <div class="event-subtitle">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                                <small>Parkman Conference Center, Chicago | July 8, 2020 - July 6, 2020</small>
-                                            </div>
-                                        </div>
-                                        <!-- Right side dropdown -->
-                                        <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-
-                                    </div>
-                                </div>
-                                <!-- /Post body -->
-
-                                <!-- Post footer -->
-                                <div class="card-footer">
-                                    <!-- Followers avatars -->
-                                    <div class="likers-group">
-                                        <img src="FrontOffice/assets/img/avatars/dan.jpg" data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1" alt="">
-                                        <img src="FrontOffice/assets/img/avatars/david.jpg" data-demo-src="FrontOffice/assets/img/avatars/david.jpg" data-user-popover="4" alt="">
-                                        <img src="FrontOffice/assets/img/avatars/edward.jpeg" data-demo-src="FrontOffice/assets/img/avatars/edward.jpeg" data-user-popover="5" alt="">
-                                        <img src="FrontOffice/assets/img/avatars/milly.jpg" data-demo-src="FrontOffice/assets/img/avatars/milly.jpg" data-user-popover="7" alt="">
-                                    </div>
-                                    <!-- Followers text -->
-                                    <div class="likers-text">
-                                        <p>
-                                            <a href="#">Milly</a>,
-                                            <a href="#">David</a>
-                                        </p>
-                                        <p>and 23 more liked this</p>
-                                    </div>
-                                    <!-- Post statistics -->
-                                    <div class="social-count">
-                                        <div class="likes-count">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                            <span>27</span>
-                                        </div>
-                                    </div>
-                                    <div class="like-wrapper">
-                                        <a href="javascript:void(0);" class="like-button">
-                                            <i class="mdi mdi-participate not-liked bouncy"></i>
-                                            <i class="mdi mdi-participate is-liked bouncy"></i>
-                                            <span class="like-overlay"></span>
-                                        </a>
-                                    </div>
-                                </div>
-                                <!-- /Post footer -->
-                            </div>
-                            <!-- /Main wrap -->
-
-                            <!-- Post #1 Comments -->
-                            <div class="comments-wrap is-hidden">
-                                <!-- Header -->
-                                <div class="comments-heading">
-                                    <h4>Comments
-                                        <small>(8)</small>
-                                    </h4>
-                                    <div class="close-comments">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                    </div>
-                                </div>
-                                <!-- /Header -->
-
-                                <!-- Comments body -->
-                                <div class="comments-body has-slimscroll">
-
-                                    <!-- Comment -->
-                                    <div class="media is-comment">
-                                        <!-- User image -->
-                                        <div class="media-left">
-                                            <div class="image">
-                                                <img src="FrontOffice/assets/img/avatars/dan.jpg" data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1" alt="">
-                                            </div>
-                                        </div>
-                                        <!-- Content -->
-                                        <div class="media-content">
-                                            <a href="#">Dan Walker</a>
-                                            <span class="time">28 minutes ago</span>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                tempo incididunt ut labore et
-                                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                                                ullamco laboris consequat.</p>
-                                            <!-- Actions -->
-                                            <div class="controls">
-                                                <div class="like-count">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                                    <span>4</span>
-                                                </div>
-                                                <div class="reply">
-                                                    <a href="#">Reply</a>
-                                                </div>
-                                                <div class="edit">
-                                                    <a href="#">Edit</a>
+                                            <!-- Event statistics -->
+                                            <div class="social-count">
+                                                <div class="likes-count">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                                                    <span>27</span>
                                                 </div>
                                             </div>
+                                            <div class="like-wrapper">
+                                                <a href="javascript:void(0);" class="like-button">
+                                                    <i class="mdi mdi-participate not-liked bouncy"></i>
+                                                    <i class="mdi mdi-participate is-liked bouncy"></i>
+                                                    <span class="like-overlay"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <!-- /Event footer -->
+                                    </div>
+                                    <!-- /Main wrap -->
 
-                                            <!-- Nested Comment -->
+                                    <!-- Event #1 Comments -->
+                                    <div class="comments-wrap is-hidden">
+                                        <!-- Header -->
+                                        <div class="comments-heading">
+                                            <h4>Comments
+                                                <small>(8)</small>
+                                            </h4>
+                                            <div class="close-comments">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                                            </div>
+                                        </div>
+                                        <!-- /Header -->
+
+                                        <!-- Comments body -->
+                                        <div class="comments-body has-slimscroll">
+
+                                            <!-- Comment -->
                                             <div class="media is-comment">
                                                 <!-- User image -->
                                                 <div class="media-left">
                                                     <div class="image">
-                                                        <img src="FrontOffice/assets/img/avatars/david.jpg" data-demo-src="FrontOffice/assets/img/avatars/david.jpg" data-user-popover="4" alt="">
+                                                        <img src="FrontOffice/assets/img/avatars/dan.jpg" data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1" alt="">
                                                     </div>
                                                 </div>
                                                 <!-- Content -->
                                                 <div class="media-content">
-                                                    <a href="#">David Kim</a>
-                                                    <span class="time">15 minutes ago</span>
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                        eiusmod tempo incididunt ut labore et
-                                                        dolore magna aliqua.</p>
+                                                    <a href="#">Dan Walker</a>
+                                                    <span class="time">28 minutes ago</span>
+                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                                                        tempo incididunt ut labore et
+                                                        dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                                        ullamco laboris consequat.</p>
                                                     <!-- Actions -->
                                                     <div class="controls">
                                                         <div class="like-count">
                                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
-                                                            <span>0</span>
+                                                            <span>4</span>
                                                         </div>
                                                         <div class="reply">
                                                             <a href="#">Reply</a>
                                                         </div>
+                                                        <div class="edit">
+                                                            <a href="#">Edit</a>
+                                                        </div>
                                                     </div>
+
+                                                    <!-- Nested Comment -->
+                                                    <div class="media is-comment">
+                                                        <!-- User image -->
+                                                        <div class="media-left">
+                                                            <div class="image">
+                                                                <img src="FrontOffice/assets/img/avatars/david.jpg" data-demo-src="FrontOffice/assets/img/avatars/david.jpg" data-user-popover="4" alt="">
+                                                            </div>
+                                                        </div>
+                                                        <!-- Content -->
+                                                        <div class="media-content">
+                                                            <a href="#">David Kim</a>
+                                                            <span class="time">15 minutes ago</span>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+                                                                eiusmod tempo incididunt ut labore et
+                                                                dolore magna aliqua.</p>
+                                                            <!-- Actions -->
+                                                            <div class="controls">
+                                                                <div class="like-count">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-thumbs-up"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+                                                                    <span>0</span>
+                                                                </div>
+                                                                <div class="reply">
+                                                                    <a href="#">Reply</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Right side dropdown -->
+
+                                                    </div>
+                                                    <!-- /Nested Comment -->
+
                                                 </div>
-                                                <!-- Right side dropdown -->
 
                                             </div>
-                                            <!-- /Nested Comment -->
 
                                         </div>
+                                        <!-- /Comments body -->
 
-                                    </div>
-
-                                </div>
-                                <!-- /Comments body -->
-
-                                <!-- Comments footer -->
-                                <div class="card-footer">
-                                    <div class="media post-comment has-emojis">
-                                        <!-- Comment Textarea -->
-                                        <div class="media-content">
-                                            <div class="field">
-                                                <p class="control">
-                                                    <textarea class="textarea comment-textarea" rows="5" placeholder="Write a comment..." id="post-comment-textarea-1"></textarea>
-                                                </p>
-                                            </div>
-                                            <!-- Additional actions -->
-                                            <div class="actions">
-                                                <div class="image is-32x32">
-                                                    <img class="is-rounded" src="FrontOffice/assets/img/avatars/jenna.png" data-demo-src="assets/img/avatars/jenna.png" data-user-popover="0" alt="">
-                                                </div>
-                                                <div class="toolbar">
-                                                    <div class="action is-emoji" id="post-comment-button-1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smile"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                                        <!-- Comments footer -->
+                                        <div class="card-footer">
+                                            <div class="media post-comment has-emojis">
+                                                <!-- Comment Textarea -->
+                                                <div class="media-content">
+                                                    <div class="field">
+                                                        <p class="control">
+                                                            <textarea class="textarea comment-textarea" rows="5" placeholder="Write a comment..." id="post-comment-textarea-1"></textarea>
+                                                        </p>
                                                     </div>
-                                                    <div class="action is-upload">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
-                                                        <input type="file">
+                                                    <!-- Additional actions -->
+                                                    <div class="actions">
+                                                        <div class="image is-32x32">
+                                                            <img class="is-rounded" src="FrontOffice/assets/img/avatars/jenna.png" data-demo-src="assets/img/avatars/jenna.png" data-user-popover="0" alt="">
+                                                        </div>
+                                                        <div class="toolbar">
+                                                            <div class="action is-emoji" id="post-comment-button-1">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-smile"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                                                            </div>
+                                                            <div class="action is-upload">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                                                <input type="file">
+                                                            </div>
+                                                            <a class="button is-solid primary-button raised">Post Comment</a>
+                                                        </div>
                                                     </div>
-                                                    <a class="button is-solid primary-button raised">Post Comment</a>
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Comments footer -->
                                     </div>
+                                    <!-- /Event #1 Comments -->
                                 </div>
-                                <!-- Comments footer -->
-                            </div>
-                            <!-- /Post #1 Comments -->
-                        </div>
-                        <!--#endregion test-->
-
+                                <!--#endregion test-->
+                            {% endif %}
+                        {% endfor %}
                     </div>
 
                     <!-- /Feed page main wrapper -->

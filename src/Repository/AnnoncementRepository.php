@@ -45,22 +45,21 @@ class AnnoncementRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Annoncement[] Returns an array of Annoncement objects
-    //  */
-    /*
-    public function findByExampleField($value)
+     /**
+      * @return Annoncement[] Returns an array of Annoncement objects
+      */
+
+    public function findByStateField($value)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+            ->andWhere('a.state = :val')
             ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('a.idann', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Annoncement
