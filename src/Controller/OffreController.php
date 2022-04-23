@@ -27,7 +27,7 @@ class OffreController extends AbstractController
     {
         $offres = $this->getDoctrine()
             ->getRepository(Offre::class)
-            ->findAll();
+            ->findByStateField('Active');
         return $this->render('BackOffice/OfferDashboard.html.twig',['offres'=>$offres]);
     }
 
@@ -260,6 +260,50 @@ class OffreController extends AbstractController
             'nOffre_de_travail' => $Offre_de_travail,
         ]);
 
+    }
+
+
+
+    /**
+     * @Route ("/OfferDashboard/{id}",name="deleteoffer")
+     */
+    public function delete($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $offer = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->find($id);
+        $offer->setState("Deleted");
+        $em->flush();
+        return $this->redirectToRoute('OfferDashboard');
+    }
+
+
+
+    /**
+     * @Route("/navbar-v2-offres", name="navbar-v2-offres")
+     */
+    public function getListOffres():Response
+    {
+        $offres = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->findAll();
+        return $this->render('FrontOffice/navbar-v2-offres.html.twig',['offres'=>$offres]);
+    }
+
+    // delete front
+    /**
+     * @Route ("/navbar-v2-offres/{id}",name="deleteoffresfront")
+     */
+    public function deleteoffersfront($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $offer = $this->getDoctrine()
+            ->getRepository(Offre::class)
+            ->find($id);
+        $offer->setState("Deleted");
+        $em->flush();
+        return $this->redirectToRoute('navbar-v2-offres');
     }
 
 

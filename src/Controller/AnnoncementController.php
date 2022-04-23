@@ -28,10 +28,8 @@ class  AnnoncementController extends AbstractController
     public function GetAnnoucement():Response{
         $announcement=$this->getDoctrine()
             ->getRepository(Annoncement::class)
-            ->findAll();
-        return $this->render('BackOffice/AnnounceDashboard.html.twig',[
-           'announcement'=>$announcement
-        ]);
+            ->findByStateField('Active');
+        return $this->render('BackOffice/AnnounceDashboard.html.twig',['announces'=>$announces]);
     }
     /**
      * @Route("/annoncement", name="app_annoncement")

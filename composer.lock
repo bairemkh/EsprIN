@@ -719,16 +719,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.7.x-dev",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "f9339b2bc1ccfc84a4b51757a5711b186d22f23c"
+                "reference": "53cf797feda995299629bed081ffb51776f36e9f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/f9339b2bc1ccfc84a4b51757a5711b186d22f23c",
-                "reference": "f9339b2bc1ccfc84a4b51757a5711b186d22f23c",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/53cf797feda995299629bed081ffb51776f36e9f",
+                "reference": "53cf797feda995299629bed081ffb51776f36e9f",
                 "shasum": ""
             },
             "require": {
@@ -813,7 +813,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.7.x"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.6.1"
             },
             "funding": [
                 {
@@ -829,7 +829,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-10T09:42:42+00:00"
+            "time": "2022-04-02T16:17:41+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -1456,16 +1456,16 @@
         },
         {
             "name": "doctrine/persistence",
-            "version": "3.1.x-dev",
+            "version": "2.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/persistence.git",
-                "reference": "25ec98a8cbd1f850e60fdb62c0ef77c162da8704"
+                "reference": "092a52b71410ac1795287bb5135704ef07d18dd0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/persistence/zipball/25ec98a8cbd1f850e60fdb62c0ef77c162da8704",
-                "reference": "25ec98a8cbd1f850e60fdb62c0ef77c162da8704",
+                "url": "https://api.github.com/repos/doctrine/persistence/zipball/092a52b71410ac1795287bb5135704ef07d18dd0",
+                "reference": "092a52b71410ac1795287bb5135704ef07d18dd0",
                 "shasum": ""
             },
             "require": {
@@ -1483,10 +1483,8 @@
                 "doctrine/annotations": "^1.7",
                 "doctrine/coding-standard": "^9.0",
                 "doctrine/common": "^3.0",
-                "phpstan/phpstan": "1.5.0",
-                "phpstan/phpstan-phpunit": "^1",
-                "phpstan/phpstan-strict-rules": "^1.1",
-                "phpunit/phpunit": "^8.5 || ^9.5",
+                "phpstan/phpstan": "1.4.6",
+                "phpunit/phpunit": "^7.5.20 || ^8.5 || ^9.5",
                 "symfony/cache": "^4.4 || ^5.4 || ^6.0",
                 "vimeo/psalm": "4.22.0"
             },
@@ -1537,23 +1535,9 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/persistence/issues",
-                "source": "https://github.com/doctrine/persistence/tree/3.0.2"
+                "source": "https://github.com/doctrine/persistence/tree/2.4.1"
             },
-            "funding": [
-                {
-                    "url": "https://www.doctrine-project.org/sponsorship.html",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://www.patreon.com/phpdoctrine",
-                    "type": "patreon"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fpersistence",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2022-05-06T06:10:05+00:00"
+            "time": "2022-03-22T06:44:40+00:00"
         },
         {
             "name": "doctrine/sql-formatter",
