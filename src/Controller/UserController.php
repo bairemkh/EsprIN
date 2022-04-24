@@ -41,11 +41,10 @@ class UserController extends AbstractController
         dump($request);
         if ($request->request->count() > 0) {
             $user = new User();
-            echo (int)$request->get('userCin');
-            echo $request->get('userCin');
             $user->setCinuser($request->get('userCin'));
             $passwd=$request->get('password');
             $hash=$encoder->encodePassword($user,$passwd);
+            echo $hash." ".$request->get('password');
             $user->setPasswd($hash);
             $user->setEmail($request->get('email'));
             $user->setRole('Etudiant');
