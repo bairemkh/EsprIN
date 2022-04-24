@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="event", indexes={@ORM\Index(name="FK organizer", columns={"idOrganizer"})})
  * @ORM\Entity
+ * * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
 {
@@ -104,125 +105,176 @@ class Event
         $this->cinuser = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getIdevent(): ?int
+    /**
+     * @return int
+     */
+    public function getIdevent(): int
     {
         return $this->idevent;
     }
 
-    public function getTitleevent(): ?string
+    /**
+     * @param int $idevent
+     */
+    public function setIdevent(int $idevent): void
+    {
+        $this->idevent = $idevent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitleevent(): string
     {
         return $this->titleevent;
     }
 
-    public function setTitleevent(string $titleevent): self
+    /**
+     * @param string $titleevent
+     */
+    public function setTitleevent(string $titleevent): void
     {
         $this->titleevent = $titleevent;
-
-        return $this;
     }
 
-    public function getContentevent(): ?string
+    /**
+     * @return string
+     */
+    public function getContentevent(): string
     {
         return $this->contentevent;
     }
 
-    public function setContentevent(string $contentevent): self
+    /**
+     * @param string $contentevent
+     */
+    public function setContentevent(string $contentevent): void
     {
         $this->contentevent = $contentevent;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getImgurl(): ?string
     {
         return $this->imgurl;
     }
 
-    public function setImgurl(?string $imgurl): self
+    /**
+     * @param string|null $imgurl
+     */
+    public function setImgurl(?string $imgurl): void
     {
         $this->imgurl = $imgurl;
-
-        return $this;
     }
 
-    public function getEventlocal(): ?string
+    /**
+     * @return string
+     */
+    public function getEventlocal(): string
     {
         return $this->eventlocal;
     }
 
-    public function setEventlocal(string $eventlocal): self
+    /**
+     * @param string $eventlocal
+     */
+    public function setEventlocal(string $eventlocal): void
     {
         $this->eventlocal = $eventlocal;
-
-        return $this;
     }
 
-    public function getNbrparticipant(): ?int
+    /**
+     * @return int
+     */
+    public function getNbrparticipant()
     {
         return $this->nbrparticipant;
     }
 
-    public function setNbrparticipant(int $nbrparticipant): self
+    /**
+     * @param int $nbrparticipant
+     */
+    public function setNbrparticipant($nbrparticipant): void
     {
         $this->nbrparticipant = $nbrparticipant;
-
-        return $this;
     }
 
-    public function getState(): ?string
+    /**
+     * @return string
+     */
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function setState(string $state): self
+    /**
+     * @param string $state
+     */
+    public function setState(string $state): void
     {
         $this->state = $state;
-
-        return $this;
     }
 
-    public function getDatedebut(): ?\DateTimeInterface
+    /**
+     * @return \DateTime|null
+     */
+    public function getDatedebut()
     {
         return $this->datedebut;
     }
 
-    public function setDatedebut(?\DateTimeInterface $datedebut): self
+    /**
+     * @param \DateTime|null $datedebut
+     */
+    public function setDatedebut($datedebut): void
     {
         $this->datedebut = $datedebut;
-
-        return $this;
     }
 
-    public function getDatefin(): ?\DateTimeInterface
+    /**
+     * @return \DateTime|null
+     */
+    public function getDatefin()
     {
         return $this->datefin;
     }
 
-    public function setDatefin(?\DateTimeInterface $datefin): self
+    /**
+     * @param \DateTime|null $datefin
+     */
+    public function setDatefin($datefin): void
     {
         $this->datefin = $datefin;
-
-        return $this;
     }
+
 
     public function getIdorganizer(): ?User
     {
         return $this->idorganizer;
     }
 
+
     public function setIdorganizer(?User $idorganizer): self
     {
         $this->idorganizer = $idorganizer;
-
-        return $this;
     }
 
     /**
-     * @return Collection<int, User>
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCinuser(): Collection
+    public function getCinuser()
     {
         return $this->cinuser;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $cinuser
+     */
+    public function setCinuser($cinuser): void
+    {
+        $this->cinuser = $cinuser;
     }
 
     public function addCinuser(User $cinuser): self

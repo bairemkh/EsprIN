@@ -20,7 +20,7 @@ class ForumController extends AbstractController
     {
         $forums= $this->getDoctrine()
             ->getRepository(Forum::class)
-            ->findByStateField('Active');
+            ->findAll();
         return $this->render('BackOffice/ForumDashboard.html.twig',['forums'=>$forums]);
     }
 
@@ -115,18 +115,5 @@ class ForumController extends AbstractController
         return $this->render('forum/index.html.twig', [
             'controller_name' => 'ForumController',
         ]);
-    }
-    /**
-     * @Route ("/ForumDashboard/{id}",name="deleteforum")
-     */
-    public function delete($id)
-    {
-        $em=$this->getDoctrine()->getManager();
-        $forum = $this->getDoctrine()
-            ->getRepository(Forum::class)
-            ->find($id);
-        $forum->setState("Deleted");
-        $em->flush();
-        return $this->redirectToRoute('ForumDashboard');
     }
 }
