@@ -47920,7 +47920,7 @@ body.is-dark .elements-wrap .element-block code {
     position: relative;
     top:50%;
 }
-.view-wrapper.profile{
-    margin-top: 150px;
+#profilMenu{
+    margin-top: 100px;
 }
 /*# sourceMappingURL=scss */

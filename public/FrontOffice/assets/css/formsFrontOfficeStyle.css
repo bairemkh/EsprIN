@@ -143,7 +143,7 @@
 .exit:active {
     background-color: #b70728;
 }
-.model-container {
+.model-container{
     position: fixed;
     top: 0%;
     left: 0%;

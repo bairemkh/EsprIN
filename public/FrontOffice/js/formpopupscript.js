@@ -34,6 +34,11 @@ function verifyExtern(){
     }
 }
 
+submit.addEventListener("click",()=>{
+    console.log("Entered event")
+    verifyExtern();
+    console.log("exited event")
+})
 
 
 open.addEventListener("click", () => {
@@ -57,6 +62,10 @@ close.addEventListener("click", () => {
 
 function setErrorFor(errorInput, msg) {
     let formControl = errorInput.parentElement;
+    let small = formControl.querySelector('small.errorMsg')
+    let msgBox = formControl.querySelector('.msg');
+    small.innerText = msg;
+    msgBox.className = "errorMsg show";
     let small = formControl.querySelector('.errorMsg')
     let msgBox = formControl.querySelector('.msg');
     small.innerText = msg;
