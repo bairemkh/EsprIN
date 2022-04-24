@@ -28,5 +28,22 @@ class Catannonce
      */
     private $libcatann;
 
+    public function getIdcatann(): ?int
+    {
+        return $this->idcatann;
+    }
+
+    public function getLibcatann(): ?string
+    {
+        return $this->libcatann;
+    }
+
+    public function setLibcatann(string $libcatann): self
+    {
+        $this->libcatann = $libcatann;
+
+        return $this;
+    }
+
 
 }
