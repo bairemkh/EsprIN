@@ -29150,7 +29150,8 @@ body.is-dark .error-container .error-wrapper .error-inner h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0
+    padding: 10px 0;
+    margin-top: 50px;
 }
 
 .profile-subheader .subheader-start, .profile-subheader .subheader-end {

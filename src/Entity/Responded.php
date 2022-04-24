@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\RespondedRepository")
  */
 class Responded
 {
@@ -21,12 +22,23 @@ class Responded
 
     /**
      * @var \DateTime
-     *
+
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
-     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $createdat = 'current_timestamp()';
+
+    /**
+     * @var \Forum
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Forum")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idForum", referencedColumnName="idForum")
+     * })
+     */
+    private $idforum;
 
     /**
      * @var \User
@@ -41,56 +53,59 @@ class Responded
     private $cinuser;
 
     /**
-     * @var \Forum
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Forum")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idForum", referencedColumnName="idForum")
-     * })
+     * @return string
      */
-    private $idforum;
-
-    public function getContent(): ?string
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
-    public function getCreatedat(): ?\DateTimeInterface
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedat()
     {
         return $this->createdat;
     }
 
-    public function getCinuser(): ?User
+    /**
+     * @param \DateTime $createdat
+     */
+    public function setCreatedat($createdat): void
     {
-        return $this->cinuser;
+        $this->createdat = $createdat;
     }
 
-    public function setCinuser(?User $cinuser): self
-    {
-        $this->cinuser = $cinuser;
-
-        return $this;
-    }
 
     public function getIdforum(): ?Forum
     {
         return $this->idforum;
     }
 
-    public function setIdforum(?Forum $idforum): self
+
+    public function setIdforum(?Forum $idforum): void
     {
         $this->idforum = $idforum;
+    }
 
-        return $this;
+
+    public function getCinuser(): ?User
+    {
+        return $this->cinuser;
+    }
+
+
+    public function setCinuser(?User $cinuser): void
+    {
+        $this->cinuser = $cinuser;
     }
 
 

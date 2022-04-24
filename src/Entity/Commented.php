@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Commented
@@ -14,7 +16,12 @@ class Commented
 {
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="comment is required")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50,
+     *      minMessage = "la description doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "la description ne peut pas dépasser {{ limit }} caractères")
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
@@ -22,9 +29,7 @@ class Commented
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="createdAt", type="datetime", nullable=true, options={"default"="current_timestamp()"})
      */
     private $createdat = 'current_timestamp()';
 
@@ -34,18 +39,6 @@ class Commented
      * @ORM\Column(name="state", type="text", length=65535, nullable=false, options={"default"="'Active'"})
      */
     private $state = '\'Active\'';
-
-    /**
-     * @var \Post
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Post")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="postCommented", referencedColumnName="idPost")
-     * })
-     */
-    private $postcommented;
 
     /**
      * @var \User
@@ -59,57 +52,90 @@ class Commented
      */
     private $userwhocommented;
 
-    public function getContent(): ?string
+    /**
+     * @var \Post
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Post")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="postCommented", referencedColumnName="idPost")
+     * })
+     */
+    private $postcommented;
+
+
+    public function getContent()
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
-    public function getCreatedat(): ?\DateTimeInterface
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedat()
     {
         return $this->createdat;
     }
 
-    public function getState(): ?string
+    /**
+     * @param \DateTime $createdat
+     */
+    public function setCreatedat($createdat)
+    {
+        $this->createdat = $createdat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function setState(string $state): self
+    /**
+     * @param string $state
+     */
+    public function setState(string $state): void
     {
         $this->state = $state;
-
-        return $this;
     }
 
-    public function getPostcommented(): ?Post
-    {
-        return $this->postcommented;
-    }
 
-    public function setPostcommented(?Post $postcommented): self
-    {
-        $this->postcommented = $postcommented;
-
-        return $this;
-    }
-
-    public function getUserwhocommented(): ?User
+    public function getUserwhocommented()
     {
         return $this->userwhocommented;
     }
 
-    public function setUserwhocommented(?User $userwhocommented): self
+
+    public function setUserwhocommented( User $userwhocommented)
     {
         $this->userwhocommented = $userwhocommented;
+    }
 
-        return $this;
+    /**
+     * @return Post
+     */
+    public function getPostcommented(): Post
+    {
+        return $this->postcommented;
+    }
+
+    /**
+     * @param Post $postcommented
+     */
+    public function setPostcommented(Post $postcommented): void
+    {
+        $this->postcommented = $postcommented;
     }
 
 

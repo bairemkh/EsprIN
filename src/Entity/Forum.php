@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="forum", indexes={@ORM\Index(name="FK owner", columns={"idOwner"})})
  * @ORM\Entity
+ *  * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
  */
 class Forum
 {
@@ -90,101 +91,144 @@ class Forum
         $this->idcreater = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getIdforum(): ?int
+    /**
+     * @return int
+     */
+    public function getIdforum(): int
     {
         return $this->idforum;
     }
 
-    public function getDatecreation(): ?\DateTimeInterface
+    /**
+     * @param int $idforum
+     */
+    public function setIdforum(int $idforum): void
+    {
+        $this->idforum = $idforum;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDatecreation()
     {
         return $this->datecreation;
     }
 
-    public function setDatecreation(\DateTimeInterface $datecreation): self
+    /**
+     * @param \DateTime $datecreation
+     */
+    public function setDatecreation($datecreation): void
     {
         $this->datecreation = $datecreation;
-
-        return $this;
     }
 
-    public function getTitle(): ?string
+    /**
+     * @return string
+     */
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
-    public function getContent(): ?string
+    /**
+     * @return string
+     */
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
-    public function getCategorieforum(): ?string
+    /**
+     * @return string
+     */
+    public function getCategorieforum(): string
     {
         return $this->categorieforum;
     }
 
-    public function setCategorieforum(string $categorieforum): self
+    /**
+     * @param string $categorieforum
+     */
+    public function setCategorieforum(string $categorieforum): void
     {
         $this->categorieforum = $categorieforum;
-
-        return $this;
     }
 
-    public function getNbrlikesforum(): ?int
+    /**
+     * @return int
+     */
+    public function getNbrlikesforum(): int
     {
         return $this->nbrlikesforum;
     }
 
-    public function setNbrlikesforum(int $nbrlikesforum): self
+    /**
+     * @param int $nbrlikesforum
+     */
+    public function setNbrlikesforum(int $nbrlikesforum): void
     {
         $this->nbrlikesforum = $nbrlikesforum;
-
-        return $this;
     }
 
-    public function getState(): ?string
+    /**
+     * @return string
+     */
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function setState(string $state): self
+    /**
+     * @param string $state
+     */
+    public function setState(string $state): void
     {
         $this->state = $state;
-
-        return $this;
     }
+
 
     public function getIdowner(): ?User
     {
         return $this->idowner;
     }
 
-    public function setIdowner(?User $idowner): self
+
+    public function setIdowner(?User $idowner): void
     {
         $this->idowner = $idowner;
-
-        return $this;
     }
 
     /**
-     * @return Collection<int, User>
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdcreater(): Collection
+    public function getIdcreater()
     {
         return $this->idcreater;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $idcreater
+     */
+    public function setIdcreater($idcreater): void
+    {
+        $this->idcreater = $idcreater;
     }
 
     public function addIdcreater(User $idcreater): self

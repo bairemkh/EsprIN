@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -115,6 +114,16 @@ public function addannounce():Response{
      */
     public function PostDashboard():Response{
         return $this->render('BackOffice/PostDashboard.html.twig',[
+                'controller_name'=>'DashboardBackOfficeController',
+            ]
+        );
+    }
+
+    /**
+     * @Route ("/UserDashboard",name="UserDashboard")
+     */
+    public function UserDashboard():Response{
+        return $this->render('BackOffice/UserDashboard.html.twig',[
                 'controller_name'=>'DashboardBackOfficeController',
             ]
         );

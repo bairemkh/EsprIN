@@ -9,8 +9,9 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Offre
  *
- * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK_Provider", columns={"offerProvider"})})
+ * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK Provider", columns={"offerProvider"})})
  * @ORM\Entity
+ * * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
  */
 class Offre
 {
@@ -91,89 +92,130 @@ class Offre
         $this->cinintrested = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getIdoffer(): ?int
+    /**
+     * @return int
+     */
+    public function getIdoffer(): int
     {
         return $this->idoffer;
     }
 
-    public function getCatoffre(): ?string
+    /**
+     * @param int $idoffer
+     */
+    public function setIdoffer(int $idoffer): void
+    {
+        $this->idoffer = $idoffer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCatoffre(): string
     {
         return $this->catoffre;
     }
 
-    public function setCatoffre(string $catoffre): self
+    /**
+     * @param string $catoffre
+     */
+    public function setCatoffre(string $catoffre): void
     {
         $this->catoffre = $catoffre;
-
-        return $this;
     }
 
-    public function getTitleoffer(): ?string
+    /**
+     * @return string
+     */
+    public function getTitleoffer(): string
     {
         return $this->titleoffer;
     }
 
-    public function setTitleoffer(string $titleoffer): self
+    /**
+     * @param string $titleoffer
+     */
+    public function setTitleoffer(string $titleoffer): void
     {
         $this->titleoffer = $titleoffer;
-
-        return $this;
     }
 
-    public function getDescoffer(): ?string
+    /**
+     * @return string
+     */
+    public function getDescoffer(): string
     {
         return $this->descoffer;
     }
 
-    public function setDescoffer(string $descoffer): self
+    /**
+     * @param string $descoffer
+     */
+    public function setDescoffer(string $descoffer): void
     {
         $this->descoffer = $descoffer;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getImgoffre(): ?string
     {
         return $this->imgoffre;
     }
 
-    public function setImgoffre(?string $imgoffre): self
+    /**
+     * @param string|null $imgoffre
+     */
+    public function setImgoffre(?string $imgoffre): void
     {
         $this->imgoffre = $imgoffre;
-
-        return $this;
     }
 
-    public function getState(): ?string
+    /**
+     * @return string
+     */
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function setState(string $state): self
+    /**
+     * @param string $state
+     */
+    public function setState(string $state): void
     {
         $this->state = $state;
-
-        return $this;
     }
+
 
     public function getOfferprovider(): ?User
     {
         return $this->offerprovider;
     }
 
-    public function setOfferprovider(?User $offerprovider): self
+    /**
+     * @param \User $offerprovider
+     */
+    public function setOfferprovider(\User $offerprovider): void
     {
         $this->offerprovider = $offerprovider;
-
-        return $this;
     }
 
     /**
-     * @return Collection<int, User>
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCinintrested(): Collection
+    public function getCinintrested()
     {
         return $this->cinintrested;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $cinintrested
+     */
+    public function setCinintrested($cinintrested): void
+    {
+        $this->cinintrested = $cinintrested;
     }
 
     public function addCinintrested(User $cinintrested): self

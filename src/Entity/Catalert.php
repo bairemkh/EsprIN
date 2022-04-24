@@ -28,21 +28,41 @@ class Catalert
      */
     private $libcatalert;
 
-    public function getIdcatalert(): ?int
+    /**
+     * @return int
+     */
+    public function getIdcatalert(): int
     {
         return $this->idcatalert;
     }
 
-    public function getLibcatalert(): ?string
+    /**
+     * @param int $idcatalert
+     */
+    public function setIdcatalert(int $idcatalert): void
+    {
+        $this->idcatalert = $idcatalert;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLibcatalert(): string
     {
         return $this->libcatalert;
     }
 
-    public function setLibcatalert(string $libcatalert): self
+    /**
+     * @param string $libcatalert
+     */
+    public function setLibcatalert(string $libcatalert): void
     {
         $this->libcatalert = $libcatalert;
+    }
 
-        return $this;
+    public function __toString()
+    {
+        return $this->getLibcatalert();
     }
 
 

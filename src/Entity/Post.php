@@ -4,13 +4,16 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Post
  *
- * @ORM\Table(name="post", indexes={@ORM\Index(name="FK_Post_owner", columns={"idOwer"})})
+ * @ORM\Table(name="post", indexes={@ORM\Index(name="IDX_5A8A6C8DC6C397F0", columns={"idOwer"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
 class Post
 {
@@ -25,15 +28,20 @@ class Post
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Post Description is required")
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 1000,
+     *      minMessage = "la description doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "la description ne peut pas dépasser {{ limit }} caractères"
+     * )
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=true)
      */
     private $mediaurl;
 
@@ -61,7 +69,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
      */
     private $state = '\'Active\'';
 
@@ -90,101 +98,140 @@ class Post
         $this->likeuser = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getIdpost(): ?int
+    /**
+     * @return int
+     */
+    public function getIdpost(): int
     {
         return $this->idpost;
     }
 
-    public function getContent(): ?string
+    /**
+     * @param int $idpost
+     */
+    public function setIdpost(int $idpost): void
+    {
+        $this->idpost = $idpost;
+    }
+
+
+    public function getContent()
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    /**
+     * @param string $content
+     */
+    public function setContent(string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
-    public function getMediaurl(): ?string
+    /**
+     * @return string
+     */
+    public function getMediaurl(): string
     {
         return $this->mediaurl;
     }
 
-    public function setMediaurl(string $mediaurl): self
+    /**
+     * @param string $mediaurl
+     */
+    public function setMediaurl(string $mediaurl): void
     {
         $this->mediaurl = $mediaurl;
-
-        return $this;
     }
 
-    public function getCreatedat(): ?\DateTimeInterface
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedat()
     {
         return $this->createdat;
     }
 
-    public function setCreatedat(\DateTimeInterface $createdat): self
+    /**
+     * @param \DateTime $createdat
+     */
+    public function setCreatedat($createdat): void
     {
         $this->createdat = $createdat;
-
-        return $this;
     }
 
-    public function getCategorie(): ?string
+
+    public function getCategorie()
     {
         return $this->categorie;
     }
 
-    public function setCategorie(string $categorie): self
+    /**
+     * @param string $categorie
+     */
+    public function setCategorie(string $categorie): void
     {
         $this->categorie = $categorie;
-
-        return $this;
     }
 
-    public function getLikenum(): ?int
+    /**
+     * @return int
+     */
+    public function getLikenum()
     {
         return $this->likenum;
     }
 
-    public function setLikenum(int $likenum): self
+    /**
+     * @param int $likenum
+     */
+    public function setLikenum($likenum): void
     {
         $this->likenum = $likenum;
-
-        return $this;
     }
 
-    public function getState(): ?string
+    /**
+     * @return string
+     */
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function setState(string $state): self
+    /**
+     * @param string $state
+     */
+    public function setState(string $state): void
     {
         $this->state = $state;
-
-        return $this;
     }
 
-    public function getIdower(): ?User
+
+    public function getIdower(): User
     {
         return $this->idower;
     }
 
-    public function setIdower(?User $idower): self
+
+    public function setIdower(User $idower)
     {
         $this->idower = $idower;
-
-        return $this;
     }
 
     /**
-     * @return Collection<int, User>
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLikeuser(): Collection
+    public function getLikeuser()
     {
         return $this->likeuser;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $likeuser
+     */
+    public function setLikeuser($likeuser): void
+    {
+        $this->likeuser = $likeuser;
     }
 
     public function addLikeuser(User $likeuser): self
@@ -205,5 +252,7 @@ class Post
 
         return $this;
     }
+
+
 
 }

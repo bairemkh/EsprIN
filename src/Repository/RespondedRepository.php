@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\Forum;
+use App\Entity\Responded;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Forum|null find($id, $lockMode = null, $lockVersion = null)
- * @method Forum|null findOneBy(array $criteria, array $orderBy = null)
- * @method Forum[]    findAll()
- * @method Forum[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Responded|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Responded|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Responded[]    findAll()
+ * @method Responded[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ForumRepository extends ServiceEntityRepository
+class RespondedRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Forum::class);
+        parent::__construct($registry, Responded::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Forum $entity, bool $flush = true): void
+    public function add(Responded $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class ForumRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Forum $entity, bool $flush = true): void
+    public function remove(Responded $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,15 +46,15 @@ class ForumRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Forum[] Returns an array of Forum objects
+    //  * @return Responded[] Returns an array of Responded objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('f.id', 'ASC')
+            ->orderBy('r.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -63,10 +63,10 @@ class ForumRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Forum
+    public function findOneBySomeField($value): ?Responded
     {
-        return $this->createQueryBuilder('f')
-            ->andWhere('f.exampleField = :val')
+        return $this->createQueryBuilder('r')
+            ->andWhere('r.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()
