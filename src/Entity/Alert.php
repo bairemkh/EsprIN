@@ -7,9 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Alert
  *
- * @ORM\Table(name="alert", indexes={@ORM\Index(name="FK_sender", columns={"idSender"}), @ORM\Index(name="FK_cat_alert", columns={"catAlert"})})
+ * @ORM\Table(name="alert", indexes={@ORM\Index(name="FK sender", columns={"idSender"}), @ORM\Index(name="FK_cat_alert", columns={"catAlert"})})
  * @ORM\Entity
- *  * @ORM\Entity(repositoryClass="App\Repository\AlertRepository")
  */
 class Alert
 {
@@ -48,7 +47,7 @@ class Alert
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
      */
-    private $createdat ;
+    private $createdat = 'current_timestamp()';
 
     /**
      * @var string
@@ -56,16 +55,6 @@ class Alert
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
     private $state = '\'Active\'';
-
-    /**
-     * @var \Catalert
-     *
-     * @ORM\ManyToOne(targetEntity="Catalert")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="catAlert", referencedColumnName="idCatAlert")
-     * })
-     */
-    private $catalert;
 
     /**
      * @var \User
@@ -78,128 +67,102 @@ class Alert
     private $idsender;
 
     /**
-     * @return int
+     * @var \Catalert
+     *
+     * @ORM\ManyToOne(targetEntity="Catalert")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="catAlert", referencedColumnName="idCatAlert")
+     * })
      */
-    public function getIdalert(): int
+    private $catalert;
+
+    public function getIdalert(): ?int
     {
         return $this->idalert;
     }
 
-    /**
-     * @param int $idalert
-     */
-    public function setIdalert(int $idalert): void
-    {
-        $this->idalert = $idalert;
-    }
-
-    /**
-     * @return string
-     */
     public function getAlerttitle(): ?string
     {
         return $this->alerttitle;
     }
 
-    /**
-     * @param string $alerttitle
-     */
-    public function setAlerttitle(string $alerttitle): void
+    public function setAlerttitle(string $alerttitle): self
     {
         $this->alerttitle = $alerttitle;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
+    public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getDestclass(): ?string
     {
         return $this->destclass;
     }
 
-    /**
-     * @param string $destclass
-     */
-    public function setDestclass(string $destclass): void
+    public function setDestclass(string $destclass): self
     {
         $this->destclass = $destclass;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedat()
+    public function getCreatedat(): ?\DateTimeInterface
     {
         return $this->createdat;
     }
 
-    /**
-     * @param \DateTime $createdat
-     */
-    public function setCreatedat($createdat): void
+    public function setCreatedat(\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
+    public function setState(string $state): self
     {
         $this->state = $state;
-    }
 
-    /**
-     * @return \Catalert
-     */
-    public function getCatalert(): ?Catalert
-    {
-        return $this->catalert;
-    }
-
-    /**
-     * @param \Catalert $catalert
-     */
-    public function setCatalert(?Catalert $catalert): self
-    {
-        $this->catalert = $catalert;
         return $this;
     }
-
 
     public function getIdsender(): ?User
     {
         return $this->idsender;
     }
 
-
-    public function setIdsender(?User $idsender): void
+    public function setIdsender(?User $idsender): self
     {
         $this->idsender = $idsender;
+
+        return $this;
+    }
+
+    public function getCatalert(): ?Catalert
+    {
+        return $this->catalert;
+    }
+
+    public function setCatalert(?Catalert $catalert): self
+    {
+        $this->catalert = $catalert;
+
+        return $this;
     }
 
 

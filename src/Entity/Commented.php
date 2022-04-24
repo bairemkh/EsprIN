@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Commented
  *
- * @ORM\Table(name="commented", indexes={@ORM\Index(name="Fk_post_commented", columns={"postCommented"}), @ORM\Index(name="IDX_5FA1A85B35321851", columns={"userWhoCommented"})})
+ * @ORM\Table(name="commented", indexes={@ORM\Index(name="Fk post commented", columns={"postCommented"}), @ORM\Index(name="IDX_5FA1A85B35321851", columns={"userWhoCommented"})})
  * @ORM\Entity
  */
 class Commented
@@ -41,6 +41,18 @@ class Commented
     private $state = '\'Active\'';
 
     /**
+     * @var \Post
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Post")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="postCommented", referencedColumnName="idPost")
+     * })
+     */
+    private $postcommented;
+
+    /**
      * @var \User
      *
      * @ORM\Id
@@ -52,17 +64,58 @@ class Commented
      */
     private $userwhocommented;
 
-    /**
-     * @var \Post
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Post")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="postCommented", referencedColumnName="idPost")
-     * })
-     */
-    private $postcommented;
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getCreatedat(): ?\DateTimeInterface
+    {
+        return $this->createdat;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getPostcommented(): ?Post
+    {
+        return $this->postcommented;
+    }
+
+    public function setPostcommented(?Post $postcommented): self
+    {
+        $this->postcommented = $postcommented;
+
+        return $this;
+    }
+
+    public function getUserwhocommented(): ?User
+    {
+        return $this->userwhocommented;
+    }
+
+    public function setUserwhocommented(?User $userwhocommented): self
+    {
+        $this->userwhocommented = $userwhocommented;
+
+        return $this;
+    }
 
 
     public function getContent()

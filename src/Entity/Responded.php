@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Responded
  *
- * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK_responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
+ * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
  * @ORM\Entity
  */
 class Responded
@@ -29,6 +29,18 @@ class Responded
     private $createdat = 'current_timestamp()';
 
     /**
+     * @var \User
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="cinUser", referencedColumnName="cinUser")
+     * })
+     */
+    private $cinuser;
+
+    /**
      * @var \Forum
      *
      * @ORM\Id
@@ -40,17 +52,46 @@ class Responded
      */
     private $idforum;
 
-    /**
-     * @var \User
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="cinUser", referencedColumnName="cinUser")
-     * })
-     */
-    private $cinuser;
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getCreatedat(): ?\DateTimeInterface
+    {
+        return $this->createdat;
+    }
+
+    public function getCinuser(): ?User
+    {
+        return $this->cinuser;
+    }
+
+    public function setCinuser(?User $cinuser): self
+    {
+        $this->cinuser = $cinuser;
+
+        return $this;
+    }
+
+    public function getIdforum(): ?Forum
+    {
+        return $this->idforum;
+    }
+
+    public function setIdforum(?Forum $idforum): self
+    {
+        $this->idforum = $idforum;
+
+        return $this;
+    }
 
 
 }

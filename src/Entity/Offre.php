@@ -5,14 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Offre
  *
  * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK_Provider", columns={"offerProvider"})})
  * @ORM\Entity
- * * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
  */
 class Offre
 {
@@ -34,12 +32,6 @@ class Offre
 
     /**
      * @var string
-     * @Assert\NotBlank(message=" titre doit etre non vide")
-     * @Assert\Length(
-     *      min = 5,
-     *      minMessage=" Entrer un titre au mini de 5 caracteres"
-     *
-     *     )
      *
      * @ORM\Column(name="titleOffer", type="string", length=20, nullable=false)
      */
@@ -64,7 +56,7 @@ class Offre
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
-    private $state = 'Active';
+    private $state = '\'Active\'';
 
     /**
      * @var \User
@@ -99,129 +91,89 @@ class Offre
         $this->cinintrested = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getIdoffer(): int
+    public function getIdoffer(): ?int
     {
         return $this->idoffer;
     }
 
-    /**
-     * @param int $idoffer
-     */
-    public function setIdoffer(int $idoffer): void
-    {
-        $this->idoffer = $idoffer;
-    }
-
-    /**
-     * @return string
-     */
     public function getCatoffre(): ?string
     {
         return $this->catoffre;
     }
 
-    /**
-     * @param string $catoffre
-     */
-    public function setCatoffre(string $catoffre): void
+    public function setCatoffre(string $catoffre): self
     {
         $this->catoffre = $catoffre;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getTitleoffer(): ?string
     {
         return $this->titleoffer;
     }
 
-    /**
-     * @param string $titleoffer
-     */
-    public function setTitleoffer(string $titleoffer): void
+    public function setTitleoffer(string $titleoffer): self
     {
         $this->titleoffer = $titleoffer;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescoffer(): string
+    public function getDescoffer(): ?string
     {
         return $this->descoffer;
     }
 
-    /**
-     * @param string $descoffer
-     */
-    public function setDescoffer(string $descoffer): void
+    public function setDescoffer(string $descoffer): self
     {
         $this->descoffer = $descoffer;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getImgoffre(): ?string
     {
         return $this->imgoffre;
     }
 
-    /**
-     * @param string|null $imgoffre
-     */
-    public function setImgoffre(?string $imgoffre): void
+    public function setImgoffre(?string $imgoffre): self
     {
         $this->imgoffre = $imgoffre;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getState(): string
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
+    public function setState(string $state): self
     {
         $this->state = $state;
+
+        return $this;
     }
-
-
 
     public function getOfferprovider(): ?User
     {
         return $this->offerprovider;
     }
 
-
-    public function setOfferprovider(?User $offerprovider): void
+    public function setOfferprovider(?User $offerprovider): self
     {
         $this->offerprovider = $offerprovider;
+
+        return $this;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection<int, User>
      */
-    public function getCinintrested(): ?User
+    public function getCinintrested(): Collection
     {
         return $this->cinintrested;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $cinintrested
-     */
-    public function setCinintrested($cinintrested): void
-    {
-        $this->cinintrested = $cinintrested;
     }
 
     public function addCinintrested(User $cinintrested): self
@@ -239,13 +191,5 @@ class Offre
 
         return $this;
     }
-
-    public function __toString()
-    {
-        return (string)$this->getCatoffre();
-    }
-
-
-
 
 }

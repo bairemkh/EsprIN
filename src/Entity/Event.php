@@ -2,12 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Event
  *
- * @ORM\Table(name="event", indexes={@ORM\Index(name="FK_organizer", columns={"idOrganizer"})})
+ * @ORM\Table(name="event", indexes={@ORM\Index(name="FK organizer", columns={"idOrganizer"})})
  * @ORM\Entity
  */
 class Event
@@ -100,6 +102,146 @@ class Event
     public function __construct()
     {
         $this->cinuser = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getIdevent(): ?int
+    {
+        return $this->idevent;
+    }
+
+    public function getTitleevent(): ?string
+    {
+        return $this->titleevent;
+    }
+
+    public function setTitleevent(string $titleevent): self
+    {
+        $this->titleevent = $titleevent;
+
+        return $this;
+    }
+
+    public function getContentevent(): ?string
+    {
+        return $this->contentevent;
+    }
+
+    public function setContentevent(string $contentevent): self
+    {
+        $this->contentevent = $contentevent;
+
+        return $this;
+    }
+
+    public function getImgurl(): ?string
+    {
+        return $this->imgurl;
+    }
+
+    public function setImgurl(?string $imgurl): self
+    {
+        $this->imgurl = $imgurl;
+
+        return $this;
+    }
+
+    public function getEventlocal(): ?string
+    {
+        return $this->eventlocal;
+    }
+
+    public function setEventlocal(string $eventlocal): self
+    {
+        $this->eventlocal = $eventlocal;
+
+        return $this;
+    }
+
+    public function getNbrparticipant(): ?int
+    {
+        return $this->nbrparticipant;
+    }
+
+    public function setNbrparticipant(int $nbrparticipant): self
+    {
+        $this->nbrparticipant = $nbrparticipant;
+
+        return $this;
+    }
+
+    public function getState(): ?string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    public function getDatedebut(): ?\DateTimeInterface
+    {
+        return $this->datedebut;
+    }
+
+    public function setDatedebut(?\DateTimeInterface $datedebut): self
+    {
+        $this->datedebut = $datedebut;
+
+        return $this;
+    }
+
+    public function getDatefin(): ?\DateTimeInterface
+    {
+        return $this->datefin;
+    }
+
+    public function setDatefin(?\DateTimeInterface $datefin): self
+    {
+        $this->datefin = $datefin;
+
+        return $this;
+    }
+
+    public function getIdorganizer(): ?User
+    {
+        return $this->idorganizer;
+    }
+
+    public function setIdorganizer(?User $idorganizer): self
+    {
+        $this->idorganizer = $idorganizer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getCinuser(): Collection
+    {
+        return $this->cinuser;
+    }
+
+    public function addCinuser(User $cinuser): self
+    {
+        if (!$this->cinuser->contains($cinuser)) {
+            $this->cinuser[] = $cinuser;
+            $cinuser->addIdevent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCinuser(User $cinuser): self
+    {
+        if ($this->cinuser->removeElement($cinuser)) {
+            $cinuser->removeIdevent($this);
+        }
+
+        return $this;
     }
 
 }
