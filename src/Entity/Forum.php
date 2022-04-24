@@ -9,9 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Forum
  *
- * @ORM\Table(name="forum", indexes={@ORM\Index(name="FK_owner", columns={"idOwner"})})
+ * @ORM\Table(name="forum", indexes={@ORM\Index(name="FK owner", columns={"idOwner"})})
  * @ORM\Entity
- *  * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
  */
 class Forum
 {
@@ -91,144 +90,101 @@ class Forum
         $this->idcreater = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getIdforum(): int
+    public function getIdforum(): ?int
     {
         return $this->idforum;
     }
 
-    /**
-     * @param int $idforum
-     */
-    public function setIdforum(int $idforum): void
-    {
-        $this->idforum = $idforum;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDatecreation()
+    public function getDatecreation(): ?\DateTimeInterface
     {
         return $this->datecreation;
     }
 
-    /**
-     * @param \DateTime $datecreation
-     */
-    public function setDatecreation($datecreation): void
+    public function setDatecreation(\DateTimeInterface $datecreation): self
     {
         $this->datecreation = $datecreation;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
+    public function setTitle(string $title): self
     {
         $this->title = $title;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
+    public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCategorieforum(): string
+    public function getCategorieforum(): ?string
     {
         return $this->categorieforum;
     }
 
-    /**
-     * @param string $categorieforum
-     */
-    public function setCategorieforum(string $categorieforum): void
+    public function setCategorieforum(string $categorieforum): self
     {
         $this->categorieforum = $categorieforum;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getNbrlikesforum(): int
+    public function getNbrlikesforum(): ?int
     {
         return $this->nbrlikesforum;
     }
 
-    /**
-     * @param int $nbrlikesforum
-     */
-    public function setNbrlikesforum(int $nbrlikesforum): void
+    public function setNbrlikesforum(int $nbrlikesforum): self
     {
         $this->nbrlikesforum = $nbrlikesforum;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getState(): string
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
+    public function setState(string $state): self
     {
         $this->state = $state;
-    }
 
+        return $this;
+    }
 
     public function getIdowner(): ?User
     {
         return $this->idowner;
     }
 
-
     public function setIdowner(?User $idowner): self
     {
         $this->idowner = $idowner;
+
+        return $this;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection<int, User>
      */
-    public function getIdcreater()
+    public function getIdcreater(): Collection
     {
         return $this->idcreater;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $idcreater
-     */
-    public function setIdcreater($idcreater): void
-    {
-        $this->idcreater = $idcreater;
     }
 
     public function addIdcreater(User $idcreater): self

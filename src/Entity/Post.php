@@ -4,15 +4,13 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Post
  *
- * @ORM\Table(name="post", indexes={@ORM\Index(name="IDX_5A8A6C8DC6C397F0", columns={"idOwer"})})
+ * @ORM\Table(name="post", indexes={@ORM\Index(name="FK_Post_owner", columns={"idOwer"})})
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
 class Post
 {
@@ -92,144 +90,101 @@ class Post
         $this->likeuser = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getIdpost(): int
+    public function getIdpost(): ?int
     {
         return $this->idpost;
     }
 
-    /**
-     * @param int $idpost
-     */
-    public function setIdpost(int $idpost): void
-    {
-        $this->idpost = $idpost;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
+    public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getMediaurl(): string
+    public function getMediaurl(): ?string
     {
         return $this->mediaurl;
     }
 
-    /**
-     * @param string $mediaurl
-     */
-    public function setMediaurl(string $mediaurl): void
+    public function setMediaurl(string $mediaurl): self
     {
         $this->mediaurl = $mediaurl;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedat()
+    public function getCreatedat(): ?\DateTimeInterface
     {
         return $this->createdat;
     }
 
-    /**
-     * @param \DateTime $createdat
-     */
-    public function setCreatedat($createdat): void
+    public function setCreatedat(\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCategorie(): string
+    public function getCategorie(): ?string
     {
         return $this->categorie;
     }
 
-    /**
-     * @param string $categorie
-     */
-    public function setCategorie(string $categorie): void
+    public function setCategorie(string $categorie): self
     {
         $this->categorie = $categorie;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLikenum()
+    public function getLikenum(): ?int
     {
         return $this->likenum;
     }
 
-    /**
-     * @param int $likenum
-     */
-    public function setLikenum($likenum): void
+    public function setLikenum(int $likenum): self
     {
         $this->likenum = $likenum;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getState(): string
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
+    public function setState(string $state): self
     {
         $this->state = $state;
-    }
 
+        return $this;
+    }
 
     public function getIdower(): ?User
     {
         return $this->idower;
     }
 
-
     public function setIdower(?User $idower): self
     {
         $this->idower = $idower;
+
+        return $this;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection<int, User>
      */
-    public function getLikeuser()
+    public function getLikeuser(): Collection
     {
         return $this->likeuser;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $likeuser
-     */
-    public function setLikeuser($likeuser): void
-    {
-        $this->likeuser = $likeuser;
     }
 
     public function addLikeuser(User $likeuser): self
@@ -250,7 +205,5 @@ class Post
 
         return $this;
     }
-
-
 
 }

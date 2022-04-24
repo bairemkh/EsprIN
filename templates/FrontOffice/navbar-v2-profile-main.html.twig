@@ -1,5 +1,5 @@
 {% extends 'base-front.html.twig' %}
-{% block title %}Profile {{ user.cinuser }}{% endblock %}
+{% block title %}Profile {{ user.firstname }}{% endblock %}
 
 {% block main %}
     <div class="view-wrapper profile" id="profileMenu">
@@ -17,7 +17,7 @@
                         <div class="cover-bg">
                             <div class="avatar">
                                 <img id="user-avatar" class="avatar-image" src="assets/img/logo/logo_app.svg"
-                                     data-demo-src="assets/img/avatars/jenna.png" alt="">
+                                     data-demo-src="{{ asset(image) }}" alt="">
                             </div>
 
 
@@ -110,11 +110,15 @@
 
                         <div class="profile-subheader">
                             <div class="subheader-start is-hidden-mobile">
-                                <span>3.4K</span>
-                                <span>Followers</span>
+                                <span></span>
+                                <span></span>
                             </div>
                             <div class="subheader-middle">
-                                <h2>{{ user.cinuser }}</h2>
+                                {% if  user.role=="Extern" %}
+                                    <h2>{{ user.entreprisename }}</h2>
+                                {% else %}
+                                    <h2>{{ user.firstname }} {{ user.lastname }} </h2>
+                                {% endif %}
                                 <span>{{ user.role }}</span>
                             </div>
                             <div class="subheader-end is-hidden-mobile">
@@ -184,28 +188,54 @@
                         <div class="basic-infos-wrapper">
                             <div class="card is-profile-info">
 
-
-                                <div class="info-row">
-                                    <div>
-                                        <span>Speciality</span>
-                                        <a class="is-inverted">Computer Science</a>
+                                {% if user.role=="Extern" %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>Location</span>
+                                            <a class="is-inverted">{{ user.localisation }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
                                     </div>
-                                    <i class="mdi mdi-earth"></i>
-                                </div>
-                                <div class="info-row">
-                                    <div>
-                                        <span>Class</span>
-                                        <a class="is-inverted">3A25</a>
+                                {% elseif user.role=="Admin" %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>departement</span>
+                                            <a class="is-inverted">{{ user.departement }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
                                     </div>
-                                    <i class="mdi mdi-map-marker"></i>
-                                </div>
-                                <div class="info-row">
-                                    <div>
-                                        <span>Followers</span>
-                                        <a class="is-muted">258 followers</a>
+                                {% elseif user.role=="Etudiant" %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>speciality</span>
+                                            <a class="is-inverted">{{ user.domaine }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
                                     </div>
-                                    <i class="mdi mdi-bell-ring"></i>
-                                </div>
+                                    <div class="info-row">
+                                        <div>
+                                            <span>class</span>
+                                            <a class="is-inverted">{{ user.class }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
+                                    </div>
+                                {% elseif user.role=="Professeur" %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>speciality</span>
+                                            <a class="is-inverted">{{ user.domaine }}</a>
+                                        </div>
+                                        <i class="mdi mdi-earth"></i>
+                                    </div>
+                                {% else %}
+                                    <div class="info-row">
+                                        <div>
+                                            <span>test</span>
+                                            <a class="is-muted">okay</a>
+                                        </div>
+                                        <i class="mdi mdi-bell-ring"></i>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         <!-- Photos widget -->
@@ -3044,7 +3074,7 @@
                     <div class="recipient-block">
                         <div class="avatar-container">
                             <img class="user-avatar" src="https://via.placeholder.com/300x300"
-                                 data-demo-src="assets/img/avatars/dan.jpg" alt="">
+                                 data-demo-src="{{ asset(image) }}" alt="">
                         </div>
                         <div class="username">
                             <span>Dan Walker</span>

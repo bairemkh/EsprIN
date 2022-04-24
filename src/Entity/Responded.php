@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Responded
  *
- * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK_responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
+ * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
  * @ORM\Entity
  */
 class Responded
@@ -29,18 +29,6 @@ class Responded
     private $createdat = 'current_timestamp()';
 
     /**
-     * @var \Forum
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
-     * @ORM\OneToOne(targetEntity="Forum")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idForum", referencedColumnName="idForum")
-     * })
-     */
-    private $idforum;
-
-    /**
      * @var \User
      *
      * @ORM\Id
@@ -53,67 +41,56 @@ class Responded
     private $cinuser;
 
     /**
-     * @return string
+     * @var \Forum
+     *
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\OneToOne(targetEntity="Forum")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="idForum", referencedColumnName="idForum")
+     * })
      */
-    public function getContent(): string
+    private $idforum;
+
+    public function getContent(): ?string
     {
         return $this->content;
     }
 
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
+    public function setContent(string $content): self
     {
         $this->content = $content;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedat()
+    public function getCreatedat(): ?\DateTimeInterface
     {
         return $this->createdat;
     }
 
-    /**
-     * @param \DateTime $createdat
-     */
-    public function setCreatedat($createdat): void
-    {
-        $this->createdat = $createdat;
-    }
-
-    /**
-     * @return \Forum
-     */
-    public function getIdforum(): \Forum
-    {
-        return $this->idforum;
-    }
-
-    /**
-     * @param \Forum $idforum
-     */
-    public function setIdforum(\Forum $idforum): void
-    {
-        $this->idforum = $idforum;
-    }
-
-    /**
-     * @return \User
-     */
-    public function getCinuser(): \User
+    public function getCinuser(): ?User
     {
         return $this->cinuser;
     }
 
-    /**
-     * @param \User $cinuser
-     */
-    public function setCinuser(\User $cinuser): void
+    public function setCinuser(?User $cinuser): self
     {
         $this->cinuser = $cinuser;
+
+        return $this;
+    }
+
+    public function getIdforum(): ?Forum
+    {
+        return $this->idforum;
+    }
+
+    public function setIdforum(?Forum $idforum): self
+    {
+        $this->idforum = $idforum;
+
+        return $this;
     }
 
 

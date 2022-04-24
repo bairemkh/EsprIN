@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Constraints\Date;
 
 
@@ -34,7 +36,7 @@ class UserController extends AbstractController
     /**
      * @Route("/createStudentAccount", name="create_student_Account",methods={"GET", "POST"})
      */
-    public function StudentRegister(Request $request): Response
+    public function StudentRegister(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -42,7 +44,9 @@ class UserController extends AbstractController
             echo (int)$request->get('userCin');
             echo $request->get('userCin');
             $user->setCinuser($request->get('userCin'));
-            $user->setPasswd($request->get('password'));
+            $passwd=$request->get('password');
+            $hash=$encoder->encodePassword($user,$passwd);
+            $user->setPasswd($hash);
             $user->setEmail($request->get('email'));
             $user->setRole('Etudiant');
             $user->setFirstname($request->get('firstName'));
@@ -66,7 +70,7 @@ class UserController extends AbstractController
     /**
      * @Route("/createProfAccount", name="create_prof_Account",methods={"GET", "POST"})
      */
-    public function profRegister(Request $request): Response//typeClub
+    public function profRegister(Request $request,UserPasswordEncoderInterface $encoder): Response//typeClub
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -74,7 +78,9 @@ class UserController extends AbstractController
             echo (int)$request->get('userCin');
             echo $request->get('userCin');
             $user->setCinuser($request->get('userCin'));
-            $user->setPasswd($request->get('password'));
+            $passwd=$request->get('password');
+            $hash=$encoder->encodePassword($user,$passwd);
+            $user->setPasswd($hash);
             $user->setEmail($request->get('email'));
             $user->setRole('Professor');
             $user->setFirstname($request->get('firstName'));
@@ -96,7 +102,7 @@ class UserController extends AbstractController
     /**
      * @Route("/createClubAccount", name="create_club_Account",methods={"GET", "POST"})
      */
-    public function clubRegister(Request $request): Response
+    public function clubRegister(Request $request,UserPasswordEncoderInterface $encoder): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -104,7 +110,9 @@ class UserController extends AbstractController
             echo (int)$request->get('userCin');
             echo $request->get('userCin');
             $user->setCinuser($request->get('userCin'));
-            $user->setPasswd($request->get('password'));
+            $passwd=$request->get('password');
+            $hash=$encoder->encodePassword($user,$passwd);
+            $user->setPasswd($hash);
             $user->setEmail($request->get('email'));
             $user->setRole('Club');
             $user->setFirstname($request->get('firstName'));
@@ -126,7 +134,7 @@ class UserController extends AbstractController
     /**
      * @Route("/addExtern", name="add_new_Extern_Account", methods={"GET", "POST"})
      */
-    public function addExtern(Request $request): Response
+    public function addExtern(Request $request,UserPasswordEncoderInterface $encoder): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -134,7 +142,9 @@ class UserController extends AbstractController
             echo (int)$request->get('compId');
             echo $request->get('compId');
             $user->setCinuser($request->get('compId'));
-            $user->setPasswd($request->get('compPasswd'));
+            $passwd=$request->get('password');
+            $hash=$encoder->encodePassword($user,$passwd);
+            $user->setPasswd($hash);
             $user->setEmail($request->get('compEmail'));
             $user->setRole('Extern');
             $user->setEntreprisename($request->get('CompName'));
@@ -155,9 +165,11 @@ class UserController extends AbstractController
     public function profile($userCin): Response
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($userCin);
-        echo $user->getCinuser();
+        echo $user->getCinuser().$user->getFirstname();
+        $imgPath='images/users/'.$user->getImgurl();
         return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'image'=>$imgPath
         ]);
     }
 
@@ -215,3 +227,5 @@ class UserController extends AbstractController
         return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
     }
 }
+
+
