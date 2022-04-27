@@ -5,11 +5,15 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\This;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * User
- *
+ * @ApiResource(formats={"json"})
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity
  */
@@ -20,6 +24,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="cinUser", type="integer", nullable=false)
      * @ORM\Id
+     * @Groups("users")
      */
     private $cinuser;
 
@@ -27,13 +32,15 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @Groups("users")
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="passwd", type="string", length=50, nullable=false)
+     * @ORM\Column(name="passwd", type="text", length=65535, nullable=false)
+     * @Groups("users")
      */
     private $passwd;
 
@@ -41,6 +48,7 @@ class User implements UserInterface
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("users")
      */
     private $createdat = 'current_timestamp()';
 
@@ -48,6 +56,7 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="imgURL", type="text", length=65535, nullable=false, options={"default"="147142.png"})
+     * @Groups("users")
      */
     private $imgurl = '147142.png';
 
@@ -55,6 +64,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="firstName", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $firstname = 'NULL';
 
@@ -62,6 +72,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="lastName", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $lastname = 'NULL';
 
@@ -69,6 +80,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="domaine", type="string", length=30, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $domaine = 'NULL';
 
@@ -76,6 +88,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="departement", type="string", length=40, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $departement = 'NULL';
 
@@ -83,6 +96,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="typeClub", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $typeclub = 'NULL';
 
@@ -90,6 +104,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="class", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $class = 'NULL';
 
@@ -97,6 +112,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="localisation", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $localisation = 'NULL';
 
@@ -104,6 +120,7 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="entrepriseName", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $entreprisename = 'NULL';
 
@@ -111,15 +128,16 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=20, nullable=false)
+     * @Groups("users")
      */
     private $role;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
      */
-    private $state = '\'Active\'';
+    private $state = 'Active';
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -172,6 +190,8 @@ class User implements UserInterface
      * )
      */
     private $idforum;
+
+    private UserPasswordEncoderInterface $encoder;
 
     /**
      * Constructor
@@ -466,11 +486,13 @@ class User implements UserInterface
     public function getRoles()
     {
         // TODO: Implement getRoles() method.
+
+        return array($this->role);
     }
 
     public function getPassword()
     {
-        // TODO: Implement getPassword() method.
+        return $this->passwd;
     }
 
     public function getSalt()
@@ -480,7 +502,7 @@ class User implements UserInterface
 
     public function getUsername()
     {
-        // TODO: Implement getUsername() method.
+        return (string)$this->email;
     }
 
     public function eraseCredentials()
