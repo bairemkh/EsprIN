@@ -82,4 +82,72 @@ class UserRepository extends ServiceEntityRepository
         return $res->getArrayResult();
 
     }
+
+    /**
+     * @return User[]
+     */
+    public function showStudents(): array
+    {
+        $em=$this->getEntityManager();
+        $res= $em->createQueryBuilder()
+            ->select('u')
+            ->from('App\Entity\User', 'u')
+            ->where('u.role=\'Etudiant\' ')
+            ->getQuery();
+        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
+
+        return $res->getArrayResult();
+
+    }
+
+    /**
+     * @return User[]
+     */
+    public function showClubs(): array
+    {
+        $em=$this->getEntityManager();
+        $res= $em->createQueryBuilder()
+            ->select('u')
+            ->from('App\Entity\User', 'u')
+            ->where('u.role=\'Club\' ')
+            ->getQuery();
+        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
+
+        return $res->getArrayResult();
+
+    }
+
+    /**
+     * @return User[]
+     */
+    public function showProfs(): array
+    {
+        $em=$this->getEntityManager();
+        $res= $em->createQueryBuilder()
+            ->select('u')
+            ->from('App\Entity\User', 'u')
+            ->where('u.role=\'Professeur\' ')
+            ->getQuery();
+        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
+
+        return $res->getArrayResult();
+
+    }
+
+    /**
+     * @return User[]
+     */
+    public function showExterns(): array
+    {
+        $em=$this->getEntityManager();
+        $res= $em->createQueryBuilder()
+            ->select('u')
+            ->from('App\Entity\User', 'u')
+            ->where('u.role=\'Extern\' ')
+            ->getQuery();
+        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
+
+        return $res->getArrayResult();
+
+    }
 }
