@@ -4,9 +4,9 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,16 +14,12 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository
+class UserRepository extends EntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, User::class);
-    }
+
 
     /**
      * @throws ORMException
-     * @throws OptimisticLockException
      */
     public function add(User $entity, bool $flush = true): void
     {
@@ -73,4 +69,15 @@ class UserRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @return User[]
+     */
+    public function sortByDate(): array
+    {
+        $em=$this->getEntityManager();
+        return $em->createQueryBuilder('user')
+            ->orderBy('user.email', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
 }

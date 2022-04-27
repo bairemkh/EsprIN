@@ -8,15 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NavigationFrontOfficeController extends AbstractController
 {
-    /**
-     * @Route("/login", name="Login")
-     */
-    public function login(): Response
-    {
-        return $this->render('FrontOffice/login.html.twig', [
-            'controller_name' => 'NavigationFrontOfficeController',
-        ]);
-    }
+
 
 
     /**

@@ -2,121 +2,133 @@
 {% block title %} UserDashboard {% endblock %}
 
 {% block body %}
-        <!-- ! Main -->
-        <main class="main users chart-page" id="skip-target">
-            <div class="container">
-                <h2 class="main-title">Dashboard</h2>
-                <!-- statistic 4 (total visit)-->
-                <div class="row stat-cards">
+    <!-- ! Main -->
+    <main class="main users chart-page" id="skip-target">
+        <div class="container">
+            <h2 class="main-title">Dashboard</h2>
+            <!-- statistic 4 (total visit)-->
+            <div class="row stat-cards">
 
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon primary">
-                                <i data-feather="bar-chart-2" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">1478 </p>
-                                <p class="stat-cards-info__title">Total Professor</p>
-                                <p class="stat-cards-info__progress">
+                <div class="col-md-6 col-xl-3">
+                    <article class="stat-cards-item">
+                        <div class="stat-cards-icon primary">
+                            <i data-feather="bar-chart-2" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-cards-info">
+                            <p class="stat-cards-info__num">1478 </p>
+                            <p class="stat-cards-info__title">Total Professor</p>
+                            <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit success">
                     <i data-feather="trending-up" aria-hidden="true"></i>4.07%
                   </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon warning">
-                                <i data-feather="file" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">15326</p>
-                                <p class="stat-cards-info__title">Total Student</p>
-                                <p class="stat-cards-info__progress">
+                                Last month
+                            </p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="stat-cards-item">
+                        <div class="stat-cards-icon warning">
+                            <i data-feather="file" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-cards-info">
+                            <p class="stat-cards-info__num">15326</p>
+                            <p class="stat-cards-info__title">Total Student</p>
+                            <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit success">
                     <i data-feather="trending-up" aria-hidden="true"></i>0.24%
                   </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon purple">
-                                <i data-feather="file" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">26</p>
-                                <p class="stat-cards-info__title">Total Club</p>
-                                <p class="stat-cards-info__progress">
+                                Last month
+                            </p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="stat-cards-item">
+                        <div class="stat-cards-icon purple">
+                            <i data-feather="file" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-cards-info">
+                            <p class="stat-cards-info__num">26</p>
+                            <p class="stat-cards-info__title">Total Club</p>
+                            <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit danger">
                     <i data-feather="trending-down" aria-hidden="true"></i>1.64%
                   </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
-                    <div class="col-md-6 col-xl-3">
-                        <article class="stat-cards-item">
-                            <div class="stat-cards-icon success">
-                                <i data-feather="feather" aria-hidden="true"></i>
-                            </div>
-                            <div class="stat-cards-info">
-                                <p class="stat-cards-info__num">106</p>
-                                <p class="stat-cards-info__title">Total Extern</p>
-                                <p class="stat-cards-info__progress">
+                                Last month
+                            </p>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-md-6 col-xl-3">
+                    <article class="stat-cards-item">
+                        <div class="stat-cards-icon success">
+                            <i data-feather="feather" aria-hidden="true"></i>
+                        </div>
+                        <div class="stat-cards-info">
+                            <p class="stat-cards-info__num">106</p>
+                            <p class="stat-cards-info__title">Total Extern</p>
+                            <p class="stat-cards-info__progress">
                   <span class="stat-cards-info__profit warning">
                     <i data-feather="trending-up" aria-hidden="true"></i>0.00%
                   </span>
-                                    Last month
-                                </p>
-                            </div>
-                        </article>
-                    </div>
+                                Last month
+                            </p>
+                        </div>
+                    </article>
                 </div>
-                <!-- statistic-->
+            </div>
+            <!-- statistic-->
 
 
-                <div class="users-table table-wrapper">
-                    <table class="posts-table">
-                        <!--Entete de tableau -->
-                      <thead>
-                        <tr class="users-table-info">
-                            <th>
-                                <label class="users-table__checkbox ms-20">
-                                    <input type="checkbox" class="check-all">User
-                                </label>
-                            </th>
-                            <th>Name</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                            <th>Creation Date</th>
-                            <th>Action</th>
-                        </tr>
-                      </thead>
-                        <!-- ********* -->
-                        <!--Contenue de tableau -->
-                        {% for user in users %}
-                            {% if user.state == "Connected" or user.state == "Disconnected" or user.state == "Banned"%}
-                       <tbody>
+            <div class="users-table table-wrapper">
+                <table class="posts-table">
+                    <!--Entete de tableau -->
+                    <thead>
+                    <tr class="users-table-info">
+                        <th>
+                            <label class="users-table__checkbox ms-20">
+                                <input type="checkbox" class="check-all">User
+                            </label>
+                        </th>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Status</th>
+                        <th><a href="{{ path('TrierParDateAsc') }}">Creation Date</a></th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <!-- ********* -->
+                    <!--Contenue de tableau -->
+                    {% for user in users %}
+                        {% if user.state == "Connected" or user.state == "Disconnected" or user.state == "Banned" %}
+                            <tbody>
                             <tr>
                                 <!-- Image -->
                                 <td>
                                     <label class="users-table__checkbox">
                                         <input type="checkbox" class="check">
                                         <div class="pages-table-img">
-                                            <picture><source srcset="BackOffice/img/avatar/avatar-face-04.webp" type="image/webp"><img src="../../elegant/img/avatar/avatar-face-04.png" alt="User Name"></picture>
+                                            <picture>
+                                                <source srcset="images/users/{{ user.imgurl }}"
+                                                        type="image/webp">
+                                                <img src="images/users/{{ user.imgurl }}" alt="User Name">
+                                            </picture>
                                         </div>
                                     </label>
                                 </td>
+                                {% if user.role=="Extern" %}
+                                    <!-- Name -->
+                                    <td>
+                                        {{ user.entreprisename }}
+                                    </td>
+                                    {% else %}
+                                        <td>
+                                            {{ user.firstname }}
+                                        </td>
+                                {% endif %}
                                 <!-- Name -->
-                                <td>
-                                    {{ user.firstname }}
-                                </td>
+
                                 <!-- Role -->
                                 <td>
                                     <div class="pages-table-img">
@@ -125,7 +137,13 @@
                                 </td>
                                 <!-- Status -->
                                 <td>
-                                    <span class="badge-pending">{{ user.state }}</span>
+                                    {% if user.state=="Connected" %}
+                                    <span class="badge-success">{{ user.state }}</span>
+                                    {% elseif user.state=="Disconnected" %}
+                                        <span class="badge-trashed">{{ user.state }}</span>
+                                        {% else %}
+                                            <span class="badge-pending">{{ user.state }}</span>
+                                        {% endif %}
                                 </td>
                                 <!-- Creation Date -->
                                 <td>{{ user.createdat|date }}</td>
@@ -146,13 +164,13 @@
 
                             </tr>
 
-                      </tbody>
-                            {% endif %}
-                        {% endfor %}
-                        <!-- ********* -->
-                    </table>
-                </div>
-
+                            </tbody>
+                        {% endif %}
+                    {% endfor %}
+                    <!-- ********* -->
+                </table>
             </div>
-        </main>
+
+        </div>
+    </main>
 {% endblock %}
