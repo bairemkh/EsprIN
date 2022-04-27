@@ -94,7 +94,13 @@
                         <th>Name</th>
                         <th>Role</th>
                         <th>Status</th>
-                        <th><a href="{{ path('TrierParDateAsc') }}">Creation Date</a></th>
+                        {% if app.request.pathinfo ==path('TrierParDateAsc') %}
+                            <th><a href="{{ path('TrierParDateDesc') }}">Creation Date</a></th>
+                        {% elseif app.request.pathinfo ==path('TrierParDateDesc') %}
+                            <th><a href="{{ path('UserDashboard') }}">Creation Date</a></th>
+                        {% else %}
+                            <th><a href="{{ path('TrierParDateAsc') }}">Creation Date</a></th>
+                        {% endif %}
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -122,10 +128,10 @@
                                     <td>
                                         {{ user.entreprisename }}
                                     </td>
-                                    {% else %}
-                                        <td>
-                                            {{ user.firstname }}
-                                        </td>
+                                {% else %}
+                                    <td>
+                                        {{ user.firstname }}
+                                    </td>
                                 {% endif %}
                                 <!-- Name -->
 
@@ -138,12 +144,12 @@
                                 <!-- Status -->
                                 <td>
                                     {% if user.state=="Connected" %}
-                                    <span class="badge-success">{{ user.state }}</span>
+                                        <span class="badge-success">{{ user.state }}</span>
                                     {% elseif user.state=="Disconnected" %}
                                         <span class="badge-trashed">{{ user.state }}</span>
-                                        {% else %}
-                                            <span class="badge-pending">{{ user.state }}</span>
-                                        {% endif %}
+                                    {% else %}
+                                        <span class="badge-pending">{{ user.state }}</span>
+                                    {% endif %}
                                 </td>
                                 <!-- Creation Date -->
                                 <td>{{ user.createdat|date }}</td>

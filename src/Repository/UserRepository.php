@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,70 +15,71 @@ use Doctrine\ORM\ORMException;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends EntityRepository
+class UserRepository extends ServiceEntityRepository
 {
-
-
-    /**
-     * @throws ORMException
-     */
-    public function add(User $entity, bool $flush = true): void
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(User $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    // /**
-    //  * @return User[] Returns an array of User objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-
-    public function findOneBySomeField($value): ?User
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.idalert = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        parent::__construct($registry, User::class);
     }
 
     /**
      * @return User[]
      */
-    public function sortByDate(): array
+    public function sortByDateAsc(): array
     {
         $em=$this->getEntityManager();
-        return $em->createQueryBuilder('user')
+       /* $res=$em->createQueryBuilder('user')
             ->orderBy('user.email', 'ASC')
             ->getQuery()
-            ->getResult();
+            ->getResult();*/
+        //SELECT * FROM User u ORDER BY u.email ASC
+       $res= $em->createQueryBuilder()
+           ->select('u')
+           ->from('App\Entity\User', 'u')
+           ->orderBy('u.createdat ', 'ASC')
+           ->getQuery();
+        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
+
+       return $res->getArrayResult();
+
+    }
+
+    /**
+     * @return User[]
+     */
+    public function sortByDateDesc(): array
+    {
+        $em=$this->getEntityManager();
+        /* $res=$em->createQueryBuilder('user')
+             ->orderBy('user.email', 'ASC')
+             ->getQuery()
+             ->getResult();*/
+        //SELECT * FROM User u ORDER BY u.email ASC
+        $res= $em->createQueryBuilder()
+            ->select('u')
+            ->from('App\Entity\User', 'u')
+            ->orderBy('u.createdat ', 'DESC')
+            ->getQuery();
+        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
+
+        return $res->getArrayResult();
+
+    }
+
+    /**
+     * @return User[]
+     */
+    public function showAdmins(): array
+    {
+        $em=$this->getEntityManager();
+        $res= $em->createQueryBuilder()
+            ->select('u')
+            ->from('App\Entity\User', 'u')
+            ->where('u.role=\'Admin\' ')
+            ->getQuery();
+        //$res=$em->createNativeQuery('SELECT * FROM User u ORDER BY u.email ASC', $this->createResultSetMappingBuilder("u"));
+
+        return $res->getArrayResult();
+
     }
 }

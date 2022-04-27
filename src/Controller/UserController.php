@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
 use phpDocumentor\Reflection\Types\This;
@@ -245,13 +246,41 @@ class UserController extends AbstractController
 
     /**
      * @Route("/TrierParDateAsc", name="TrierParDateAsc")
+     * @param UserRepository $userRepository
+     * @return Response
      */
-    public function TrierParNom(Request $request): Response
+    public function TrierParDateAsc(UserRepository $userRepository)
     {
-        $users = $this->getDoctrine()->getRepository(User::class)->sortByDate();
+        $users = $userRepository->sortByDateAsc();
         dump($users);
-        //return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
-        return $this->redirectToRoute('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
+    }
+
+    /**
+     * @Route("/TrierParDateDesc", name="TrierParDateDesc")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function TrierParDateDesc(UserRepository $userRepository)
+    {
+        $users = $userRepository->sortByDateDesc();
+        dump($users);
+        return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
+    }
+
+    /**
+     * @Route("/UserDashboard/Admin", name="showAdmins")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function showAdmins(UserRepository $userRepository)
+    {
+        $users = $userRepository->showAdmins();
+        dump($users);
+        return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
     }
 }
 
