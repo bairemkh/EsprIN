@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\Date;
 
 
@@ -42,9 +43,9 @@ class UserController extends AbstractController
         if ($request->request->count() > 0) {
             $user = new User();
             $user->setCinuser($request->get('userCin'));
-            $passwd=$request->get('password');
-            $hash=$encoder->encodePassword($user,$passwd);
-            echo $hash." ".$request->get('password');
+            $passwd = $request->get('password');
+            $hash = $encoder->encodePassword($user, $passwd);
+            echo $hash . " " . $request->get('password');
             $user->setPasswd($hash);
             $user->setEmail($request->get('email'));
             $user->setRole('Etudiant');
@@ -69,7 +70,7 @@ class UserController extends AbstractController
     /**
      * @Route("/createProfAccount", name="create_prof_Account",methods={"GET", "POST"})
      */
-    public function profRegister(Request $request,UserPasswordEncoderInterface $encoder): Response//typeClub
+    public function profRegister(Request $request, UserPasswordEncoderInterface $encoder): Response//typeClub
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -77,8 +78,8 @@ class UserController extends AbstractController
             echo (int)$request->get('userCin');
             echo $request->get('userCin');
             $user->setCinuser($request->get('userCin'));
-            $passwd=$request->get('password');
-            $hash=$encoder->encodePassword($user,$passwd);
+            $passwd = $request->get('password');
+            $hash = $encoder->encodePassword($user, $passwd);
             $user->setPasswd($hash);
             $user->setEmail($request->get('email'));
             $user->setRole('Professor');
@@ -101,7 +102,7 @@ class UserController extends AbstractController
     /**
      * @Route("/createClubAccount", name="create_club_Account",methods={"GET", "POST"})
      */
-    public function clubRegister(Request $request,UserPasswordEncoderInterface $encoder): Response
+    public function clubRegister(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -109,8 +110,8 @@ class UserController extends AbstractController
             echo (int)$request->get('userCin');
             echo $request->get('userCin');
             $user->setCinuser($request->get('userCin'));
-            $passwd=$request->get('password');
-            $hash=$encoder->encodePassword($user,$passwd);
+            $passwd = $request->get('password');
+            $hash = $encoder->encodePassword($user, $passwd);
             $user->setPasswd($hash);
             $user->setEmail($request->get('email'));
             $user->setRole('Club');
@@ -133,7 +134,7 @@ class UserController extends AbstractController
     /**
      * @Route("/addExtern", name="add_new_Extern_Account", methods={"GET", "POST"})
      */
-    public function addExtern(Request $request,UserPasswordEncoderInterface $encoder): Response
+    public function addExtern(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -141,8 +142,8 @@ class UserController extends AbstractController
             echo (int)$request->get('compId');
             echo $request->get('compId');
             $user->setCinuser($request->get('compId'));
-            $passwd=$request->get('password');
-            $hash=$encoder->encodePassword($user,$passwd);
+            $passwd = $request->get('password');
+            $hash = $encoder->encodePassword($user, $passwd);
             $user->setPasswd($hash);
             $user->setEmail($request->get('compEmail'));
             $user->setRole('Extern');
@@ -164,11 +165,11 @@ class UserController extends AbstractController
     public function profile($userCin): Response
     {
         $user = $this->getDoctrine()->getRepository(User::class)->find($userCin);
-        echo $user->getCinuser().$user->getFirstname();
-        $imgPath='images/users/'.$user->getImgurl();
+        echo $user->getCinuser() . $user->getFirstname();
+        $imgPath = 'images/users/' . $user->getImgurl();
         return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
             'user' => $user,
-            'image'=>$imgPath
+            'image' => $imgPath
         ]);
     }
 
@@ -224,6 +225,33 @@ class UserController extends AbstractController
             ->getRepository(User::class)
             ->findAll();
         return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+    }
+
+    /**
+     * @Route ("/getUsers",name="get-Users-api")
+     */
+    public function getUsersApi(SerializerInterface $serializer): Response
+    {
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+        //dump($users);
+
+        $json = $serializer->serialize($users, 'json', ['groups' => 'users']);
+        $Response = new Response($json);
+
+        return $Response;
+    }
+
+    /**
+     * @Route("/TrierParDateAsc", name="TrierParDateAsc")
+     */
+    public function TrierParNom(Request $request): Response
+    {
+        $users = $this->getDoctrine()->getRepository(User::class)->sortByDate();
+        dump($users);
+        //return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        return $this->redirectToRoute('BackOffice/UserDashboard.html.twig', ['users' => $users]);
     }
 }
 

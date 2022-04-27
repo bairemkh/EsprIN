@@ -94,7 +94,7 @@
                         <th>Name</th>
                         <th>Role</th>
                         <th>Status</th>
-                        <th>Creation Date</th>
+                        <th><a href="{{ path('TrierParDateAsc') }}">Creation Date</a></th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -110,9 +110,9 @@
                                         <input type="checkbox" class="check">
                                         <div class="pages-table-img">
                                             <picture>
-                                                <source srcset="BackOffice/img/avatar/avatar-face-04.webp"
+                                                <source srcset="images/users/{{ user.imgurl }}"
                                                         type="image/webp">
-                                                <img src="../../elegant/img/avatar/avatar-face-04.png" alt="User Name">
+                                                <img src="images/users/{{ user.imgurl }}" alt="User Name">
                                             </picture>
                                         </div>
                                     </label>
