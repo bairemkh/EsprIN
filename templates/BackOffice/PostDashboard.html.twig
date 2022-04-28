@@ -8,7 +8,11 @@
         <main class="main users chart-page" id="skip-target">
             <div class="container">
                 <h2 class="main-title">Posts</h2>
-               
+                <span style="margin-left:50%" class="badge-default"><a
+                            href={{ path('TrierParDateAsc') }}>tri par date asc</a></span>
+                <span style="margin-left:50%" class="badge-default">                <a  href={{ path('TrierParDateDesc') }}>tri par date desc</a>
+</span>
+
 
 
                 <div class="users-table table-wrapper">
@@ -27,7 +31,7 @@
                         </tr>
                         </thead>
                         {% for post in posts %}
-                            {% if post.state == "Active" %}
+                            {% if post.state == "'Active'" %}
                         <tbody>
                             <tr>
                                 <!-- Post -->
@@ -35,13 +39,17 @@
                                     <label class="users-table__checkbox">
                                         <input type="checkbox" class="check">
                                         {{ post.content }}
+                                        <div class="pages-table-img">
+                                            <picture><img src={{ asset ('/upload/post/' ~ post.mediaurl) }}></picture>
+
+                                        </div>
                                     </label>
                                 </td>
                                 <!-- Author -->
                                 <td>
                                     <div class="pages-table-img">
-                                        <picture><source srcset={{ post.mediaurl }} type="image/webp"><img src={{ post.mediaurl }}alt="User Name"></picture>
-                                        {{ post.idower.getFirstname() }}
+                                        <picture><img src={{ asset ('FrontOffice/assets/img/post/dan.jpg') }}></picture>
+
                                     </div>
                                 </td>
                                 <!-- Category -->
@@ -71,10 +79,21 @@
                             {% endif %}
                         {% endfor %}
                     </table>
+                    {% include "FrontOffice/index.html.twig" %}
                 </div>
+
 
             </div>
         </main>
+
+
+
+
+
+
+
+
+
 
 
 

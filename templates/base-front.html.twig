@@ -3,16 +3,17 @@
 
 
 
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8"/><!-- /Added by HTTrack -->
+
 <head>
+    <!-- Added by HTTrack -->
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/><!-- /Added by HTTrack -->
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title> EsprIN | {% block title %}Main Feed {% endblock %}</title>
-    <link rel="icon" href="{{ asset('FrontOffice/assets/img/logo/logo-red.svg') }}"/>
+    <link rel="icon" href="{{ asset('FrontOffice/assets/img/post/appicon.png') }}"/>
     <!-- Fonts -->
     <link href="{{ asset('https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900') }}" rel="stylesheet">
     <link href="{{ asset('https://fonts.googleapis.com/css?family=Roboto:400,500') }}" rel="stylesheet">
@@ -36,8 +37,8 @@
         <div class="left">
             <div class="brand">
                 <a href="" class="navbar-logo">
-                    <img class="logo light-image" src="FrontOffice/assets/img/logo/logo_app.svg" width="112" height="28" alt="">
-                    <img class="logo dark-image" src="FrontOffice/assets/img/logo/logo-red.svg" width="112" height="28" alt="">
+                    <img class="logo light-image" src="{{ asset('FrontOffice/assets/img/post/appicon.png') }}" width="112" height="28" alt="">
+                    <img class="logo dark-image" src="{{ asset('FrontOffice/assets/img/post/appicon.png') }}" width="112" height="28" alt="">
                 </a>
             </div>
             <div class="search">
@@ -92,7 +93,7 @@
 
             <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
                 <div class="user-image">
-                    <img src="https://via.placeholder.com/400x400" data-demo-src="FrontOffice/assets/img/avatars/jenna.png" alt="">
+                    <img src="{{ asset('FrontOffice/assets/img/post/dan.jpg') }}"  alt="">
                     <span class="indicator"></span>
                 </div>
 
@@ -114,7 +115,7 @@
                                 </div>
                             </a>
 
-                            <a class="account-item" href="{{ path('Login') }}">
+{#                            <a class="account-item" href="{{ path('Login') }}">#}
                                 <div class="media">
                                     <div class="icon-wrap">
                                         <i data-feather="power"></i>
@@ -150,20 +151,20 @@
             <div class="tabs is-centered">
                 <ul>
                     <li class="is-active">
-                        <a href="{{ path('navbar-v2-feed') }}">Posts</a>
+                        <a href="{{ path('showP') }}">Posts</a>
                     </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-announces') }}">Announces</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-forums') }}">Forums</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-events') }}">Events</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-offres') }}">Offers</a>
-                    </li>
+{#                    <li>#}
+{#                        <a href="{{ path('navbar-v2-announces') }}">Announces</a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="{{ path('navbar-v2-forums') }}">Forums</a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="{{ path('navbar-v2-events') }}">Events</a>#}
+{#                    </li>#}
+{#                    <li>#}
+{#                        <a href="{{ path('navbar-v2-offres') }}">Offers</a>#}
+{#                    </li>#}
                 </ul>
             </div>
         </div>
@@ -175,7 +176,7 @@
     {% endblock %}
     <!-- Concatenated js plugins and jQuery -->
     <script src="{{ asset('FrontOffice/assets/js/app.js') }}"></script>
-    <script src="{{ asset('https://js.stripe.com/v3/') }}"></script>
+
     <script src="{{ asset('FrontOffice/assets/data/tipuedrop_content.js') }}"></script>
 
     <!-- Core js -->
@@ -240,3 +241,50 @@
 
 
 </html>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+
+        var searchRequest = null;
+        $("#search").keyup(function() {
+            var minlength = 3;
+            var that = this;
+            var value = $(this).val();
+            var entitySelector = $("#entitiesNav").html('');
+            if (value.length >= minlength ) {
+                if (searchRequest != null)
+                    searchRequest.abort();
+                searchRequest = $.ajax({
+                    type: "GET",
+                    url: "{{ path('ajax_search') }}",
+                    data: {
+                        'q' : value
+                    },
+                    dataType: "text",
+
+                    success: function(msg){
+                        //we need to check if the value is the same
+                        if (value==$(that).val()) {
+
+                            var result = JSON.parse(msg);
+                            $.each(result, function(key, arr) {
+                                $.each(arr, function(id, value) {
+                                    if (key == 'entities') {
+                                        if (id != 'error') {
+                                            entitySelector.append('<li><a href="/daten/'+id+'">'+value+'</a></li>');
+                                        } else {
+                                            entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    }
+                });
+
+            }
+        });
+    });
+</script>

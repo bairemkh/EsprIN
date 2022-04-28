@@ -8,6 +8,8 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
+
+
 /**
  * @method Post|null find($id, $lockMode = null, $lockVersion = null)
  * @method Post|null findOneBy(array $criteria, array $orderBy = null)
@@ -43,6 +45,64 @@ class PostRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+    public function findByState($state){
+
+        return $this->createQueryBuilder('p')
+            ->Where('p.state = :val')
+            ->setParameter('val', $state)
+            ->orderBy('p.idpost', 'ASC')
+
+            ->getQuery()
+            ->getResult()
+            ;
+
+
+    }
+
+
+    /**
+     * @return Post[]
+     */
+    public function sortByDateAsc(): array
+    {
+        $em=$this->getEntityManager();
+
+        $res= $em->createQueryBuilder()
+            ->select('p')
+            ->from('App\Entity\Post', 'p')
+            ->orderBy('p.createdat ', 'ASC')
+            ->getQuery();
+
+        return $res->getArrayResult();
+
+    }
+
+    /**
+     * @return Post[]
+     */
+    public function sortByDateDesc(): array
+    {
+        $em = $this->getEntityManager();
+        $res = $em->createQueryBuilder()
+            ->select('p')
+            ->from('App\Entity\Post', 'p')
+            ->orderBy('p.createdat ', 'DESC')
+            ->getQuery();
+
+        return $res->getArrayResult();
+
+
+    }
+    public function findEntitiesByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e
+                FROM App:Post p
+                WHERE p.content LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
     }
 
     // /**
