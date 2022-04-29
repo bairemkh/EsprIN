@@ -105,7 +105,6 @@ class PostController extends AbstractController
             ->getRepository(Post::class)
             ->findAll();
 
-
         return $this->render('BackOffice/PostDashboard.html.twig', ['posts' => $posts,"piechart"=>$this->indexAction()
 
 
