@@ -334,6 +334,19 @@ class UserController extends AbstractController
         return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
         //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
     }
+    /**
+     * @Route("/test", name="test")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function testQuery(UserRepository $userRepository)
+    {
+        $usersR = $userRepository;
+        $users=$usersR->test();
+        dump($users);
+        die;
+    }
+
 }
 
 

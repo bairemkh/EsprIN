@@ -82,7 +82,7 @@
 
 
             <div class="users-table table-wrapper">
-                <table class="posts-table">
+                <table class="posts-table" id="tableau">
                     <!--Entete de tableau -->
                     <thead>
                     <tr class="users-table-info">
@@ -169,7 +169,34 @@
                                 </td>
 
                             </tr>
+                            <script>
+                                $(document).ready(function(){
+                                    $('#ach').keyup(function(){
+                                        search_table($(this).val());
+                                    });
+                                    function search_table(value){
+                                        $('#tableau tbody tr ').each(function(){
+                                            var found = 'false';
+                                            $(this).each(function(){
+                                                if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                                {
+                                                    found = 'true';
+                                                }
+                                            });
+                                            if(found == 'true')
+                                            {
+                                                $(this).show();
 
+                                            }
+                                            else
+                                            {
+                                                $(this).hide();
+
+                                            }
+                                        });
+                                    }
+                                });
+                            </script>
                             </tbody>
                         {% endif %}
                     {% endfor %}
