@@ -2,18 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Post
  *
- * @ORM\Table(name="post", indexes={@ORM\Index(name="IDX_5A8A6C8DC6C397F0", columns={"idOwer"})})
+ * @ORM\Table(name="post", indexes={@ORM\Index(name="FK Post owner", columns={"idOwer"})})
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
 class Post
 {
@@ -28,20 +23,15 @@ class Post
 
     /**
      * @var string
-     * @Assert\NotBlank(message="Post Description is required")
-     * @Assert\Length(
-     *      min = 10,
-     *      max = 1000,
-     *      minMessage = "la description doit comporter au moins {{ limit }} caractères",
-     *      maxMessage = "la description ne peut pas dépasser {{ limit }} caractères"
-     * )
+     *
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
 
     /**
      * @var string
-     * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=true)
+     *
+     * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=false)
      */
     private $mediaurl;
 
@@ -69,7 +59,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
     private $state = '\'Active\'';
 
@@ -97,162 +87,5 @@ class Post
     {
         $this->likeuser = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-    /**
-     * @return int
-     */
-    public function getIdpost(): int
-    {
-        return $this->idpost;
-    }
-
-    /**
-     * @param int $idpost
-     */
-    public function setIdpost(int $idpost): void
-    {
-        $this->idpost = $idpost;
-    }
-
-
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMediaurl(): string
-    {
-        return $this->mediaurl;
-    }
-
-    /**
-     * @param string $mediaurl
-     */
-    public function setMediaurl(string $mediaurl): void
-    {
-        $this->mediaurl = $mediaurl;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedat()
-    {
-        return $this->createdat;
-    }
-
-    /**
-     * @param \DateTime $createdat
-     */
-    public function setCreatedat($createdat): void
-    {
-        $this->createdat = $createdat;
-    }
-
-
-    public function getCategorie()
-    {
-        return $this->categorie;
-    }
-
-    /**
-     * @param string $categorie
-     */
-    public function setCategorie(string $categorie): void
-    {
-        $this->categorie = $categorie;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLikenum()
-    {
-        return $this->likenum;
-    }
-
-    /**
-     * @param int $likenum
-     */
-    public function setLikenum($likenum): void
-    {
-        $this->likenum = $likenum;
-    }
-
-    /**
-     * @return string
-     */
-    public function getState(): string
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
-    {
-        $this->state = $state;
-    }
-
-
-    public function getIdower(): User
-    {
-        return $this->idower;
-    }
-
-
-    public function setIdower(User $idower)
-    {
-        $this->idower = $idower;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLikeuser()
-    {
-        return $this->likeuser;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $likeuser
-     */
-    public function setLikeuser($likeuser): void
-    {
-        $this->likeuser = $likeuser;
-    }
-
-    public function addLikeuser(User $likeuser): self
-    {
-        if (!$this->likeuser->contains($likeuser)) {
-            $this->likeuser[] = $likeuser;
-            $likeuser->addLikepost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLikeuser(User $likeuser): self
-    {
-        if ($this->likeuser->removeElement($likeuser)) {
-            $likeuser->removeLikepost($this);
-        }
-
-        return $this;
-    }
-
-
 
 }

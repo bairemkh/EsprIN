@@ -9,7 +9,6 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="responded", indexes={@ORM\Index(name="FK responded", columns={"idForum"}), @ORM\Index(name="IDX_ABE5AFA6222EB8D3", columns={"cinUser"})})
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="App\Repository\RespondedRepository")
  */
 class Responded
 {
@@ -22,8 +21,9 @@ class Responded
 
     /**
      * @var \DateTime
-
+     *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Id
      * @ORM\GeneratedValue(strategy="NONE")
      */
     private $createdat = 'current_timestamp()';
@@ -51,62 +51,6 @@ class Responded
      * })
      */
     private $cinuser;
-
-    /**
-     * @return string
-     */
-    public function getContent(): string
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedat()
-    {
-        return $this->createdat;
-    }
-
-    /**
-     * @param \DateTime $createdat
-     */
-    public function setCreatedat($createdat): void
-    {
-        $this->createdat = $createdat;
-    }
-
-
-    public function getIdforum(): ?Forum
-    {
-        return $this->idforum;
-    }
-
-
-    public function setIdforum(?Forum $idforum): void
-    {
-        $this->idforum = $idforum;
-    }
-
-
-    public function getCinuser(): ?User
-    {
-        return $this->cinuser;
-    }
-
-
-    public function setCinuser(?User $cinuser): void
-    {
-        $this->cinuser = $cinuser;
-    }
 
 
 }

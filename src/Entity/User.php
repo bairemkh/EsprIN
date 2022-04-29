@@ -2,29 +2,22 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\This;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * User
- * @ApiResource(formats={"json"})
+ *
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity
  */
-class User implements UserInterface
+class User
 {
     /**
      * @var int
      *
      * @ORM\Column(name="cinUser", type="integer", nullable=false)
      * @ORM\Id
-     * @Groups("users")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $cinuser;
 
@@ -32,15 +25,13 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=false)
-     * @Groups("users")
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="passwd", type="text", length=65535, nullable=false)
-     * @Groups("users")
+     * @ORM\Column(name="passwd", type="string", length=50, nullable=false)
      */
     private $passwd;
 
@@ -48,23 +39,20 @@ class User implements UserInterface
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
-     * @Groups("users")
      */
     private $createdat = 'current_timestamp()';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="imgURL", type="text", length=65535, nullable=false, options={"default"="147142.png"})
-     * @Groups("users")
+     * @ORM\Column(name="imgURL", type="text", length=65535, nullable=false, options={"default"="'https://www.jbrhomes.com/wp-content/uploads/blank-avatar.png'"})
      */
-    private $imgurl = '147142.png';
+    private $imgurl = '\'https://www.jbrhomes.com/wp-content/uploads/blank-avatar.png\'';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="firstName", type="string", length=20, nullable=true, options={"default"="NULL"})
-     * @Groups("users")
      */
     private $firstname = 'NULL';
 
@@ -72,7 +60,6 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="lastName", type="string", length=20, nullable=true, options={"default"="NULL"})
-     * @Groups("users")
      */
     private $lastname = 'NULL';
 
@@ -80,7 +67,6 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="domaine", type="string", length=30, nullable=true, options={"default"="NULL"})
-     * @Groups("users")
      */
     private $domaine = 'NULL';
 
@@ -88,7 +74,6 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="departement", type="string", length=40, nullable=true, options={"default"="NULL"})
-     * @Groups("users")
      */
     private $departement = 'NULL';
 
@@ -96,7 +81,6 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="typeClub", type="string", length=20, nullable=true, options={"default"="NULL"})
-     * @Groups("users")
      */
     private $typeclub = 'NULL';
 
@@ -104,7 +88,6 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="class", type="string", length=20, nullable=true, options={"default"="NULL"})
-     * @Groups("users")
      */
     private $class = 'NULL';
 
@@ -112,7 +95,6 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="localisation", type="string", length=20, nullable=true, options={"default"="NULL"})
-     * @Groups("users")
      */
     private $localisation = 'NULL';
 
@@ -120,7 +102,6 @@ class User implements UserInterface
      * @var string|null
      *
      * @ORM\Column(name="entrepriseName", type="string", length=20, nullable=true, options={"default"="NULL"})
-     * @Groups("users")
      */
     private $entreprisename = 'NULL';
 
@@ -128,16 +109,22 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=20, nullable=false)
-     * @Groups("users")
      */
     private $role;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
-    private $state = 'Active';
+    private $state = '\'Active\'';
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="cinfollowed")
+     */
+    private $cinfollower;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -191,322 +178,341 @@ class User implements UserInterface
      */
     private $idforum;
 
-    private UserPasswordEncoderInterface $encoder;
-
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->cinfollower = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idoffer = new \Doctrine\Common\Collections\ArrayCollection();
         $this->likepost = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idevent = new \Doctrine\Common\Collections\ArrayCollection();
         $this->idforum = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function getCinuser(): ?int
+    /**
+     * @return int
+     */
+    public function getCinuser(): int
     {
         return $this->cinuser;
     }
 
-    public function getEmail(): ?string
+    /**
+     * @param int $cinuser
+     */
+    public function setCinuser(int $cinuser): void
+    {
+        $this->cinuser = $cinuser;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    public function setEmail(string $email): self
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): void
     {
         $this->email = $email;
-
-        return $this;
     }
 
-    public function setCinuser(int $UserCin): self
-    {
-        $this->cinuser = $UserCin;
-
-        return $this;
-    }
-
-    public function getPasswd(): ?string
+    /**
+     * @return string
+     */
+    public function getPasswd(): string
     {
         return $this->passwd;
     }
 
-    public function setPasswd(string $passwd): self
+    /**
+     * @param string $passwd
+     */
+    public function setPasswd(string $passwd): void
     {
         $this->passwd = $passwd;
-
-        return $this;
     }
 
-    public function getCreatedat(): ?\DateTimeInterface
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedat()
     {
         return $this->createdat;
     }
 
-    public function setCreatedat(\DateTimeInterface $createdat): self
+    /**
+     * @param \DateTime $createdat
+     */
+    public function setCreatedat($createdat): void
     {
         $this->createdat = $createdat;
-
-        return $this;
     }
 
-    public function getImgurl(): ?string
+    /**
+     * @return string
+     */
+    public function getImgurl(): string
     {
         return $this->imgurl;
     }
 
-    public function setImgurl(string $imgurl): self
+    /**
+     * @param string $imgurl
+     */
+    public function setImgurl(string $imgurl): void
     {
         $this->imgurl = $imgurl;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
-    public function setFirstname(?string $firstname): self
+    /**
+     * @param string|null $firstname
+     */
+    public function setFirstname(?string $firstname): void
     {
         $this->firstname = $firstname;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
-    public function setLastname(?string $lastname): self
+    /**
+     * @param string|null $lastname
+     */
+    public function setLastname(?string $lastname): void
     {
         $this->lastname = $lastname;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDomaine(): ?string
     {
         return $this->domaine;
     }
 
-    public function setDomaine(?string $domaine): self
+    /**
+     * @param string|null $domaine
+     */
+    public function setDomaine(?string $domaine): void
     {
         $this->domaine = $domaine;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getDepartement(): ?string
     {
         return $this->departement;
     }
 
-    public function setDepartement(?string $departement): self
+    /**
+     * @param string|null $departement
+     */
+    public function setDepartement(?string $departement): void
     {
         $this->departement = $departement;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getTypeclub(): ?string
     {
         return $this->typeclub;
     }
 
-    public function setTypeclub(?string $typeclub): self
+    /**
+     * @param string|null $typeclub
+     */
+    public function setTypeclub(?string $typeclub): void
     {
         $this->typeclub = $typeclub;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getClass(): ?string
     {
         return $this->class;
     }
 
-    public function setClass(?string $class): self
+    /**
+     * @param string|null $class
+     */
+    public function setClass(?string $class): void
     {
         $this->class = $class;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLocalisation(): ?string
     {
         return $this->localisation;
     }
 
-    public function setLocalisation(?string $localisation): self
+    /**
+     * @param string|null $localisation
+     */
+    public function setLocalisation(?string $localisation): void
     {
         $this->localisation = $localisation;
-
-        return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEntreprisename(): ?string
     {
         return $this->entreprisename;
     }
 
-    public function setEntreprisename(?string $entreprisename): self
+    /**
+     * @param string|null $entreprisename
+     */
+    public function setEntreprisename(?string $entreprisename): void
     {
         $this->entreprisename = $entreprisename;
-
-        return $this;
     }
 
-    public function getRole(): ?string
+    /**
+     * @return string
+     */
+    public function getRole(): string
     {
         return $this->role;
     }
 
-    public function setRole(string $role): self
+    /**
+     * @param string $role
+     */
+    public function setRole(string $role): void
     {
         $this->role = $role;
-
-        return $this;
     }
 
-    public function getState(): ?string
+    /**
+     * @return string
+     */
+    public function getState(): string
     {
         return $this->state;
     }
 
-    public function setState(string $state): self
+    /**
+     * @param string $state
+     */
+    public function setState(string $state): void
     {
         $this->state = $state;
-
-        return $this;
     }
 
     /**
-     * @return Collection<int, Offre>
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdoffer(): Collection
+    public function getCinfollower()
+    {
+        return $this->cinfollower;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $cinfollower
+     */
+    public function setCinfollower($cinfollower): void
+    {
+        $this->cinfollower = $cinfollower;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIdoffer()
     {
         return $this->idoffer;
     }
 
-    public function addIdoffer(Offre $idoffer): self
+    /**
+     * @param \Doctrine\Common\Collections\Collection $idoffer
+     */
+    public function setIdoffer($idoffer): void
     {
-        if (!$this->idoffer->contains($idoffer)) {
-            $this->idoffer[] = $idoffer;
-            $idoffer->addCinintrested($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdoffer(Offre $idoffer): self
-    {
-        if ($this->idoffer->removeElement($idoffer)) {
-            $idoffer->removeCinintrested($this);
-        }
-
-        return $this;
+        $this->idoffer = $idoffer;
     }
 
     /**
-     * @return Collection<int, Post>
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getLikepost(): Collection
+    public function getLikepost()
     {
         return $this->likepost;
     }
 
-    public function addLikepost(Post $likepost): self
+    /**
+     * @param \Doctrine\Common\Collections\Collection $likepost
+     */
+    public function setLikepost($likepost): void
     {
-        if (!$this->likepost->contains($likepost)) {
-            $this->likepost[] = $likepost;
-        }
-
-        return $this;
-    }
-
-    public function removeLikepost(Post $likepost): self
-    {
-        $this->likepost->removeElement($likepost);
-
-        return $this;
+        $this->likepost = $likepost;
     }
 
     /**
-     * @return Collection<int, Event>
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdevent(): Collection
+    public function getIdevent()
     {
         return $this->idevent;
     }
 
-    public function addIdevent(Event $idevent): self
+    /**
+     * @param \Doctrine\Common\Collections\Collection $idevent
+     */
+    public function setIdevent($idevent): void
     {
-        if (!$this->idevent->contains($idevent)) {
-            $this->idevent[] = $idevent;
-        }
-
-        return $this;
-    }
-
-    public function removeIdevent(Event $idevent): self
-    {
-        $this->idevent->removeElement($idevent);
-
-        return $this;
+        $this->idevent = $idevent;
     }
 
     /**
-     * @return Collection<int, Forum>
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getIdforum(): Collection
+    public function getIdforum()
     {
         return $this->idforum;
     }
 
-    public function addIdforum(Forum $idforum): self
+    /**
+     * @param \Doctrine\Common\Collections\Collection $idforum
+     */
+    public function setIdforum($idforum): void
     {
-        if (!$this->idforum->contains($idforum)) {
-            $this->idforum[] = $idforum;
-        }
-
-        return $this;
+        $this->idforum = $idforum;
+    }
+    public function __toString()
+    {
+        return (string)$this->getFirstname();
     }
 
-    public function removeIdforum(Forum $idforum): self
-    {
-        $this->idforum->removeElement($idforum);
 
-        return $this;
-    }
-
-    public function getRoles()
-    {
-        // TODO: Implement getRoles() method.
-
-        return array($this->role);
-    }
-
-    public function getPassword()
-    {
-        return $this->passwd;
-    }
-
-    public function getSalt()
-    {
-        // TODO: Implement getSalt() method.
-    }
-
-    public function getUsername()
-    {
-        return (string)$this->email;
-    }
-
-    public function eraseCredentials()
-    {
-        // TODO: Implement eraseCredentials() method.
-    }
 }
