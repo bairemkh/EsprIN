@@ -72,4 +72,25 @@ class OffreRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /**
+     * @return Offre[]
+     */
+    public function sortByTitreAsc(): array
+    {
+        $em=$this->getEntityManager();
+
+        $res =$em->createQueryBuilder()
+            ->select('o.titleoffer,o.descoffer,o.catoffre,u.firstname,o.state')
+            ->from('App\Entity\Offre', 'o')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = o.offerprovider")
+            ->orderBy('o.titleoffer','ASC')
+            ->getQuery();
+        dump($res->getArrayResult());
+        return $res->getArrayResult();
+
+    }
+
+
 }

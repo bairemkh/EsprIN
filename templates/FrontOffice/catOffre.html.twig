@@ -22,7 +22,7 @@
         <div class="sidebar-start">
             <div class="sidebar-head">
 
-                <a href="{{ path('app_dashboard_back_office') }}" class="logo-wrapper" title="Home">
+                <a href="BackOffice/index.html" class="logo-wrapper" title="Home">
                     <span class="sr-only">Home</span>
                     <span class="icon logo" aria-hidden="true"></span>
                     <div class="logo-text">
@@ -95,7 +95,7 @@
                                 <a href="##">Cat2</a>
                             </li>
                             <li>
-                                <a href="{{ path('comm') }}">Comments</a>
+                                <a href="{{ path('CommentsDashboard') }}">Comments</a>
                             </li>
 
 
@@ -115,8 +115,12 @@
                                 <a href="{{ path('OfferDashboard') }}">All Offer</a>
                             </li>
                             <li>
-                                <a href="{{ path('stats') }}">Offer Category Statistics</a>
+                                <a href="##">Cat1</a>
                             </li>
+                            <li>
+                                <a href="##">Cat2</a>
+                            </li>
+
                         </ul>
 
                     </li>
@@ -180,6 +184,9 @@
                             <li>
                                 <a href="{{ path('EventsDashboard') }}">All Event</a>
                             </li>
+                            <li>
+                                <a href="{{ path('ParticipatesDashboard') }}">Participate</a>
+                            </li>
 
                         </ul>
                     </li>
@@ -231,10 +238,9 @@
         <nav class="main-nav--bg">
             <div class="container main-nav">
                 <div class="main-nav-start">
-                    <script src="{{ asset('BackOffice/js/jquery.min.js') }}"></script>
                     <div class="search-wrapper">
                         <i data-feather="search" aria-hidden="true"></i>
-                        <input type="text" id="ach" placeholder="Enter keywords ..." required>
+                        <input type="text" placeholder="Enter keywords ..." required>
                     </div>
                 </div>
                 <div class="main-nav-end">
@@ -331,9 +337,9 @@
         </nav>
         <!-- ! Main -->
 
-{% block body %}
+        {% block body %}
 
-{% endblock %}
+        {% endblock %}
 
 
 

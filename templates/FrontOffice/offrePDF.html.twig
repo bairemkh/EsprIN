@@ -1,0 +1,68 @@
+{% block main %}
+
+<head>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #D6EEEE;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="{{ ('uploads/phpB439.jpeg') }}" height="100" width="180">
+        </div>
+        <center><p><h1 style="color:red;">Offers List</h1></p></center>
+    </div>
+
+
+<table>
+    <thead>
+    <th>Provider</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Category</th>
+    </thead>
+
+    {% for offre in offres %}
+        {% if offre.state == "Active" %}
+            <tr>
+                <!-- Offre Provider -->
+                <td>
+                    {{ offre.offerprovider }}
+                </td>
+                <!-- Title -->
+                <td>
+                    {{ offre.titleoffer }}
+                </td>
+
+                <!-- Description-->
+                <td>{{ offre.descoffer }}</td>
+
+                <!-- Image-->
+
+                <!-- Category -->
+                <td>{{ offre.catoffre }}</td>
+
+
+            </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+
+</body>
+
+{% endblock %}
+

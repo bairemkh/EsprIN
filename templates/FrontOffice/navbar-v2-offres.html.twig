@@ -5,19 +5,19 @@
     <div class="sub-nav-tabs">
         <div class="tabs is-centered">
             <ul>
-                <li>
+                <li >
                     <a href="{{ path('navbar-v2-feed') }}">Posts</a>
                 </li>
                 <li >
                     <a href="{{ path('navbar-v2-announces') }}">Announces</a>
                 </li>
-                <li >
+                <li class="is-active">
                     <a href="{{ path('navbar-v2-forums') }}">Forums</a>
                 </li>
                 <li>
                     <a href="{{ path('navbar-v2-events') }}">Events</a>
                 </li>
-                <li class="is-active">
+                <li>
                     <a href="{{ path('navbar-v2-offres') }}">Offers</a>
                 </li>
             </ul>
@@ -29,6 +29,7 @@
 {% endblock %}
 
 {% block main %}
+
     <div class="view-wrapper"></div>
     <div id="main-feed" class="navbar-v2-wrapper">
 
@@ -287,6 +288,11 @@
                 </div>
             </div>
             <!-- Feed page main wrapper -->
+            {%for message in app.flashes('info') %}
+                <div class="alert alert-success">
+                    {{message}}
+                </div>
+            {%endfor%}
             <div id="activity-feed" class="view-wrap true-dom is-hidden">
                 <div class="columns">
                     <!-- Left side column -->
@@ -294,13 +300,16 @@
                     </div>
                     <!-- /Left side column -->
 
+
+
                     <!-- Middle column -->
                     <div class="column is-6">
                         <!--#region Offer -->
-                        <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- OFFER #1 -->
+                        <button>   <a href="{{ path('addOffer') }}">add</a> </button>
+                         <button>   <a href="{{ path('Generate Pdf') }}">Generate Pdf</a> </button>
+                        <button>Mail</button>
                         {% for offre in offres %}
-                            {% if offre.state=='Active' %}
+                            {% if offre.state == "Active" %}
                                 <div  class="card is-post">
                                     <!-- Main wrap -->
                                     <div class="content-wrap">
@@ -314,74 +323,63 @@
                                                          alt="">
                                                 </div>
                                                 <div class="user-info">
-                                                    <a href="#">{{ offre.offerprovider }}</a>
-
+                                                    <h4>{{ offre.offerprovider }}</h4>
                                                 </div>
                                             </div>
-
-                                            <!-- /Post header -->
-
                                             <!-- Right side dropdown -->
                                             <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                            <div class="off">
-                                                <div class="card-heading">
-                                                    <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
-                                                        <div>
-                                                            <div class="button">
-                                                                <i data-feather="more-vertical"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="dropdown-menu" role="menu">
-                                                            <div class="dropdown-content">
-                                                                <a href="{{ path('deleteoffresfront', {'id':offre.idoffer})  }}" class="dropdown-item">
-                                                                    <div class="media">
-                                                                        <i data-feather="flag"></i>
-                                                                        <div class="media-content">
-                                                                            <h3>Delete</h3>
-                                                                            <small>Delete this post.</small>
-                                                                        </div>
-                                                                    </div>
-                                                                </a>
-                                                            </div>
-                                                        </div>
+                                            <div class="OffreCategorie">
+                                                <h4>{{ offre.catoffre }}</h4>
+                                            </div>
+                                            <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                <div>
+                                                    <div class="button">
+                                                        <i data-feather="more-vertical"></i>
                                                     </div>
                                                 </div>
-                                                <div class="OffreCategorie">
-                                                    <h4>{{ offre.catoffre }}</h4>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <div class="dropdown-content">
+                                                        <a href={{ path('updateOffer',{'id':offre.idoffer}) }} class="dropdown-item">
+                                                            <div class="media">
+                                                                <div class="media-content">
+                                                                    <h3>Edit</h3>
+                                                                    <small>Edit this offre.</small>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <a href={{ path('deleteOffer', {'id': offre.idoffer}) }} class="dropdown-item">
+                                                            <div class="media">
+                                                                <div class="media-content">
+                                                                    <h3>Delete</h3>
+                                                                    <small>Delete this offre.</small>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
                                                 </div>
-
                                             </div>
                                         </div>
-
+                                        <!-- /Post header -->
 
                                         <!-- Post body -->
                                         <div class="card-body">
                                             <!-- Post body text -->
                                             <div class="post-text">
-                                                {{ offre.descoffer}}
-                                            </div>
-                                            <!-- Featured image -->
-                                            <div class="post-image">
-                                              <!-- {{ offre.imgoffre }} -->
-                                                <a data-fancybox="post1" data-lightbox-type="comments"
-                                                   data-thumb="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg"
-                                                   href="https://via.placeholder.com/1600x900"
-                                                   data-demo-href="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg">
-                                                    <img src="https://via.placeholder.com/1600x900"
-                                                         data-demo-src="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" alt="">
-                                                </a>
+                                                <p> {{ offre.titleoffer }}
+                                                </p>
+                                                <p>{{ offre.descoffer }}</p>
+
+
                                             </div>
                                         </div>
-                                        <div class="container-participate">
-                                            <button type="button" class="button-participate">
-                                                <span>Participate!</span>
-                                            </button>
-                                        </div>
+
+                                            <button> <a href={{ path('addIntrest', {'id': offre.idoffer}) }} class="like-button">Interested </a></li> </button>
+                                            <button> <a href={{ path('deleteIntrest', {'id': offre.idoffer}) }} class="like-button">Uninterested </a></li> </button>
+
                                     </div>
                                 </div>
                             {% endif %}
                         {% endfor %}
-
                     </div>
                     <!-- /Middle column -->
 
@@ -396,4 +394,5 @@
         </div>
 
     </div>
+    {{ knp_pagination_render(offres) }}
 {% endblock %}
