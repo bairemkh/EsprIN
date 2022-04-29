@@ -1,0 +1,78 @@
+{% extends 'base-front.html.twig' %}
+{% block title %}Offers{% endblock %}
+{% block navigation %}
+    <div class="sub-nav">
+        <div class="sub-nav-tabs">
+            <div class="tabs is-centered">
+                <ul>
+                    <li >
+                        <a href="{{ path('navbar-v2-feed') }}">Posts</a>
+                    </li>
+                    <li >
+                        <a href="{{ path('navbar-v2-announces') }}">Announces</a>
+                    </li>
+                    <li class="is-active">
+                        <a href="{{ path('navbar-v2-forums') }}">Forums</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('navbar-v2-events') }}">Events</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('navbar-v2-offres') }}">Offers</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block main %}
+
+    <div class="row">
+        <div  style="display: flex;align-items: center;justify-content: center;margin-top: 150px; padding: 10px;">
+
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title"><center><span style="color:red;font-weight:bold">Add Offer</span></center></h6>
+
+                    <!-- General Form Elements -->
+                    {{ form_start(f,{attr:{novalidate:'novalidate'}}) }}
+                    <br>
+                    <label for="inputText" class="col-sm-4 col-form-label"><span style="color:red">Titre</span></label>
+                    <div class="col-sm-10">
+                        {{ form_widget(f.titleoffer,{'attr':{'class':'form-control'}}) }}
+
+                    </div>
+                    {{ form_errors(f.titleoffer,{'attr':{'class':'text-danger'}}) }}
+                    <br>
+                    <label for="inputText" class="col-sm-4 col-form-label"><span style="color:red">Description</span></label>
+                    <div class="col-sm-10">
+                        {{ form_widget(f.descoffer,{'attr':{'class':'form-control'}}) }}
+
+                    </div>
+                    {{ form_errors(f.descoffer,{'attr':{'class':'text-danger'}}) }}
+                    <br>
+                    <label for="inputText" class="col-sm-4 col-form-label"><span style="color:red">Category</span></label>
+                    <div class="col-sm-10">
+                        {{ form_widget(f.catoffre,{'attr':{'class':'form-control'}}) }}
+
+                    </div>
+                    <br>
+                    <label for="inputText" class="col-sm-4 col-form-label"><span style="color:red">Provider</span></label>
+                    <div class="col-sm-10">
+                        {{ form_widget(f.offerprovider,{'attr':{'class':'form-control'}}) }}
+
+                    </div>
+
+                    {{ form_end(f) }}
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}

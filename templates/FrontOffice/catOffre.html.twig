@@ -115,8 +115,12 @@
                                 <a href="{{ path('OfferDashboard') }}">All Offer</a>
                             </li>
                             <li>
-                                <a href="{{ path('stats') }}">Offer Category Statistics</a>
+                                <a href="##">Cat1</a>
                             </li>
+                            <li>
+                                <a href="##">Cat2</a>
+                            </li>
+
                         </ul>
 
                     </li>
@@ -234,10 +238,9 @@
         <nav class="main-nav--bg">
             <div class="container main-nav">
                 <div class="main-nav-start">
-                    <script src="{{ asset('BackOffice/js/jquery.min.js') }}"></script>
                     <div class="search-wrapper">
                         <i data-feather="search" aria-hidden="true"></i>
-                        <input type="text" id="ach" placeholder="Enter keywords ..." required>
+                        <input type="text" placeholder="Enter keywords ..." required>
                     </div>
                 </div>
                 <div class="main-nav-end">
@@ -334,9 +337,9 @@
         </nav>
         <!-- ! Main -->
 
-{% block body %}
+        {% block body %}
 
-{% endblock %}
+        {% endblock %}
 
 
 

@@ -7,54 +7,56 @@
 
 
 
-        <!-- ! Main -->
-        <main class="main users chart-page" id="skip-target">
-            <div class="container">
-                <h2 class="main-title">Offer</h2>
+    <!-- ! Main -->
+    <main class="main users chart-page" id="skip-target">
+        <div class="container">
+            <h2 class="main-title">Offer</h2>
 
 
 
-                <div class="users-table table-wrapper">
-                    <!--Entete de tableau -->
-                    <table class="posts-table">
-                        <thead>
-                        <tr class="users-table-info">
-                            <th>
-                                <label class="users-table__checkbox ms-20">
-                                    <input type="checkbox" class="check-all">Provider
-                                </label>
-                            </th>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <!-- ********* -->
-                        <!--Contenue de tableau -->
-                        {% for offre in offres %}
-                        <tbody>
+            <div class="users-table table-wrapper">
+                <!--Entete de tableau -->
+
+                <table class="posts-table" id="tableau">
+                    <thead>
+                    <tr class="users-table-info">
+                        <th>
+                            <label class="users-table__checkbox ms-20">
+                                Provider
+                            </label>
+                        </th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <!-- ********* -->
+                    <!--Contenue de tableau -->
+                    {% for offre in offres %}
+                        {% if offre.state == "Active" %}
+                        <tbody id="tableau">
                         <tr>
-                            <!-- Author -->
+                            <!-- Offre Provider -->
                             <td>
-                                <label class="users-table__checkbox">
-                                    <input type="checkbox" class="check">
-                                    <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-04.webp" type="image/webp"><img src="./img/avatar/avatar-face-04.png" alt="User Name"></picture>
-                                    </div>
-                                    Jenny Wilson
-                                </label>
+                                {{ offre.offerprovider }}
                             </td>
                             <!-- Title -->
                             <td>
-                                    {{ offre.titleoffer }}
+                                {{ offre.titleoffer }}
 
                             </td>
+
+                            <!-- Description-->
+                            <td>{{ offre.descoffer }}</td>
+
+
 
                             <!-- Category -->
                             <td>
-                                <span class="badge-default">{{ offre.catoffer }}</span>
+                                <span class="badge-default">{{ offre.catoffre }}</span>
                             </td>
-                            <!-- Edit -->
+                            <!-- Delete -->
                             <td>
                                   <span class="p-relative">
                                     <button class="dropdown-btn transparent-btn" type="button" title="More info">
@@ -62,26 +64,48 @@
                                       <i data-feather="more-horizontal" aria-hidden="true"></i>
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
-                                      <li><a href="##">Edit</a></li>
-                                      <li><a href="##">Delete</a></li>
-                                      <li><a href="##">Trash</a></li>
+                                      <li><a href={{ path('deleteOfferBack', {'id': offre.idoffer}) }}>Delete</a></li>
                                     </ul>
                                   </span>
                             </td>
                         </tr>
+
+                        <script>
+                            $(document).ready(function(){
+                                $('#ach').keyup(function(){
+                                    search_table($(this).val());
+                                });
+                                function search_table(value){
+                                    $('#tableau tbody tr ').each(function(){
+                                        var found = 'false';
+                                        $(this).each(function(){
+                                            if($(this).text().toLowerCase().indexOf(value.toLowerCase()) >= 0)
+                                            {
+                                                found = 'true';
+                                            }
+                                        });
+                                        if(found == 'true')
+                                        {
+                                            $(this).show();
+
+                                        }
+                                        else
+                                        {
+                                            $(this).hide();
+
+                                        }
+                                    });
+                                }
+                            });
+                        </script>
                         </tbody>
-                        {% endfor %}
-                    </table>
-                </div>
-
+                        {% endif %}
+                    {% endfor %}
+                </table>
             </div>
-        </main>
-        <!-- ! Footer -->
 
-
-
-
-
-
+        </div>
+    </main>
+    <!-- ! Footer -->
 
 {% endblock %}

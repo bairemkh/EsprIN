@@ -2,17 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Post
  *
- * @ORM\Table(name="post", indexes={@ORM\Index(name="IDX_5A8A6C8DC6C397F0", columns={"idOwer"})})
+ * @ORM\Table(name="post", indexes={@ORM\Index(name="FK Post owner", columns={"idOwer"})})
  * @ORM\Entity
- * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
 class Post
 {
@@ -91,166 +87,5 @@ class Post
     {
         $this->likeuser = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
-    /**
-     * @return int
-     */
-    public function getIdpost(): int
-    {
-        return $this->idpost;
-    }
-
-    /**
-     * @param int $idpost
-     */
-    public function setIdpost(int $idpost): void
-    {
-        $this->idpost = $idpost;
-    }
-
-    /**
-     * @return string
-     */
-    public function getContent(): string
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param string $content
-     */
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
-    }
-
-    /**
-     * @return string
-     */
-    public function getMediaurl(): string
-    {
-        return $this->mediaurl;
-    }
-
-    /**
-     * @param string $mediaurl
-     */
-    public function setMediaurl(string $mediaurl): void
-    {
-        $this->mediaurl = $mediaurl;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedat()
-    {
-        return $this->createdat;
-    }
-
-    /**
-     * @param \DateTime $createdat
-     */
-    public function setCreatedat($createdat): void
-    {
-        $this->createdat = $createdat;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCategorie(): string
-    {
-        return $this->categorie;
-    }
-
-    /**
-     * @param string $categorie
-     */
-    public function setCategorie(string $categorie): void
-    {
-        $this->categorie = $categorie;
-    }
-
-    /**
-     * @return int
-     */
-    public function getLikenum()
-    {
-        return $this->likenum;
-    }
-
-    /**
-     * @param int $likenum
-     */
-    public function setLikenum($likenum): void
-    {
-        $this->likenum = $likenum;
-    }
-
-    /**
-     * @return string
-     */
-    public function getState(): string
-    {
-        return $this->state;
-    }
-
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
-    {
-        $this->state = $state;
-    }
-
-
-    public function getIdower(): ?User
-    {
-        return $this->idower;
-    }
-
-
-    public function setIdower(?User $idower): self
-    {
-        $this->idower = $idower;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLikeuser()
-    {
-        return $this->likeuser;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $likeuser
-     */
-    public function setLikeuser($likeuser): void
-    {
-        $this->likeuser = $likeuser;
-    }
-
-    public function addLikeuser(User $likeuser): self
-    {
-        if (!$this->likeuser->contains($likeuser)) {
-            $this->likeuser[] = $likeuser;
-            $likeuser->addLikepost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLikeuser(User $likeuser): self
-    {
-        if ($this->likeuser->removeElement($likeuser)) {
-            $likeuser->removeLikepost($this);
-        }
-
-        return $this;
-    }
-
-
 
 }

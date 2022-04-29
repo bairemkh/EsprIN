@@ -29,6 +29,7 @@
 {% endblock %}
 
 {% block main %}
+
     <div class="view-wrapper"></div>
     <div id="main-feed" class="navbar-v2-wrapper">
 
@@ -287,6 +288,11 @@
                 </div>
             </div>
             <!-- Feed page main wrapper -->
+            {%for message in app.flashes('info') %}
+                <div class="alert alert-success">
+                    {{message}}
+                </div>
+            {%endfor%}
             <div id="activity-feed" class="view-wrap true-dom is-hidden">
                 <div class="columns">
                     <!-- Left side column -->
@@ -294,173 +300,86 @@
                     </div>
                     <!-- /Left side column -->
 
+
+
                     <!-- Middle column -->
                     <div class="column is-6">
                         <!--#region Offer -->
-                        <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- POST #1 -->
-                        <div  class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
-                                <div class="card-heading">
-                                    <!-- User meta -->
-                                    <div class="user-block">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                 alt="">
+                        <button>   <a href="{{ path('addOffer') }}">add</a> </button>
+                         <button>   <a href="{{ path('Generate Pdf') }}">Generate Pdf</a> </button>
+                        <button>Mail</button>
+                        {% for offre in offres %}
+                            {% if offre.state == "Active" %}
+                                <div  class="card is-post">
+                                    <!-- Main wrap -->
+                                    <div class="content-wrap">
+                                        <!-- Post header -->
+                                        <div class="card-heading">
+                                            <!-- User meta -->
+                                            <div class="user-block">
+                                                <div class="image">
+                                                    <img src="https://via.placeholder.com/300x300"
+                                                         data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
+                                                         alt="">
+                                                </div>
+                                                <div class="user-info">
+                                                    <h4>{{ offre.offerprovider }}</h4>
+                                                </div>
+                                            </div>
+                                            <!-- Right side dropdown -->
+                                            <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
+                                            <div class="OffreCategorie">
+                                                <h4>{{ offre.catoffre }}</h4>
+                                            </div>
+                                            <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                <div>
+                                                    <div class="button">
+                                                        <i data-feather="more-vertical"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="dropdown-menu" role="menu">
+                                                    <div class="dropdown-content">
+                                                        <a href={{ path('updateOffer',{'id':offre.idoffer}) }} class="dropdown-item">
+                                                            <div class="media">
+                                                                <div class="media-content">
+                                                                    <h3>Edit</h3>
+                                                                    <small>Edit this offre.</small>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                        <a href={{ path('deleteOffer', {'id': offre.idoffer}) }} class="dropdown-item">
+                                                            <div class="media">
+                                                                <div class="media-content">
+                                                                    <h3>Delete</h3>
+                                                                    <small>Delete this offre.</small>
+                                                                </div>
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="user-info">
-                                            <a href="#">Vermeg</a>
-                                            <span class="time">June 4 2022, 12:11pm</span>
-                                        </div>
-                                    </div>
-                                    <!-- Right side dropdown -->
-                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="OffreCategorie">
-                                        <h4>Stage</h4>
-                                    </div>
-                                </div>
-                                <!-- /Post header -->
+                                        <!-- /Post header -->
 
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
-                                    <div class="post-text">
-                                        <p> Stage d'été en Aout
-                                        </p>
-                                        <p>lorem lorem lorem</p>
-                                    </div>
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <a data-fancybox="post1" data-lightbox-type="comments"
-                                           data-thumb="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg"
-                                           href="https://via.placeholder.com/1600x900"
-                                           data-demo-href="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg">
-                                            <img src="https://via.placeholder.com/1600x900"
-                                                 data-demo-src="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="container-participate">
-                                    <button type="button" class="button-participate">
-                                        <span>Participate!</span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <!--#endregion Offer -->
-                        <!--#region Offer1 -->
-                        <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- POST #1 -->
-                        <div  class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
-                                <div class="card-heading">
-                                    <!-- User meta -->
-                                    <div class="user-block">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                 alt="">
-                                        </div>
-                                        <div class="user-info">
-                                            <a href="#">Fanta</a>
-                                            <span class="time">October 30 2019, 01:03pm</span>
-                                        </div>
-                                    </div>
-                                    <!-- Right side dropdown -->
-                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="OffreCategorie">
-                                        <h4>Alternance</h4>
-                                    </div>
-                                </div>
-                                <!-- /Post header -->
+                                        <!-- Post body -->
+                                        <div class="card-body">
+                                            <!-- Post body text -->
+                                            <div class="post-text">
+                                                <p> {{ offre.titleoffer }}
+                                                </p>
+                                                <p>{{ offre.descoffer }}</p>
 
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
-                                    <div class="post-text">
-                                        <p> Alternance
-                                        </p>
-                                        <p>lorem lorem lorem</p>
-                                    </div>
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <a data-fancybox="post1" data-lightbox-type="comments"
-                                           data-thumb="FrontOffice/assets/img/demo/unsplash/17.jpg"
-                                           href="https://via.placeholder.com/1600x900"
-                                           data-demo-href="FrontOffice/assets/img/demo/unsplash/17.jpg">
-                                            <img src="https://via.placeholder.com/1600x900"
-                                                 data-demo-src="FrontOffice/assets/img/demo/unsplash/17.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="container-participate">
-                                        <button type="button" class="button-participate">
-                                            <span>Participate!</span>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--#endregion Offer1 -->
-                        <!--#region Offer2 -->
-                        <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- POST #1 -->
-                        <div  class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
-                                <div class="card-heading">
-                                    <!-- User meta -->
-                                    <div class="user-block">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                 alt="">
-                                        </div>
-                                        <div class="user-info">
-                                            <a href="#">Ooranda</a>
-                                            <span class="time">July 26 2018, 01:03pm</span>
-                                        </div>
-                                    </div>
-                                    <!-- Right side dropdown -->
-                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="OffreCategorie">
-                                        <h4>Offre De Travail</h4>
-                                    </div>
-                                </div>
-                                <!-- /Post header -->
 
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
-                                    <div class="post-text">
-                                        <p> Offre de Travail en Ooranda
-                                        </p>
-                                        <p>lorem lorem lorem</p>
-                                    </div>
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <a data-fancybox="post1" data-lightbox-type="comments"
-                                           data-thumb="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg"
-                                           href="https://via.placeholder.com/1600x900"
-                                           data-demo-href="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg">
-                                            <img src="https://via.placeholder.com/1600x900"
-                                                 data-demo-src="FrontOffice/assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" alt="">
-                                        </a>
-                                    </div>
-                                    <div class="container-participate">
-                                        <button type="button" class="button-participate">
-                                            <span>Participate!</span>
-                                        </button>
+                                            </div>
+                                        </div>
+
+                                            <button> <a href={{ path('addIntrest', {'id': offre.idoffer}) }} class="like-button">Interested </a></li> </button>
+                                            <button> <a href={{ path('deleteIntrest', {'id': offre.idoffer}) }} class="like-button">Uninterested </a></li> </button>
+
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <!--#endregion Offer2 -->
+                            {% endif %}
+                        {% endfor %}
                     </div>
                     <!-- /Middle column -->
 
@@ -475,4 +394,5 @@
         </div>
 
     </div>
+    {{ knp_pagination_render(offres) }}
 {% endblock %}

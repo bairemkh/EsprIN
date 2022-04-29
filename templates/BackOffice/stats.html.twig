@@ -1,0 +1,26 @@
+{% extends 'base-back.html.twig' %}
+
+
+{% block body %}
+    <div class="container">
+        <h1 style="display: flex;justify-content: center;">  Statistiques</h1>
+        <canvas id="menus" width="1000" height="500"></canvas>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js" integrity="sha256-t9UJPrESBeG2ojKTIcFLPGF7nHi2vEc7f5A2KpH/UBU=" crossorigin="anonymous"></script>
+    <script>
+        let menus = document.querySelector("#menus")
+        let menuGraph = new Chart(menus, {
+            type: "pie",
+            data: {
+                labels:  ['Alternance', 'Stage', 'Offre_de_travail'],
+                datasets: [{
+                    label: "Répartition des Categorie d'Offre",
+                    data: [{{ nAlternance }},{{ nStage }},{{ nOffre_de_travail }} ],
+                    backgroundColor: ['#A569BD','#5DADE2','#EC7063']
+                }]
+            }
+        })
+    </script>
+{% endblock %}
