@@ -271,7 +271,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/UserDashboard/Admin", name="showAdmins")
+     * @Route("/UserDashboardAdmin", name="showAdmins")
      * @param UserRepository $userRepository
      * @return Response
      */
@@ -282,6 +282,71 @@ class UserController extends AbstractController
         return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
         //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
     }
+
+    /**
+     * @Route("/UserDashboardStudents", name="showStudents")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function showStudents(UserRepository $userRepository)
+    {
+        $users = $userRepository->showStudents();
+        dump($users);
+        return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
+    }
+
+    /**
+     * @Route("/UserDashboardClubs", name="showClubs")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function showClubs(UserRepository $userRepository)
+    {
+        $users = $userRepository->showClubs();
+        dump($users);
+        return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
+    }
+
+    /**
+     * @Route("/UserDashboardProfs", name="showProfs")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function showProfs(UserRepository $userRepository)
+    {
+        $users = $userRepository->showProfs();
+        dump($users);
+        return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
+    }
+
+    /**
+     * @Route("/UserDashboardOthers", name="showExterns")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function showExterns(UserRepository $userRepository)
+    {
+        $users = $userRepository->showExterns();
+        dump($users);
+        return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
+        //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
+    }
+    /**
+     * @Route("/test", name="test")
+     * @param UserRepository $userRepository
+     * @return Response
+     */
+    public function testQuery(UserRepository $userRepository)
+    {
+        $usersR = $userRepository;
+        $users=$usersR->test();
+        dump($users);
+        die;
+    }
+
 }
 
 
