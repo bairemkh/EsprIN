@@ -2,20 +2,17 @@
 
 namespace App\Entity;
 
+use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Post
- *
- * @ORM\Table(name="post", indexes={@ORM\Index(name="IDX_5A8A6C8DC6C397F0", columns={"idOwer"})})
- * @ORM\Entity
- * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ * @ORM\Entity(repositoryClass=PostRepository::class)
  */
 class Post
 {
+
     /**
      * @var int
      *
@@ -27,24 +24,29 @@ class Post
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Post Description is required")
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 1000,
+     *      minMessage = "la description doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "la description ne peut pas dépasser {{ limit }} caractères"
+     * )
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=true)
      */
     private $mediaurl;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @ORM\Column(name="createdAt", type="datetime", nullable=false)
      */
-    private $createdat = 'current_timestamp()';
+    private $createdat ;
 
     /**
      * @var string
@@ -63,7 +65,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
      */
     private $state = '\'Active\'';
 
@@ -78,7 +80,6 @@ class Post
     private $idower;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="likepost")
      */
@@ -89,13 +90,11 @@ class Post
      */
     public function __construct()
     {
-        $this->likeuser = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->likeuser = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getIdpost(): int
+
+    public function getIdpost()
     {
         return $this->idpost;
     }
@@ -108,10 +107,8 @@ class Post
         $this->idpost = $idpost;
     }
 
-    /**
-     * @return string
-     */
-    public function getContent(): string
+
+    public function getContent()
     {
         return $this->content;
     }
@@ -156,10 +153,8 @@ class Post
         $this->createdat = $createdat;
     }
 
-    /**
-     * @return string
-     */
-    public function getCategorie(): string
+
+    public function getCategorie()
     {
         return $this->categorie;
     }
@@ -205,13 +200,13 @@ class Post
     }
 
 
-    public function getIdower(): ?User
+    public function getIdower(): User
     {
         return $this->idower;
     }
 
 
-    public function setIdower(?User $idower): self
+    public function setIdower(User $idower)
     {
         $this->idower = $idower;
     }
@@ -250,7 +245,5 @@ class Post
 
         return $this;
     }
-
-
 
 }

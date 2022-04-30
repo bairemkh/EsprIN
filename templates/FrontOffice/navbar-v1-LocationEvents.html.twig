@@ -1,0 +1,79 @@
+{% extends 'base-front.html.twig' %}
+{% block title %}Events{% endblock %}
+
+
+
+{% block main %}
+
+    <!-- Pageloader -->
+    <div class="pageloader"></div>
+    <div class="infraloader is-active"></div>
+    <div class="app-overlay"></div>
+
+    <div class="view-wrapper is-map">
+
+
+        <!-- Map -->
+        <div class="dashboard-map-wrapper">
+            <div class="dashboard-map-wrapper-inner">
+                <div  id="mapbox-1" class="map-section">
+                    <!--maps-->
+                    <iframe id="map" src="https://maps.google.com/maps?&q=lac1&output=embed" ></iframe>
+                </div>
+
+                <div class="content-section">
+                    <div class="content-section-header">
+                        <h2 class="title is-5 is-narrow is-dark-heading">Event Locator</h2>
+                    </div>
+                    <div class="content-section-body has-slimscroll">
+                        <!--Title-->
+                        <h4 class="content-section-title">Recent Locations</h4>
+
+                        {% for evnt in eventsPart %}
+                        <!--Map Box-->
+                        <div class="box map-box" data-feature="0">
+                            <div class="map-box-place">
+                                <div class="map-box-header">
+                                    <div class="media-flex-center">
+                                        <div class="avatar-wrap">
+                                            <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/dan.jpg" alt="" />
+                                        </div>
+                                        <div class="flex-meta">
+                                            <span class="is-dark-heading">{{ evnt.titleevent}}</span>
+                                            <span>{{ evnt.datedebut|date }} - {{ evnt.datefin|date }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="map-box-actions" >
+                                    <div class="actions ml-auto">
+                                        <div class="action">
+                                            <i data-feather="flag"></i>
+                                            <span class="is-dark-heading">{{ evnt.eventlocal}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+                <!--List-->
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}

@@ -5,12 +5,16 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Repository\EventRepository;
+use phpDocumentor\Reflection\Types\Void_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DomCrawler\Image;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Mailer\Mailer;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class EventController extends AbstractController
 {
@@ -54,6 +58,27 @@ class EventController extends AbstractController
         return $this->redirectToRoute('EventsDashboard');
     }
 
+    /**
+     * @Route("/navbar-v2-events/ShowByDateAsc", name="ShowByDateAsc")
+     */
+    public function ShowByDateAsc(EventRepository $eventRepository)
+    {
+        $events = $eventRepository->sortByDateAsc();
+        dump($events);
+        return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
+
+    }
+    /**
+     * @Route("/navbar-v2-events/ShowByDateDesc", name="ShowByDateDesc")
+     */
+    public function ShowByDateDesc(EventRepository $eventRepository)
+    {
+        $events = $eventRepository->sortByDateDesc();
+        dump($events);
+        return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
+
+    }
+
 
 
            /* *********** FRONT *********** */
@@ -91,7 +116,7 @@ class EventController extends AbstractController
     /**
      * @Route ("/navbar-v2-events/{id}",name="deleteventfront")
      */
-    public function deleteeventfront($id)
+   /* public function deleteeventfront($id)
     {
         $em=$this->getDoctrine()->getManager();
         $event = $this->getDoctrine()
@@ -100,7 +125,7 @@ class EventController extends AbstractController
         $event->setState("Deleted");
         $em->flush();
         return $this->redirectToRoute('navbar-v2-event');
-    }
+    }*/
 
 
 
@@ -130,6 +155,9 @@ class EventController extends AbstractController
         return $this->redirectToRoute('navbar-v2-events');
     }
 
+
+
+
     /**
      * @Route("/editevent", name="editevent")
      */
@@ -139,6 +167,10 @@ class EventController extends AbstractController
 
 
     }*/
+
+
+
+
 
 
 
@@ -181,12 +213,12 @@ class EventController extends AbstractController
     /**
      * @Route ("/navbar-v2-events/Participate/{id}",name="addParticipate")
      */
-    public function addParticipate(Request $request , $id):Response
+    public function addParticipate(Request $request , $id, MailerInterface $mailer):Response
     {
         dump($request);
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->find(1010101);
+            ->find(112255);
 
 
         $event = $this->getDoctrine()
@@ -197,10 +229,26 @@ class EventController extends AbstractController
       //  $nbPart = $nbPart+1;
         //$event->setNbrparticipant($nbPart);
 
-
         $event->addCinuser($user);
         $em=$this->getDoctrine()->getManager();
         $em->flush();
+
+        $email = (new Email())
+            ->from('khedhribairem@gmail.com')
+            ->to('eya.kasmi@esprit.tn')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('notification of participation!')
+            // ->text('Sending emails is fun again!')
+            ->html("Dear ".$user->getFirstname() ." <br>".
+                '<p>you participated in'.$event->getTitleevent() ." event!! </p>".
+                '<p>we will contact you as soon as possible for more information</p>'
+            );
+
+
+        $mailer->send($email);
 
         return $this->redirectToRoute('navbar-v2-event');
     }
@@ -215,7 +263,7 @@ class EventController extends AbstractController
         $em=$this->getDoctrine()->getManager();
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->find(1010101);
+            ->find(112255);
 
         $event = $this->getDoctrine()
             ->getRepository(Event::class)
@@ -231,15 +279,47 @@ class EventController extends AbstractController
        /* *************** metier ********************** */
     ////Location event list Front
     /**
-     * @Route ("/navbar-v2-events/Participate/locationList/{id}",name="locationList")
+     * @Route ("/navbar-v1-LocationEvents",name="EventByParticipate")
      */
-    public function LocationListfront($cin=1010101):Response
+    public function EventByParticipate( EventRepository $eventRepository):Response
     {
-        $participates= $this->getDoctrine()
-            ->getRepository(Event::class)
-            ->find($cin);
 
-        return $this->render('FrontOffice/navbar-v1-eventDetails.html.twig',['participates'=>$participates->getEventlocal()]);
+        $events = $eventRepository->findByParticipate();
+        dump($events);
+
+
+        return $this->render('FrontOffice/navbar-v1-LocationEvents.html.twig',['eventsPart'=>$events]);
+    }
+
+    /**
+     * @Route ("/navbar-v1-LocationEvents/{id}",name="ShowLocation")
+     */
+  /*  public function ShowLocation(Request $request ,$id):Response
+    {
+
+
+    }*/
+
+    /**
+     * @Route ("/navbar-v2-events/notif",name="sendEmail")
+     */
+    public function sendEmail(MailerInterface $mailer)
+    {
+        $email = (new Email())
+            ->from('khedhribairem@gmail.com')
+            ->to('eya.kasmi@esprit.tn')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('notification!')
+           // ->text('Sending emails is fun again!')
+            ->html('<p>vous aver participer a un evenement!!</p>');
+
+
+        $mailer->send($email);
+        return $this->redirectToRoute('navbar-v2-event');
+
     }
 
 

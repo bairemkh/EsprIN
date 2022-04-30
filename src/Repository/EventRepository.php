@@ -63,26 +63,124 @@ class EventRepository extends ServiceEntityRepository
 
 
 
-    /**
-     * @return Event[] Returns an array of Event objects
-     */
-
-     public function addParticipate($idevent): ?User
-      {
-      }
-
 
     /**
-     * @return Event[] Returns an array of Event objects
+     * @return Event[]
+     */
+    public function sortByDateAsc(): array
+    {
+        $em=$this->getEntityManager();
+        $query= $em->createQueryBuilder()
+            ->select('e')
+            ->from('App\Entity\Event', 'e')
+            ->orderBy('e.datedebut ', 'ASC')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
+
+
+    /**
+     * @return Event[]
+     */
+    public function sortByDateDesc(): array
+    {
+        $em=$this->getEntityManager();
+        $query= $em->createQueryBuilder()
+            ->select('e')
+            ->from('App\Entity\Event', 'e')
+            ->orderBy('e.datedebut ', 'DESC')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
+
+
+    /**
+     * @return Event[]
+     */
+    /*public function showBySysDate(): array
+    {
+        $em=$this->getEntityManager();
+        $query= $em->createQueryBuilder()
+            ->select('e')
+            ->from('App\Entity\Event', 'e')
+            ->where('e.datedebut= ')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }*/
+
+
+    /**
+     * @return Event[]
+     */
+   /* public function showByParticipate(): array
+    {
+        $em=$this->getEntityManager();
+        $query= $em->createQueryBuilder()
+            ->select('e')
+            ->from('App\Entity\Event', 'e')
+            ->where('e.cinuser=1010101')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }*/
+
+
+
+    /**
+     * @return Event[]
      */
 
-    public function findByIdEvent($id): ?User
+  /*  public function findByParticipate($cin): ?User
     {
         $em= $this->getEntityManager();
-        $query = $em -> createQuery('SELECT * FROM `participate` where 	`idEvent` == :id')
-            ->setParameter('id', $id);
+        $query = $em -> createQuery('SELECT * FROM `participate` where `cinUser` == :cin')
+            ->setParameter('cin', $cin);
 
-        return $query->getResult();
+        return $query->getArrayResult();
+    }
+*/
+    public function findByParticipate(): array
+    {
+        $em=$this->getEntityManager();
+
+        $res =$em->createQueryBuilder()
+            ->select('e')
+            ->from('App\Entity\Participate', 'p')
+            ->innerJoin('App\Entity\Event','e','with', "p.event = e.idevent")
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.participent")
+            ->where('u.cinuser = 1010101')
+            ->getQuery();
+        dump($res->getArrayResult());
+        return $res->getArrayResult();
+
+    }
+
+
+
+    public function findById($value): ?Event
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+
+    public function findByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e 
+                FROM Event e
+                WHERE e.title LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+
     }
 
 

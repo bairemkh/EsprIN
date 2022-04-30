@@ -2,19 +2,30 @@
 
 namespace App\Entity;
 
+use App\Repository\CommentedRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Commented
- *
- * @ORM\Table(name="commented", indexes={@ORM\Index(name="Fk post commented", columns={"postCommented"}), @ORM\Index(name="IDX_5FA1A85B35321851", columns={"userWhoCommented"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CommentedRepository::class)
  */
 class Commented
 {
     /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+
+     */
+    private $idComment;
+    /**
      * @var string
-     *
+     * @Assert\NotBlank(message="comment is required")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50,
+     *      minMessage = "la description doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "la description ne peut pas dépasser {{ limit }} caractères")
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
@@ -22,11 +33,9 @@ class Commented
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="createdAt", type="datetime", nullable=true)
      */
-    private $createdat = 'current_timestamp()';
+    private $createdat ;
 
     /**
      * @var string
@@ -37,9 +46,6 @@ class Commented
 
     /**
      * @var \User
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="userWhoCommented", referencedColumnName="cinUser")
@@ -49,9 +55,6 @@ class Commented
 
     /**
      * @var \Post
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
      * @ORM\OneToOne(targetEntity="Post")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="postCommented", referencedColumnName="idPost")
@@ -59,10 +62,12 @@ class Commented
      */
     private $postcommented;
 
-    /**
-     * @return string
-     */
-    public function getContent(): string
+    public function getIdComment()
+    {
+        return $this->idComment;
+    }
+
+    public function getContent()
     {
         return $this->content;
     }
@@ -86,7 +91,7 @@ class Commented
     /**
      * @param \DateTime $createdat
      */
-    public function setCreatedat($createdat): void
+    public function setCreatedat($createdat)
     {
         $this->createdat = $createdat;
     }
@@ -107,37 +112,31 @@ class Commented
         $this->state = $state;
     }
 
-    /**
-     * @return \User
-     */
-    public function getUserwhocommented(): \User
+
+    public function getUserwhocommented()
     {
         return $this->userwhocommented;
     }
 
-    /**
-     * @param \User $userwhocommented
-     */
-    public function setUserwhocommented(\User $userwhocommented): void
+
+    public function setUserwhocommented( User $userwhocommented)
     {
         $this->userwhocommented = $userwhocommented;
     }
 
     /**
-     * @return \Post
+     * @return Post
      */
-    public function getPostcommented(): \Post
+    public function getPostcommented(): Post
     {
         return $this->postcommented;
     }
 
     /**
-     * @param \Post $postcommented
+     * @param Post $postcommented
      */
-    public function setPostcommented(\Post $postcommented): void
+    public function setPostcommented(Post $postcommented): void
     {
         $this->postcommented = $postcommented;
     }
-
-
 }

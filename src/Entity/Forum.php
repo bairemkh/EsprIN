@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Forum
@@ -33,21 +34,21 @@ class Forum
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message="Forum title is required")
      * @ORM\Column(name="title", type="string", length=40, nullable=false)
      */
     private $title;
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message="Forum content is required")
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
 
     /**
      * @var string
-     *
+     *@Assert\NotBlank(message="Forum tag is required")
      * @ORM\Column(name="categorieForum", type="string", length=20, nullable=false)
      */
     private $categorieforum;
@@ -60,11 +61,18 @@ class Forum
     private $nbrlikesforum;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="nbrResponseForum", type="integer", nullable=false)
+     */
+    private $nbrresponseforum;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
-    private $state = '\'Active\'';
+    private $state = 'Active';
 
     /**
      * @var \User
@@ -188,6 +196,22 @@ class Forum
     }
 
     /**
+     * @return int
+     */
+    public function getNbrresponseforum(): int
+    {
+        return $this->nbrresponseforum;
+    }
+
+    /**
+     * @param int $nbrlikesforum
+     */
+    public function setNbrresponseforum(int $nbrresponseforum): void
+    {
+        $this->nbrresponseforum = $nbrresponseforum;
+    }
+
+    /**
      * @return string
      */
     public function getState(): string
@@ -210,7 +234,7 @@ class Forum
     }
 
 
-    public function setIdowner(?User $idowner): self
+    public function setIdowner(?User $idowner): void
     {
         $this->idowner = $idowner;
     }

@@ -390,7 +390,7 @@
                                         <!-- Event header -->
                                        <div class="card-heading">
                                             <!-- /Event header -->
-                                           <div class="post-text">
+                                           <div class="TitleEv-text">
                                                {{ event.titleevent}}
                                            </div>
                                            <div class="off">
@@ -412,7 +412,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </a>
-                                                                <a href="{{ path('deleteventfront', {'id':event.idevent})  }}" class="dropdown-item">
+                                                                <a href="#" class="dropdown-item">
                                                                     <div class="media">
                                                                         <i data-feather="flag"></i>
                                                                         <div class="media-content">
@@ -476,10 +476,15 @@
                                             <!-- Followers text -->
                                             <div class="likers-text">
                                                 <p>
-                                                    <a href="{{ path('deleteParticipate', {'id':event.idevent})  }}">Milly</a>,
+                                                    <a href="{{ path('sendEmail') }}">Milly</a>,
                                                     <a href="{{ path('ParticipateListFront', {'id':event.idevent})  }}">David</a>
                                                 </p>
-                                                <p >and 23 more Participates</p>
+                                                {% if event.nbrparticipant>2 %}
+                                                <p >
+                                                    <a href="{{ path('ParticipateListFront', {'id':event.idevent})  }}">and {{ event.nbrparticipant-2 }}  more Participates </a>
+
+                                                    </p>
+                                                {% endif %}
                                             </div>
                                             <!-- Event statistics -->
                                             <div class="social-count">

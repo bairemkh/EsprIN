@@ -1,5 +1,5 @@
 {% extends 'base-front.html.twig' %}
-{% block title %}Event{% endblock %}
+{% block title %}EventDetail{% endblock %}
 
 {% block navigation%}
     <div class="sub-nav">
@@ -488,18 +488,10 @@
                         </div> -->
                     </div>
                     <div class="right">
-                        <h2>Subscribe Now</h2>
-                        <div class="subscribe-block">
-                            <p>Add this event to your calendar</p>
-                            <button class="button is-solid primary-button raised">Add To Calendar</button>
-                        </div>
-                        <div class="condition has-text-centered">
-                            <span>Or</span>
-                        </div>
-                        <div class="subscribe-block">
-                            <p>Scan this QR code with your phone to automatically register for this event.</p>
-                            <img src="https://cdn.futura-sciences.com/buildsv6/images/largeoriginal/f/6/2/f621f61ff6_50038379_codeqr-futura.jpg" alt="">
-                        </div>
+                        <h2>Event Location</h2>
+                        <iframe id="map" src="https://maps.google.com/maps?&q={{ event.eventlocal }}&output=embed" >
+                        </iframe>
+
                     </div>
                 </div>
 
@@ -508,52 +500,52 @@
                     <div class="container-inner">
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/dan.jpg" data-user-popover="1" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-02.png" data-user-popover="1" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/bobby.jpg" data-user-popover="8" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-03.png" data-user-popover="8" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/stella.jpg" data-user-popover="2" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-04.png" data-user-popover="2" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/milly.jpg" data-user-popover="7" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-05.png" data-user-popover="7" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/elise.jpg" data-user-popover="4" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-illustrated-01.png" data-user-popover="4" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/lana.jpeg" data-user-popover="10" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-illustrated-02.png" data-user-popover="10" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/david.jpg" data-user-popover="4" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-illustrated-03.png" data-user-popover="4" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/mike.jpg" data-user-popover="12" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-illustrated-04.png" data-user-popover="12" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/azzouz.jpg" data-user-popover="20" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/Avatar.svg" data-user-popover="20" alt="">
                             </div>
                         </a>
                         <a class="participant">
                             <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="assets/img/avatars/jenna.png" data-user-popover="0" alt="">
+                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-2.svg" data-user-popover="0" alt="">
                                 <div class="more-overlay">
                                     <span>+26</span>
                                 </div>
@@ -573,29 +565,14 @@
                         </div>
 
                         <div class="details-block">
-                            <h3>Event Photos and Videos</h3>
+                            <h3>Event Photo</h3>
+
 
                             <div class="video-block-wrapper">
-                                <div id="video-embed" class="video-block-inner" data-url="https://www.youtube.com/watch?v=1neHf-ALfck">
-                                    <div class="video-overlay"></div>
-                                    <div class="playbutton">
-                                        <div class="icon-play">
-                                            <i data-feather="play"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <a href="https://via.placeholder.com/1600x900" data-demo-href="../../FrontOffice/assets/img/demo/unsplash/1.jpg" data-fancybox data-caption="">
+                                    <img src="https://via.placeholder.com/1600x900" data-demo-src="../../FrontOffice/assets/img/demo/unsplash/1.jpg" alt="">
+                                </a>
 
-                            <div class="photo-group">
-                                <a href="https://via.placeholder.com/1600x900" data-demo-href="../../FrontOffice/assets/img/demo/unsplash/54.jpg" data-fancybox data-caption="">
-                                    <img src="https://via.placeholder.com/1600x900" data-demo-src="../../FrontOffice/assets/img/demo/unsplash/54.jpg" alt="">
-                                </a>
-                                <a href="https://via.placeholder.com/1600x900" data-demo-href="../../FrontOffice/assets/img/demo/unsplash/7.jpg" data-fancybox data-caption="">
-                                    <img src="https://via.placeholder.com/1600x900" data-demo-src="../../FrontOffice/assets/img/demo/unsplash/7.jpg" alt="">
-                                </a>
-                                <a href="https://via.placeholder.com/1600x900" data-demo-href="../../FrontOffice/assets/img/demo/unsplash/4.jpg" data-fancybox data-caption="">
-                                    <img src="https://via.placeholder.com/1600x900" data-demo-src="../../FrontOffice/assets/img/demo/unsplash/4.jpg" alt="">
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -603,7 +580,8 @@
                     <!--Right side-->
                     <div class="right">
                         <div class="event-owner">
-                            <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatars/stella.jpg" data-user-popover="2" alt="">
+
+                            <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-04.png" data-user-popover="2" alt="">
                             <div class="meta">
                                 <span>Event organized by</span>
                                 <span>{{ event.idorganizer.firstname }}  {{ event.idorganizer.lastname }} </span>

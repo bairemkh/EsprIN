@@ -208,7 +208,9 @@ img, video {
 }
 
 iframe {
-    border: 0
+    border: 0;
+    width: 100%;
+    height: 100%;
 }
 
 table {
@@ -48184,6 +48186,17 @@ body.is-dark .elements-wrap .element-block code {
     font-weight: 500;
     color: #c30007;
     border-color: #b90b0b
+}
+
+.TitleEv-text{
+    color: #c30007;
+    font-family: "Montserrat", sans-serif;
+    font-size: 20px;
+}
+
+.iframe{
+    height: 100%;
+    width: 100%;
 }
 
 

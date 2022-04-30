@@ -68,4 +68,14 @@ class NavigationFrontOfficeController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/navbar-v1-LocationEvents", name="navbar-v1-LocationEvents")
+     */
+    public function EventLoc(): Response
+    {
+        return $this->render('FrontOffice/navbar-v1-LocationEvents.html.twig', [
+            'controller_name' => 'NavigationFrontOfficeController',
+        ]);
+    }
+
 }

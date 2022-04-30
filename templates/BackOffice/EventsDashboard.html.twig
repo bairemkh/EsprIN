@@ -21,7 +21,13 @@
                                 </label>
                             </th>
                             <th>Organizer</th>
-                            <th>Start Date</th>
+                            {% if app.request.pathinfo == path('ShowByDateAsc') %}
+                            <th><a href="{{ path('ShowByDateDesc') }}">Start Date</a></th>
+                            {% elseif app.request.pathinfo == path('ShowByDateDesc') %}
+                            <th><a href="{{ path('EventsDashboard') }}">Start Date</a></th>
+                            {% else %}
+                            <th><a href="{{ path('ShowByDateAsc') }}">Start Date</a></th>
+                            {%  endif %}
                             <th>End Date</th>
                             <th>Action</th>
                         </tr>
@@ -40,8 +46,9 @@
                             <!-- Organizer -->
                             <td>
                                 <div class="pages-table-img">
-                                    <picture><source srcset={{ event.imgurl }} type="image/webp"><img src={{ event.imgurl }} alt="UserName"></picture>
-                                    {{ event.idorganizer.firstname }}
+                                    <picture><source srcset={{ event.imgurl }} type="image/webp"><img src={{ event.imgurl }} ></picture>
+                                   <!--  event.idorganizer.firstname -->
+
                                 </div>
                             </td>
                             <!-- Date Debut -->
@@ -61,7 +68,7 @@
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
                                       <li><a href="##">Edit</a></li>
-                                      <li><a href={{ path('deleteevent', {'id': event.idevent}) }}>Delete</a></li>
+                                      <li><a href="{{ path('deleteevent', {'id': event.idevent}) }}">Delete</a></li>
                                       <li><a href="{{ path('ParticipateList', {'id': event.idevent}) }}">Participates list</a></li>
                                     </ul>
                                   </span>

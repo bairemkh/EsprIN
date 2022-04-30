@@ -45,21 +45,64 @@ class ForumRepository extends ServiceEntityRepository
         }
     }
 
-     /**
-     * @return Forum[] Returns an array of Forum objects
-      */
+    public function findBytitle($title,$tag)
+    {
+        if($title != "" && $tag!=""){
+            return $this->createQueryBuilder('f')
+                ->andWhere('f.title = :val')
+                ->setParameter('val', $title)
+                ->andWhere('f.categorieforum = :tag')
+                ->setParameter('tag', $tag)
+                ->orderBy('f.idforum', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        } else if($title!=""){
+            return $this->createQueryBuilder('f')
+                ->andWhere('f.title = :val')
+                ->setParameter('val', $title)
+                ->orderBy('f.idforum', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        } else if($tag!=""){
+            return $this->createQueryBuilder('f')
+                ->andWhere('f.categorieforum = :tag')
+                ->setParameter('tag', $tag)
+                ->orderBy('f.idforum', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        }
 
-    public function findByStateField($value)
+    }
+
+    public function findBytag($tag)
     {
         return $this->createQueryBuilder('f')
-            ->andWhere('f.state = :val')
-            ->setParameter('val', $value)
+            ->andWhere('f.categorieforum = :val')
+            ->setParameter('val', $tag)
             ->orderBy('f.idforum', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+    // /**
+    //  * @return Forum[] Returns an array of Forum objects
+    //  */
+    /*
+    public function findByExampleField($value)
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.exampleField = :val')
+            ->setParameter('val', $value)
+            ->orderBy('f.id', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
     }
-
+    */
 
     /*
     public function findOneBySomeField($value): ?Forum
