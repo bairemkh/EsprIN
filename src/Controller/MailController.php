@@ -37,6 +37,6 @@ class MailController extends AbstractController
         $transport=Transport::fromDsn($_ENV['MAILER_DSN']);
         $mailer=new Mailer($transport);
         $mailer->send($email);
-        return new Response('mail sent');
+        return new Response('mail sent with sucess');
     }
 }
