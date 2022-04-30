@@ -16,19 +16,8 @@ class EventController extends AbstractController
     {
         $events = $this->getDoctrine()
             ->getRepository(Event::class)
-            ->findAll();
+            ->findByExampleField('Active');
         return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
-    }
-
-    /**
-     * @Route("/navbar-v2-events", name="navbar-v2-event")
-     */
-    public function getlistevents():Response
-    {
-        $events = $this->getDoctrine()
-            ->getRepository(Event::class)
-            ->findAll();
-        return $this->render('FrontOffice/navbar-v2-events.html.twig',['events'=>$events]);
     }
 
     /**

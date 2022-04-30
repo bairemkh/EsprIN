@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Alert{% endblock %}
+
+{% block body %}
+    <h1>Alert</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Idalert</th>
+                <td>{{ alert.idalert }}</td>
+            </tr>
+            <tr>
+                <th>Alerttitle</th>
+                <td>{{ alert.alerttitle }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ alert.content }}</td>
+            </tr>
+            <tr>
+                <th>Destclass</th>
+                <td>{{ alert.destclass }}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{{ alert.createdat ? alert.createdat|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>State</th>
+                <td>{{ alert.state }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_alert_crud_index') }}">back to list</a>
+
+    <a href="{{ path('app_alert_crud_edit', {'idalert': alert.idalert}) }}">edit</a>
+
+    {{ include('alert_crud/_delete_form.html.twig') }}
+{% endblock %}

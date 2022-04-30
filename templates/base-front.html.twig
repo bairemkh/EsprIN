@@ -13,7 +13,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
 
     <title> EsprIN | {% block title %}Main Feed {% endblock %}</title>
-    <link rel="icon" href="{{ asset('FrontOffice/assets/img/post/appicon.png') }}"/>
+    <link rel="icon" href="{{ asset('FrontOffice/assets/img/logo/logo-red.svg') }}"/>
     <!-- Fonts -->
     <link href="{{ asset('https://fonts.googleapis.com/css?family=Montserrat:600,700,800,900') }}" rel="stylesheet">
     <link href="{{ asset('https://fonts.googleapis.com/css?family=Roboto:400,500') }}" rel="stylesheet">
@@ -38,8 +38,8 @@
         <div class="left">
             <div class="brand">
                 <a href="" class="navbar-logo">
-                    <img class="logo light-image" src="{{ asset('FrontOffice/assets/img/post/appicon.png') }}" width="112" height="28" alt="">
-                    <img class="logo dark-image" src="{{ asset('FrontOffice/assets/img/post/appicon.png') }}" width="112" height="28" alt="">
+                    <img class="logo light-image" src="FrontOffice/assets/img/logo/logo_app.svg" width="112" height="28" alt="">
+                    <img class="logo dark-image" src="FrontOffice/assets/img/logo/logo-red.svg" width="112" height="28" alt="">
                 </a>
             </div>
             <div class="search">
@@ -94,7 +94,7 @@
 
             <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
                 <div class="user-image">
-                    <img src="{{ asset('FrontOffice/assets/img/post/dan.jpg') }}"  alt="">
+                    <img src="https://via.placeholder.com/400x400" data-demo-src="FrontOffice/assets/img/avatars/jenna.png" alt="">
                     <span class="indicator"></span>
                 </div>
 
@@ -116,7 +116,7 @@
                                 </div>
                             </a>
 
-{#                            <a class="account-item" href="{{ path('Login') }}">#}
+                            <a class="account-item" href="{{ path('Login') }}">
                                 <div class="media">
                                     <div class="icon-wrap">
                                         <i data-feather="power"></i>
@@ -154,18 +154,18 @@
                     <li class="is-active">
                         <a href="{{ path('showP') }}">Posts</a>
                     </li>
-{#                    <li>#}
-{#                        <a href="{{ path('navbar-v2-announces') }}">Announces</a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="{{ path('navbar-v2-forums') }}">Forums</a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="{{ path('navbar-v2-events') }}">Events</a>#}
-{#                    </li>#}
-{#                    <li>#}
-{#                        <a href="{{ path('navbar-v2-offres') }}">Offers</a>#}
-{#                    </li>#}
+                    <li>
+                        <a href="{{ path('navbar-v2-announces') }}">Announces</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('navbar-v2-forums') }}">Forums</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('navbar-v2-events') }}">Events</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('navbar-v2-offres') }}">Offers</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -210,11 +210,9 @@
 
     <!-- Feed pages js -->
     <script src="{{ asset('FrontOffice/assets/js/feed.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/formpopupscript.js') }}"></script>
+    <script src="{{ asset('FrontOffice/assets/js/formcheck.js') }}"></script>
+    <script src="{{ asset('FrontOffice/assets/js/formedit.js') }}"></script>
 
-    <script src="{{ asset('FrontOffice/assets/js/webcam.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/compose.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/autocompletes.js') }}"></script>
 
     <!-- profile js -->
 
@@ -243,50 +241,3 @@
 
 
 </html>
-
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-
-<script type="text/javascript">
-    jQuery(document).ready(function() {
-
-        var searchRequest = null;
-        $("#search").keyup(function() {
-            var minlength = 3;
-            var that = this;
-            var value = $(this).val();
-            var entitySelector = $("#entitiesNav").html('');
-            if (value.length >= minlength ) {
-                if (searchRequest != null)
-                    searchRequest.abort();
-                searchRequest = $.ajax({
-                    type: "GET",
-                    url: "{{ path('ajax_search') }}",
-                    data: {
-                        'q' : value
-                    },
-                    dataType: "text",
-
-                    success: function(msg){
-                        //we need to check if the value is the same
-                        if (value==$(that).val()) {
-
-                            var result = JSON.parse(msg);
-                            $.each(result, function(key, arr) {
-                                $.each(arr, function(id, value) {
-                                    if (key == 'entities') {
-                                        if (id != 'error') {
-                                            entitySelector.append('<li><a href="/daten/'+id+'">'+value+'</a></li>');
-                                        } else {
-                                            entitySelector.append('<li class="errorLi">'+value+'</li>');
-                                        }
-                                    }
-                                });
-                            });
-                        }
-                    }
-                });
-
-            }
-        });
-    });
-</script>

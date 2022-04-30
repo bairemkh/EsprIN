@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Annoncement{% endblock %}
+
+{% block body %}
+    <h1>Create new Annoncement</h1>
+
+    {{ include('annoncement_crud/_form.html.twig') }}
+
+    <a href="{{ path('app_annoncement_crud_index') }}">back to list</a>
+{% endblock %}

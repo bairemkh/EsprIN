@@ -1,0 +1,78 @@
+{% extends 'base-back.html.twig' %}
+{% block title %} AlertDashboard {% endblock %}
+
+{% block body %}
+        <!-- ! Main -->
+        <main class="main users chart-page" id="skip-target">
+            <div class="container">
+                <h2 class="main-title">Alert</h2>
+
+
+
+                <div class="users-table table-wrapper">
+                    <table class="posts-table">
+                        <thead>
+                        <tr class="users-table-info">
+                            <th>
+                                <label class="users-table__checkbox ms-20">
+                                    <input type="checkbox" class="check-all">Title
+                                </label>
+                            </th>
+                            <th>Created At</th>
+                            <th>Destination</th>
+                            <th>Sender</th>
+                        </tr>
+                        </thead>
+
+                        {% for alert in alerts %}
+                        <tbody>
+                        <tr>
+                            <!-- Title -->
+                            <td>
+                                <label class="users-table__checkbox">
+                                    <input type="checkbox" class="check">
+                                    {{ alert.alerttitle }}
+                                </label>
+                            </td>
+                            <!-- Created at -->
+                            <td>
+                                {{ alert.createdat|date }}
+                            </td>
+                            <!-- Destination -->
+                            <td>
+                                {{ alert.destclass }}
+
+                            </td>
+                            <!-- Category -->
+                            <td>
+                                <span class="badge-default">{{ alert.getIdsender().getFirstname() }}
+
+                                    </span>
+                            </td>
+                            <!-- Edit -->
+                            <td>
+                                  <span class="p-relative">
+                                    <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                                      <div class="sr-only">More info</div>
+                                      <i data-feather="more-horizontal" aria-hidden="true"></i>
+                                    </button>
+                                    <ul class="users-item-dropdown dropdown">
+                                      <li><a href="##">Edit</a></li>
+                                      <li><a href="##">Delete</a></li>
+                                      <li><a href="##">Trash</a></li>
+                                    </ul>
+                                  </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                        {% endfor %}
+                    </table>
+                </div>
+
+            </div>
+        </main>
+
+
+
+
+{% endblock %}

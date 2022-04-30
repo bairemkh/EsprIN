@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_alert_crud_delete', {'idalert': alert.idalert}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ alert.idalert) }}">
+    <button class="btn">Delete</button>
+</form>

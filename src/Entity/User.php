@@ -16,7 +16,6 @@ class User
      *
      * @ORM\Column(name="cinUser", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $cinuser;
 
@@ -116,7 +115,7 @@ class User
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
-    private $state = '\'Active\'';
+    private $state = 'Active';
 
 
 

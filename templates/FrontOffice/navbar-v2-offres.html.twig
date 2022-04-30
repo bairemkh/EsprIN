@@ -5,19 +5,19 @@
     <div class="sub-nav-tabs">
         <div class="tabs is-centered">
             <ul>
-                <li>
+                <li >
                     <a href="{{ path('navbar-v2-feed') }}">Posts</a>
                 </li>
                 <li >
                     <a href="{{ path('navbar-v2-announces') }}">Announces</a>
                 </li>
-                <li >
+                <li class="is-active">
                     <a href="{{ path('navbar-v2-forums') }}">Forums</a>
                 </li>
                 <li>
                     <a href="{{ path('navbar-v2-events') }}">Events</a>
                 </li>
-                <li class="is-active">
+                <li>
                     <a href="{{ path('navbar-v2-offres') }}">Offers</a>
                 </li>
             </ul>
@@ -296,12 +296,10 @@
 
                     <!-- Middle column -->
                     <div class="column is-6">
-                        <button id="open" value="click me">Add offre</button>
                         <!--#region Offer -->
                         <!-- /partials/pages/feed/posts/feed-post1.html -->
                         <!-- POST #1 -->
                         {% for offre in offres %}
-                            {% if offre.state == "Active" %}
                         <div  class="card is-post">
                             <!-- Main wrap -->
                             <div class="content-wrap">
@@ -315,39 +313,12 @@
                                                  alt="">
                                         </div>
                                         <div class="user-info">
-                                            <a href="#">{{ offre.offerprovider }}</a>
+                                            <a href="#">Sofrecom</a>
                                             <span class="time">June 4 2022, 12:11pm</span>
                                         </div>
                                     </div>
                                     <!-- Right side dropdown -->
                                     <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
-                                        <div>
-                                            <div class="button">
-                                                <i data-feather="more-vertical"></i>
-                                            </div>
-                                        </div>
-                                        <div class="dropdown-menu" role="menu">
-                                            <div class="dropdown-content">
-                                                <a href={{ path('deleteofferfront', {'id': offre.idoffer}) }} class="dropdown-item">
-                                                    <div class="media">
-                                                        <div class="media-content">
-                                                            <h3>Delete</h3>
-                                                            <small>Delete this offre.</small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a href="#" class="dropdown-item">
-                                                    <div class="media">
-                                                        <div class="media-content">
-                                                            <h3>Edit</h3>
-                                                            <small>Edit this offre.</small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="OffreCategorie">
                                         <h4>{{ offre.catoffre }}</h4>
                                     </div>
@@ -358,7 +329,7 @@
                                 <div class="card-body">
                                     <!-- Post body text -->
                                     <div class="post-text">
-                                        <p> {{ offre.titleoffer }}
+                                        <p> {{ offre.titleoffer}}
                                         </p>
                                         <p>{{ offre.descoffer }}</p>
                                     </div>
@@ -380,8 +351,12 @@
                                 </div>
                             </div>
                         </div>
-                            {% endif %}
                         {% endfor %}
+                        <!--#endregion Offer -->
+                        <!--#region Offer1 -->
+                        <!-- /partials/pages/feed/posts/feed-post1.html -->
+
+
                     </div>
                     <!-- /Middle column -->
 
@@ -394,33 +369,6 @@
             </div>
             <!-- /Feed page main wrapper -->
         </div>
-
-    </div>
-    <div class="model-container" id="model-container">
-
-        <form action={{ path('addoffer') }} method="post">
-            <div class="form">
-                <div class="title">Add new offre</div>
-                <div class="subtitle">Let's create a new offre</div>
-                <div class="input-container ic1">
-                    <input id="field1" class="input" type="text" placeholder="Title" name="title"/>
-                    <div class="cut"></div>
-                    <label for="field1" class="placeholder">Title</label>
-                </div>
-                <div class="input-container ic2">
-                    <input id="field2" class="input" type="text" placeholder="Content" name="content" />
-                    <div class="cut"></div>
-                    <label for="field2" class="placeholder">Content</label>
-                </div>
-                <div class="input-container ic2">
-                    <input id="field3" class="input" type="text" placeholder="tag" name="category"/>
-                    <div class="cut cut-short"></div>
-                    <label for="field3" class="placeholder">Category</label>
-                </div>
-                <button type="submit" class="submit">Submit</button>
-                <button type="button" class="exit" id="close">X</button>
-            </div>
-        </form>
 
     </div>
 {% endblock %}

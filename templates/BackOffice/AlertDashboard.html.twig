@@ -20,7 +20,7 @@
                             </th>
                             <th>Created At</th>
                             <th>Destination</th>
-                            <th>Action</th>
+                            <th>Sender</th>
                         </tr>
                         </thead>
 
@@ -45,7 +45,9 @@
                             </td>
                             <!-- Category -->
                             <td>
-                                <span class="badge-default">{{ alert.catalert }}</span>
+                                <span class="badge-default">{{ alert.getIdsender().getFirstname() }}
+
+                                    </span>
                             </td>
                             <!-- Edit -->
                             <td>

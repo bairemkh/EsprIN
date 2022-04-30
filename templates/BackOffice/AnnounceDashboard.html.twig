@@ -48,7 +48,7 @@
                             </td>
                             <!-- Category -->
                             <td>
-                                <span class="badge-default">Default</span>
+                                <span class="badge-default">aaa</span>
                             </td>
                             <!-- Edit -->
                             <td>
@@ -59,7 +59,7 @@
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
                                       <li><a href="##">Edit</a></li>
-                                      <li><a href="##">Delete</a></li>
+                                      <li><a href="{{ path('deleteannounce', {'id':announce.idann}) }}">Delete</a></li>
                                       <li><a href="##">Trash</a></li>
                                     </ul>
                                   </span>
@@ -77,6 +77,3 @@
 
 
 {% endblock %}
-
-
-

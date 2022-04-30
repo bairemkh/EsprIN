@@ -5,13 +5,13 @@
         <div class="sub-nav-tabs">
             <div class="tabs is-centered">
                 <ul>
-                    <li>
+                    <li >
                         <a href="{{ path('navbar-v2-feed') }}">Posts</a>
                     </li>
                     <li >
                         <a href="{{ path('navbar-v2-announces') }}">Announces</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="{{ path('navbar-v2-forums') }}">Forums</a>
                     </li>
                     <li class="is-active">
@@ -522,7 +522,6 @@
                         </div>
 
                         <!--#region test-->
-                        {% for event in events %}
                         <div class="card is-post">
                             <!-- Main wrap -->
                             <div class="content-wrap">
@@ -539,7 +538,12 @@
                                         <img src="FrontOffice/assets/img/demo/unsplash/1.jpg" data-demo-src="FrontOffice/assets/img/demo/unsplash/1.jpg" alt="">
                                     </div>
                                     <div class="post-text">
-                                        <p>{{ event.contentevent }}</p>
+                                        <p>Yesterday with
+                                            <a href="#">@Karen Miller</a> and
+                                            <a href="#">@Marvin Stemperd</a> at the
+                                            <a href="#">#Rock'n'Rolla</a> concert in LA. Was totally fantastic! People
+                                            were really excited about this one!
+                                        </p>
                                     </div>
                                     <div class="card-heading">
                                         <!-- User meta -->
@@ -548,12 +552,12 @@
                                                 <img src="FrontOffice/assets/img/avatars/dan.jpg" data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1" alt="">
                                             </div>
                                             <div class="user-info">
-                                                <a href="#">{{ event.idorganizer }}</a>
-                                                <span class="time">{{ event.datedebut|date }}</span>
+                                                <a href="#">Dan Walker</a>
+                                                <span class="time">July 26 2018, 01:03pm</span>
                                             </div>
                                             <div class="event-subtitle">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                                <small>{{ event.eventlocal}} | {{ event.datedebut|date }} - {{ event.datefin|date }}</small>
+                                                <small>Parkman Conference Center, Chicago | July 8, 2020 - July 6, 2020</small>
                                             </div>
                                         </div>
                                         <!-- Right side dropdown -->
@@ -717,7 +721,7 @@
                             <!-- /Post #1 Comments -->
                         </div>
                         <!--#endregion test-->
-                        {% endfor %}
+
                     </div>
 
                     <!-- /Feed page main wrapper -->
