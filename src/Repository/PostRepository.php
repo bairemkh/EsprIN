@@ -44,6 +44,19 @@ class PostRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+    public function findByState($state){
+
+        return $this->createQueryBuilder('p')
+            ->Where('p.state = :val')
+            ->setParameter('val', $state)
+            ->orderBy('p.idpost', 'ASC')
+
+            ->getQuery()
+            ->getResult()
+            ;
+
+
+    }
 
     // /**
     //  * @return Post[] Returns an array of Post objects

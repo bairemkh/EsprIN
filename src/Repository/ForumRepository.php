@@ -45,6 +45,48 @@ class ForumRepository extends ServiceEntityRepository
         }
     }
 
+    public function findBytitle($title,$tag)
+    {
+        if($title != "" && $tag!=""){
+            return $this->createQueryBuilder('f')
+                ->andWhere('f.title = :val')
+                ->setParameter('val', $title)
+                ->andWhere('f.categorieforum = :tag')
+                ->setParameter('tag', $tag)
+                ->orderBy('f.idforum', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        } else if($title!=""){
+            return $this->createQueryBuilder('f')
+                ->andWhere('f.title = :val')
+                ->setParameter('val', $title)
+                ->orderBy('f.idforum', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        } else if($tag!=""){
+            return $this->createQueryBuilder('f')
+                ->andWhere('f.categorieforum = :tag')
+                ->setParameter('tag', $tag)
+                ->orderBy('f.idforum', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+        }
+
+    }
+
+    public function findBytag($tag)
+    {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.categorieforum = :val')
+            ->setParameter('val', $tag)
+            ->orderBy('f.idforum', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Forum[] Returns an array of Forum objects
     //  */

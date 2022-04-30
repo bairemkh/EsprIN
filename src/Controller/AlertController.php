@@ -12,10 +12,10 @@ class AlertController extends AbstractController
     /**
      * @Route ("/AlertDashboard",name="AlertDashboardd")
      */
-    public function getAnnounces():Response{
+    public function getAlertes():Response{
         $alerts= $this->getDoctrine()
             ->getRepository(Alert::class)
-            ->findAll();
+            ->findByExampleField('Active');
         return $this->render('BackOffice/AlertDashboard.html.twig',['alerts'=>$alerts]);
     }
     /**

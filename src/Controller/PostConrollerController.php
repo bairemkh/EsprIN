@@ -3,7 +3,6 @@
 namespace App\Controller;
 use App\Entity\Post;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -19,34 +18,6 @@ class PostConrollerController extends AbstractController
             ->findAll();
         return $this->render('BackOffice/PostDashboard.html.twig',['posts'=>$posts]);
     }
-
-    /**
-     * @Route ("/navbar-v2-feed",name="navbar-v2-feed")
-     */
-    public function getlistposts():Response
-    {
-        $posts = $this->getDoctrine()
-            ->getRepository(Post::class)
-            ->findAll();
-        return $this->render('FrontOffice/navbar-v2-feed.html.twig',['posts'=>$posts]);
-    }
-
-    /**
-     * @Route("/addpost", name="createpost",methods={"GET", "POST"})
-     */
-    public function addpost(Request $request): Response
-    {
-        dump($request);
-            $post = new Post();
-            $post->setContent($request->get('postcontent'));
-            $post->setCreatedat(new \DateTime('@' . strtotime('now')));
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($post);
-            $manager->flush();
-
-        return $this->redirectToRoute('navbar-v2-feed');
-    }
-
     /**
      * @Route ("/PostDashboard/{id}",name="deletepost")
      */
@@ -56,7 +27,7 @@ class PostConrollerController extends AbstractController
         $post = $this->getDoctrine()
                     ->getRepository(Post::class)
                     ->find($id);
-        $post->setState("Desactive");
+        $post->setState("Deleted");
         $em->flush();
         return $this->redirectToRoute('PostDashboard');
     }

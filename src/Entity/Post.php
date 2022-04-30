@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Post
@@ -27,15 +28,20 @@ class Post
 
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="Post Description is required")
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 1000,
+     *      minMessage = "la description doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "la description ne peut pas dépasser {{ limit }} caractères"
+     * )
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
 
     /**
      * @var string
-     *
-     * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=false)
+     * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=true)
      */
     private $mediaurl;
 
@@ -63,7 +69,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
      */
     private $state = '\'Active\'';
 
@@ -108,10 +114,8 @@ class Post
         $this->idpost = $idpost;
     }
 
-    /**
-     * @return string
-     */
-    public function getContent(): string
+
+    public function getContent()
     {
         return $this->content;
     }
@@ -156,10 +160,8 @@ class Post
         $this->createdat = $createdat;
     }
 
-    /**
-     * @return string
-     */
-    public function getCategorie(): string
+
+    public function getCategorie()
     {
         return $this->categorie;
     }
@@ -205,13 +207,13 @@ class Post
     }
 
 
-    public function getIdower(): ?User
+    public function getIdower(): User
     {
         return $this->idower;
     }
 
 
-    public function setIdower(?User $idower): self
+    public function setIdower(User $idower)
     {
         $this->idower = $idower;
     }

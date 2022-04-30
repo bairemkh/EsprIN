@@ -62,7 +62,7 @@
                                     <ul class="users-item-dropdown dropdown">
                                       <li><a href="##">Edit</a></li>
                                       <li><a href={{ path('deleteevent', {'id': event.idevent}) }}>Delete</a></li>
-                                      <li><a href="{{ path('ParticipatesDashboard') }}">Participates list</a></li>
+                                      <li><a href="{{ path('ParticipatesDashboard',{'id': event.idevent}) }}">Participates list</a></li>
                                     </ul>
                                   </span>
                             </td>

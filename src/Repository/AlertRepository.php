@@ -45,22 +45,21 @@ class AlertRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return Alert[] Returns an array of Alert objects
-    //  */
-    /*
+     /**
+      * @return Alert[] Returns an array of Alert objects
+      */
+
     public function findByExampleField($value)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+            ->andWhere('a.state = :val')
             ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->orderBy('a.idalert', 'ASC')
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+
 
     /*
     public function findOneBySomeField($value): ?Alert

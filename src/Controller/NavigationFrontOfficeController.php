@@ -68,4 +68,14 @@ class NavigationFrontOfficeController extends AbstractController
         ]);
     }
 
+    /**
+         * @Route("/register", name="navbar-v2-feed")
+         */
+        public function register(): Response
+        {
+            return $this->render('FrontOffice/register.html.twig', [
+                'controller_name' => 'NavigationFrontOfficeController',
+            ]);
+        }
+
 }

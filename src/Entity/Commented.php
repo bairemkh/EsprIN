@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Commented
@@ -14,7 +16,12 @@ class Commented
 {
     /**
      * @var string
-     *
+     * @Assert\NotBlank(message="comment is required")
+     * @Assert\Length(
+     *      min = 1,
+     *      max = 50,
+     *      minMessage = "la description doit comporter au moins {{ limit }} caractères",
+     *      maxMessage = "la description ne peut pas dépasser {{ limit }} caractères")
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
      */
     private $content;
@@ -22,9 +29,7 @@ class Commented
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\Column(name="createdAt", type="datetime", nullable=true, options={"default"="current_timestamp()"})
      */
     private $createdat = 'current_timestamp()';
 
@@ -59,10 +64,8 @@ class Commented
      */
     private $postcommented;
 
-    /**
-     * @return string
-     */
-    public function getContent(): string
+
+    public function getContent()
     {
         return $this->content;
     }
@@ -86,7 +89,7 @@ class Commented
     /**
      * @param \DateTime $createdat
      */
-    public function setCreatedat($createdat): void
+    public function setCreatedat($createdat)
     {
         $this->createdat = $createdat;
     }
@@ -107,34 +110,30 @@ class Commented
         $this->state = $state;
     }
 
-    /**
-     * @return \User
-     */
-    public function getUserwhocommented(): \User
+
+    public function getUserwhocommented()
     {
         return $this->userwhocommented;
     }
 
-    /**
-     * @param \User $userwhocommented
-     */
-    public function setUserwhocommented(\User $userwhocommented): void
+
+    public function setUserwhocommented( User $userwhocommented)
     {
         $this->userwhocommented = $userwhocommented;
     }
 
     /**
-     * @return \Post
+     * @return Post
      */
-    public function getPostcommented(): \Post
+    public function getPostcommented(): Post
     {
         return $this->postcommented;
     }
 
     /**
-     * @param \Post $postcommented
+     * @param Post $postcommented
      */
-    public function setPostcommented(\Post $postcommented): void
+    public function setPostcommented(Post $postcommented): void
     {
         $this->postcommented = $postcommented;
     }

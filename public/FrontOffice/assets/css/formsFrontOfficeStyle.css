@@ -143,7 +143,7 @@
 .exit:active {
     background-color: #b70728;
 }
-.model-container{
+.model-container {
     position: fixed;
     top: 0%;
     left: 0%;
@@ -158,5 +158,49 @@
 .model-container.show{
     pointer-events: auto;
     opacity: 100%;
+}
+.container-edit {
+    position: fixed;
+    top: 0%;
+    left: 0%;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 5;
+}
+.container-edit.show{
+    pointer-events: auto;
+    opacity: 100%;
+}
+#open{
+    background-color: #b70728;
+    color: #eee;
+    border-radius: 25px;
+    border-color: transparent;
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+}
+
+.inputsearch{
+    background-color: rgba(255, 100, 30, .1);
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: #eee;
+    font-size: 18px;
+    height: 100%;
+    outline: 0;
+    padding: 4px 20px 0;
+    width: 25%;
+}
+.button-shape{
+    background-color: #b70728;
+    color: #eee;
+    border-radius: 25px;
+    border-color: transparent;
 }
 

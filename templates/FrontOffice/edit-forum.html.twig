@@ -1,0 +1,8 @@
+<h1>Edit forum</h1>
+
+{{ form_start(formForum, {'attr': {'novalidate': 'novalidate'}}) }}
+{{ form_widget(formForum.title) }}
+{{ form_errors(formForum.title) }}
+{{ form_widget(formForum.content) }}
+{{ form_widget(formForum.categorieforum) }}
+{{ form_end(formForum) }}

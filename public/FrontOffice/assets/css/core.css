@@ -23,6 +23,14 @@
     outline: none
 }
 
+
+.forums{
+    background-color: #BF3E26;
+    font-size: 13pt;
+    margin-bottom: 50px;
+}
+
+
 [disabled].pagination-previous, [disabled].pagination-next, [disabled].pagination-link, [disabled].pagination-ellipsis, [disabled].file-cta, [disabled].file-name, .select select[disabled], [disabled].textarea, [disabled].input, [disabled].button, fieldset[disabled] .pagination-previous, fieldset[disabled] .pagination-next, fieldset[disabled] .pagination-link, fieldset[disabled] .pagination-ellipsis, fieldset[disabled] .file-cta, fieldset[disabled] .file-name, fieldset[disabled] .select select, .select fieldset[disabled] select, fieldset[disabled] .textarea, fieldset[disabled] .input, fieldset[disabled] .button {
     cursor: not-allowed
 }
@@ -29150,7 +29158,8 @@ body.is-dark .error-container .error-wrapper .error-inner h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 0
+    padding: 10px 0;
+    margin-top: 50px;
 }
 
 .profile-subheader .subheader-start, .profile-subheader .subheader-end {
@@ -47977,4 +47986,10 @@ body.is-dark .elements-wrap .element-block code {
     transform: translateX(-9%) translateY(-25%) rotate(45deg);
 }
 
+.view-wrapper.profile{
+    margin-top: 150px;
+}
+
+
 /*# sourceMappingURL=scss */
+

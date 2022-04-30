@@ -3,9 +3,10 @@
 
 
 
-<!-- Added by HTTrack -->
-<meta http-equiv="content-type" content="text/html;charset=utf-8"/><!-- /Added by HTTrack -->
+
 <head>
+    <!-- Added by HTTrack -->
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/><!-- /Added by HTTrack -->
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -151,7 +152,7 @@
             <div class="tabs is-centered">
                 <ul>
                     <li class="is-active">
-                        <a href="{{ path('navbar-v2-feed') }}">Posts</a>
+                        <a href="{{ path('showP') }}">Posts</a>
                     </li>
                     <li>
                         <a href="{{ path('navbar-v2-announces') }}">Announces</a>
@@ -176,7 +177,7 @@
     {% endblock %}
     <!-- Concatenated js plugins and jQuery -->
     <script src="{{ asset('FrontOffice/assets/js/app.js') }}"></script>
-    <script src="{{ asset('https://js.stripe.com/v3/') }}"></script>
+
     <script src="{{ asset('FrontOffice/assets/data/tipuedrop_content.js') }}"></script>
 
     <!-- Core js -->
@@ -209,11 +210,9 @@
 
     <!-- Feed pages js -->
     <script src="{{ asset('FrontOffice/assets/js/feed.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/formpopupscript.js') }}"></script>
+    <script src="{{ asset('FrontOffice/assets/js/formcheck.js') }}"></script>
+    <script src="{{ asset('FrontOffice/assets/js/formedit.js') }}"></script>
 
-    <script src="{{ asset('FrontOffice/assets/js/webcam.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/compose.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/autocompletes.js') }}"></script>
 
     <!-- profile js -->
 

@@ -5,33 +5,56 @@
     <main class="page-center">
         <article class="sign-up">
             <h1 class="sign-up__title">Add Extern</h1>
-            <p class="sign-up__subtitle"> you can add company or offer provider  </p>
+            <p class="sign-up__subtitle"> you can add company or offer provider </p>
 
-            <form class="sign-up-form form" action="" method="">
+            <form class="sign-up-form form" action="{{ path('add_new_Extern_Account') }}" method="post">
                 <label class="form-label-wrapper">
                     <p class="form-label">Company ID</p>
-                    <input class="form-input" type="text" placeholder="Enter Company ID" required>
+                    <input class="form-input" type="number" placeholder="Enter Company ID" id="comIdF" name="compId" required>
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
                 <label class="form-label-wrapper">
                     <p class="form-label">Company Name</p>
-                    <input class="form-input" type="text" placeholder="Enter Company name" required>
+                    <input class="form-input" type="text" placeholder="Enter Company name" id="companyNameF" name="CompName" required>
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
                 <label class="form-label-wrapper">
                     <p class="form-label">Email</p>
-                    <input class="form-input" type="email" placeholder="Enter Company email" required>
+                    <input class="form-input" type="email" placeholder="Enter Company email" id="companyEmailF" name="compEmail" required>
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
                 <label class="form-label-wrapper">
                     <p class="form-label">Password</p>
-                    <input class="form-input" type="password" placeholder="Enter Company password" required>
+                    <input class="form-input" type="password" placeholder="Enter Company password"
+                           id="companyPasswordF" required name="compPasswd">
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
                 <label class="form-label-wrapper">
                     <p class="form-label">Location</p>
-                    <input class="form-input" type="text" placeholder="Enter your Company location" required>
+                    <input class="form-input" type="text" placeholder="Enter your Company location"
+                           id="companyLocationF" name="local" required>
+                    <div class="msg">
+                        </i>
+                        <small class="errorMsg">error message</small>
+                    </div>
                 </label>
-                <button class="form-btn primary-default-btn transparent-btn">Add Company</button>
+                <button class="form-btn primary-default-btn transparent-btn" id="submitExtern">Add Company</button>
             </form>
         </article>
     </main>
-
+    <link rel="stylesheet" href="{{ asset('FrontOffice/css/formsStyle.css') }}">
+    <script src="{{ asset('FrontOffice/js/addExternal.js') }}"></script>
 
 {% endblock %}
