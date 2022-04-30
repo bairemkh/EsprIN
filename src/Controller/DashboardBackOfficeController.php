@@ -110,16 +110,6 @@ public function addannounce():Response{
     }
 
     /**
-     * @Route ("/IntrestDashboard",name="IntrestDashboard")
-     */
-    public function IntrestDashboard():Response{
-        return $this->render('BackOffice/IntrestDashboard.html.twig',[
-                'controller_name'=>'DashboardBackOfficeController',
-            ]
-        );
-    }
-
-    /**
      * @Route ("/PostDashboard",name="PostDashboard")
      */
     public function PostDashboard():Response{
@@ -159,19 +149,5 @@ public function addannounce():Response{
         );
     }
 
-
-
-    /*
-     * public function IntrestList(OffreRepository $offreRepository, $id):Response
-    {
-        $intrests=$offreRepository->find($id);
-        return $this->render('BackOffice/IntrestDashboard.html.twig'['controller_name'=>'DashboardBackOfficeController'
-        ,'intrests'=>$intrests->getCinintrested()]);
-
-
-
-    }
-
-     */
 
 }
