@@ -62,12 +62,12 @@ class ForumController extends AbstractController
     /**
      * @Route("/addresponse/{idforum}", name="createresponse",methods={"GET", "POST"})
      */
-    public function addresponse(Request $request,$idforum): Response
+    public function addresponse(Request $request, $idforum): Response
     {
         dump($request);
         $response = new Responded();
-        $forum=$this->getDoctrine()->getRepository(Forum::class)->find($idforum);
-        $user=$this->getDoctrine()->getRepository(User::class)->find(10020855);
+        $forum = $this->getDoctrine()->getRepository(Forum::class)->find($idforum);
+        $user = $this->getDoctrine()->getRepository(User::class)->find(10020855);
         $response->setContent($request->get('responsecontent'));
         $response->setIdforum($forum);
         $response->setCinuser($user);
@@ -78,6 +78,7 @@ class ForumController extends AbstractController
 
         return $this->redirectToRoute('navbar-v2-forum');
     }
+
     /**
      * @Route("/addforum", name="addforum",methods={"GET", "POST"})
      */
@@ -85,7 +86,7 @@ class ForumController extends AbstractController
     {
         dump($request);
         $forum = new Forum();
-        $user=$this->getDoctrine()->getRepository(User::class)->find(10020855);
+        $user = $this->getDoctrine()->getRepository(User::class)->find(10020855);
         $forum->setTitle($request->get('title'));
         $forum->setContent($request->get('content'));
         $forum->setCategorieforum($request->get('tag'));
@@ -106,7 +107,7 @@ class ForumController extends AbstractController
      */
     public function delete($id)
     {
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $offer = $this->getDoctrine()
             ->getRepository(Forum::class)
             ->find($id);
@@ -154,5 +155,41 @@ class ForumController extends AbstractController
         return $this->render('forum/index.html.twig', [
             'controller_name' => 'ForumController',
         ]);
+    }
+
+    /**
+     * @Route ("api/getforums",name="getforumsApi")
+     */
+    public function getforumsApi(SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $forums = $em->createQueryBuilder()
+            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
+            ->from('App\Entity\Forum', 'f')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
+        $Response = new Response($json);
+        return $Response;
+
+    }
+
+    /**
+     * @Route ("api/getforum/{id}",name="getforumsApi")
+     */
+    public function getForumByIdApi($id,SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $forums = $em->createQueryBuilder()
+            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
+            ->from('App\Entity\Forum', 'f')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
+            ->where('f.idforum=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
+        $Response = new Response($json);
+        return $Response;
+
     }
 }

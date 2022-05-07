@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -12,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="forum", indexes={@ORM\Index(name="FK_owner", columns={"idOwner"})})
  * @ORM\Entity
- *  * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ForumRepository")
  */
 class Forum
 {
@@ -22,6 +23,7 @@ class Forum
      * @ORM\Column(name="idForum", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("forums")
      */
     private $idforum;
 
@@ -29,6 +31,7 @@ class Forum
      * @var \DateTime
      *
      * @ORM\Column(name="dateCreation", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("forums")
      */
     private $datecreation = 'current_timestamp()';
 
@@ -36,6 +39,7 @@ class Forum
      * @var string
      *@Assert\NotBlank(message="Forum title is required")
      * @ORM\Column(name="title", type="string", length=40, nullable=false)
+     * @Groups("forums")
      */
     private $title;
 
@@ -43,6 +47,7 @@ class Forum
      * @var string
      *@Assert\NotBlank(message="Forum content is required")
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
+     * @Groups("forums")
      */
     private $content;
 
@@ -50,6 +55,7 @@ class Forum
      * @var string
      *@Assert\NotBlank(message="Forum tag is required")
      * @ORM\Column(name="categorieForum", type="string", length=20, nullable=false)
+     * @Groups("forums")
      */
     private $categorieforum;
 
@@ -57,6 +63,7 @@ class Forum
      * @var int
      *
      * @ORM\Column(name="nbrLikesForum", type="integer", nullable=false)
+     * @Groups("forums")
      */
     private $nbrlikesforum;
 
@@ -64,6 +71,7 @@ class Forum
      * @var int
      *
      * @ORM\Column(name="nbrResponseForum", type="integer", nullable=false)
+     * @Groups("forums")
      */
     private $nbrresponseforum;
 
@@ -71,6 +79,7 @@ class Forum
      * @var string
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @Groups("forums")
      */
     private $state = 'Active';
 
@@ -81,6 +90,7 @@ class Forum
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idOwner", referencedColumnName="cinUser")
      * })
+     *
      */
     private $idowner;
 
@@ -88,6 +98,7 @@ class Forum
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="idforum")
+     *
      */
     private $idcreater;
 

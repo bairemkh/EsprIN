@@ -341,6 +341,27 @@ class EventController extends AbstractController
     }
 
     /**
+     * @Route ("api/getevent/{id}",name="getEventById")
+     */
+    public function getEventByIdApi($id,SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        /* $events = $this->getDoctrine()
+             ->getRepository(Event::class)
+             ->findAll();*/
+        $events=$em->createQueryBuilder()
+            ->select('e.idevent,e.titleevent,e.contentevent,e.contentevent,e.eventlocal,e.nbrparticipant,e.datedebut,e.datefin,u.cinuser AS idOrganizer')
+            ->from('App\Entity\Event','e')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = e.idorganizer")
+            ->where('e.idevent=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($events, 'json', ['groups' => 'events']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
+    /**
      * @Route("/api/addevent", name="addEventApi")
      */
     public function addeventApi(Request $request, SerializerInterface $serializer)
