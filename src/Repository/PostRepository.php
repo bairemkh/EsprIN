@@ -23,6 +23,22 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
+
+
+    /**
+         * @return Post[] Returns an array of Articles objects
+     */
+    public function apiFindAll() : array
+    {
+        $qb = $this->createQueryBuilder('p')
+            ->select('p.idpost', 'p.content', 'p.mediaurl', 'p.createdat', 'p.categorie', 'p.likenum')
+            ->orderBy('p.idpost', 'DESC');
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException

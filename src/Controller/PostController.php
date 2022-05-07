@@ -13,6 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+
 
 class PostController extends AbstractController
 {
@@ -277,6 +282,118 @@ class PostController extends AbstractController
         }
 
         return $realEntities;
+    }
+
+
+
+    ///Api
+
+    /**
+     * @Route("/api/postList", name="postList", methods={"GET"})
+     */
+    public function postList(PostRepository $postRepository)
+    {
+
+        $posts = $postRepository->apiFindAll();
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($posts, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getIdpost();
+            }
+        ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/api/addPostApi", name="addPostApi")
+     */
+    public function addPostApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+
+            $content=$request->getContent();
+            $posts=json_decode($content,true);
+            $post = New Post();
+            $post->setCategorie($posts['categorie']);
+            $post->setContent($posts['content']);
+            $post->setMediaurl($posts['mediaurl']);
+            $post->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(['cinuser'=>$posts['idower']]);
+            $post->setIdower($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($post);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+
+    }
+
+
+    /**
+     * @Route("/api/updatePostAPI/{id}", name="updatePostAPI")
+     */
+    public function updatePostAPI(Post $post, Request $request, $id)
+    {
+        try {
+
+            $content=$request->getContent();
+            $posts=json_decode($content,true);
+            $post = $this->getDoctrine()->getManager()->getRepository(Post::class)->find($id);
+            $post->setCategorie($posts['categorie']);
+            $post->setContent($posts['content']);
+            $post->setMediaurl($posts['mediaurl']);
+            $post->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(['cinuser'=>$posts['idower']]);
+            $post->setIdower($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('update to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+    /**
+     * @Route("/api/deletePostApi/{id}", name="deletePostApi")
+     */
+    public function deletePostApi(Post $post, Request $request, $id)
+    {
+        try {
+
+            $content=$request->getContent();
+            $posts=json_decode($content,true);
+            $post = $this->getDoctrine()->getManager()->getRepository(Post::class)->find($id);
+            $post->setState('Deleted');
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('Deleted',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
     }
 
 
