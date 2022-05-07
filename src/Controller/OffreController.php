@@ -6,6 +6,8 @@ use App\Entity\Offre;
 use App\Entity\User;
 use App\Form\InterestType;
 use App\Repository\OffreRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -15,7 +17,11 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\OffreType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
-
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class OffreController extends AbstractController
 {
@@ -256,5 +262,124 @@ class OffreController extends AbstractController
 
     }
 
+
+    //Api
+
+    /**
+     * @Route("/api/offreList", name="offreList", methods={"GET"})
+     */
+    public function offreList(OffreRepository $offreRepository)
+    {
+
+        $offres = $offreRepository->apiFindAll();
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($offres, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getIdoffer();
+            }
+        ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
+    /**
+     * @Route("/api/rechercheOffreId/{id}", name="rechercheOffreId", methods={"GET"})
+     */
+    public function rechercheOffreId(Offre $offre)
+    {
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+        $jsonContent = $serializer->serialize($offre, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getIdoffer();
+            }
+        ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+    /**
+     * @Route("/api/addOfferAPI", name="addOfferApi")
+     */
+    public function addOfferApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+
+            $content=$request->getContent();
+            $offres=json_decode($content,true);
+            $offre = New Offre();
+            $offre->setTitleoffer($offres['titleoffer']);
+            $offre->setDescoffer($offres['descoffer']);
+            $offre->setCatoffre($offres['catoffre']);
+            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(['cinuser'=>$offres['offerprovider']]);
+            $offre->setOfferprovider($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($offre);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+
+    }
+
+
+    /**
+     * @Route("/api/updateOfferAPI/{id}", name="edit")
+     */
+    public function updateOfferAPI(Offre $offre, Request $request, $id)
+    {
+        try {
+
+            $content=$request->getContent();
+            $offres=json_decode($content,true);
+            $offre = $this->getDoctrine()->getManager()->getRepository(Offre::class)->find($id);
+            $offre->setTitleoffer($offres['titleoffer']);
+            $offre->setDescoffer($offres['descoffer']);
+            $offre->setCatoffre($offres['catoffre']);
+            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(['cinuser'=>$offres['offerprovider']]);
+            $offre->setOfferprovider($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('update to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+    }
+
+
+
+    /**
+     * @Route("/api/deleteOfferApi/{id}", name="deleteOfferApi")
+     */
+    public function deleteOfferApi(Offre $offre, Request $request, $id)
+    {
+        try {
+
+            $content=$request->getContent();
+            $offres=json_decode($content,true);
+            $offre = $this->getDoctrine()->getManager()->getRepository(Offre::class)->find($id);
+            $offre->setState('Deleted');
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('Deleted',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+    }
 
 }

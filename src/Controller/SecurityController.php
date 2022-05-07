@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\User;
+use App\Services\SessionManagmentService;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,7 +29,51 @@ class SecurityController extends AbstractController
     /**
      * @Route("/loginCheck", name="loginCheck", methods={"GET", "POST"})
      */
-    public function loginCheck(Request $request,UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,JWTTokenManagerInterface $JWTManager): Response
+    public function loginCheck(Request $request,UserPasswordEncoderInterface $encoder,SessionManagmentService $sessionManagmentService): Response
+    {
+        $userMail=$request->get('userMail');
+        $userPasswd=$request->get('userPasswd');
+        $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(["email"=>$userMail]);
+        $response=New Response();
+        if($user!=null){
+            $hash=$encoder->isPasswordValid($user,$userPasswd);
+            if($hash){
+                //login
+                $sessionManagmentService->createSession($user);
+                if($user->getRole()=='Admin')
+                    return $this->redirectToRoute('app_dashboard_back_office', []);
+                return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
+            }
+            else{
+                //error wrong password
+                //$response->setContent(json_encode(['Error'=>'Wrong Password']));
+                return $this->redirectToRoute('loginFailed', ['error'=>'Wrong Password']);
+            }
+        }
+        else{
+            //error user not found
+            //$response->setContent(json_encode(['Error'=>'User Not Found']))
+            return $this->redirectToRoute('loginFailed', ['error'=>'User Not Found']);
+        }
+
+
+    }
+
+    /**
+     * @Route("/loginFailed?{error}", name="loginFailed", methods={"GET", "POST"})
+     */
+    public function loginfailed($error)
+    {
+        return $this->render('FrontOffice/login.html.twig', [
+            'controller_name' => 'NavigationFrontOfficeController',
+            'error'=>$error
+        ]);
+    }
+
+    /**
+     * @Route("/api/loginCheck", name="loginCheckapi", methods={"GET", "POST"})
+     */
+    public function loginCheckApi(Request $request,UserPasswordEncoderInterface $encoder,SerializerInterface $serializer,JWTTokenManagerInterface $JWTManager): Response
     {
         $userMail=$request->get('userMail');
         $userPasswd=$request->get('userPasswd');
@@ -55,6 +100,22 @@ class SecurityController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/logout", name="logout")
+     */
+    public function logout(SessionManagmentService $sessionManagmentService): Response
+    {   $sessionManagmentService->deleteCurrentSession();
+        return $this->redirectToRoute('Login', []);
+    }
 
+    /**
+     * @Route("/error", name="error")
+     */
+    public function error(): Response
+    {
+        return $this->render('errorPlaceHolder.html.twig', [
+            'controller_name' => 'NavigationFrontOfficeController'
+        ]);
+    }
 
 }

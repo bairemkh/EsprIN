@@ -5,13 +5,18 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Services\SessionManagmentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ObjectManager;
+use Dompdf\Exception;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag;
+use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\Session\Storage\NativeSessionStorage;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -21,24 +26,24 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class UserController extends AbstractController
 {
+    //<editor-fold desc="Web">
+
     /**
      * @Route("/", name="app_user_index", methods={"GET"})
      */
-    public function index(EntityManagerInterface $entityManager): Response
+    public function index(SessionManagmentService $sessionManagmentService): Response
     {
-        $users = $entityManager
-            ->getRepository(User::class)
-            ->findAll();
+        if ($sessionManagmentService->verifySessionOpened()) {
 
-        return $this->render('user/index.html.twig', [
-            'users' => $users,
-        ]);
+            return $this->redirectToRoute('profile', ['userCin' => $sessionManagmentService->getUser()->getCinuser()]);
+        } else
+            return $this->redirectToRoute('Login', []);
     }
 
     /**
      * @Route("/createStudentAccount", name="create_student_Account",methods={"GET", "POST"})
      */
-    public function StudentRegister(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function StudentRegister(Request $request, UserPasswordEncoderInterface $encoder, SessionManagmentService $sessionManagmentService): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -59,6 +64,7 @@ class UserController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
+            $sessionManagmentService->createSession($user);
 
             return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
         }
@@ -71,7 +77,7 @@ class UserController extends AbstractController
     /**
      * @Route("/createProfAccount", name="create_prof_Account",methods={"GET", "POST"})
      */
-    public function profRegister(Request $request, UserPasswordEncoderInterface $encoder): Response//typeClub
+    public function profRegister(Request $request, UserPasswordEncoderInterface $encoder, SessionManagmentService $sessionManagmentService): Response//typeClub
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -91,6 +97,7 @@ class UserController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
+            $sessionManagmentService->createSession($user);
 
             return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
         }
@@ -103,7 +110,7 @@ class UserController extends AbstractController
     /**
      * @Route("/createClubAccount", name="create_club_Account",methods={"GET", "POST"})
      */
-    public function clubRegister(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function clubRegister(Request $request, UserPasswordEncoderInterface $encoder, SessionManagmentService $sessionManagmentService): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -123,7 +130,7 @@ class UserController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
-
+            $sessionManagmentService->createSession($user);
             return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
         }
 
@@ -163,15 +170,19 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/{userCin}", name="profile", methods={"GET"})
      */
-    public function profile($userCin): Response
+    public function profile($userCin, SessionManagmentService $sessionManagmentService): Response
     {
-        $user = $this->getDoctrine()->getRepository(User::class)->find($userCin);
-        echo $user->getCinuser() . $user->getFirstname();
-        $imgPath = 'images/users/' . $user->getImgurl();
-        return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
-            'user' => $user,
-            'image' => $imgPath
-        ]);
+        if ($sessionManagmentService->verifySessionOpened()) {
+            $user = $this->getDoctrine()->getRepository(User::class)->find($userCin);
+            echo $user->getCinuser() . $user->getFirstname();
+            $imgPath = 'images/users/' . $user->getImgurl();
+            return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
+                'user' => $user,
+                'image' => $imgPath
+            ]);
+        } else
+            return $this->redirectToRoute('error', []);
+
     }
 
     /**
@@ -334,18 +345,112 @@ class UserController extends AbstractController
         return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
         //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
     }
+
     /**
-     * @Route("/test", name="test")
+     * @Route("/test", name="test",methods={"GET", "POST"})
+     */
+    public function testQuery(SessionManagmentService $sessionManagmentService, EntityManagerInterface $entityManager)
+    {
+        $user = $entityManager->getRepository(User::class)->findOneBy(["email" => 'bairem.khedhri@esprit.tn']);
+        $sessionManagmentService->createSession($user);
+        $session = $this->get('session');
+        dump($session);
+        die;
+    }
+
+    /**
+     * @Route("/test2", name="test2")
+     */
+    public function test2Query(SessionManagmentService $sessionManagmentService)
+    {
+        //$sessionManagmentService->verifySessionOpened();
+        dump($sessionManagmentService->getUser());
+        die;
+    }
+
+    /**
+     * @Route("/test3", name="test3")
      * @param UserRepository $userRepository
      * @return Response
      */
-    public function testQuery(UserRepository $userRepository)
+    public function test3Query(SessionManagmentService $sessionManagmentService)
     {
-        $usersR = $userRepository;
-        $users=$usersR->test();
-        dump($users);
+        //$s = $this->get('session');
+        $sessionManagmentService->deleteCurrentSession();
+        $session = $this->get('session');
+        dump($session);
         die;
     }
+
+//</editor-fold>
+
+//<editor-fold desc="API">
+    /**
+     * @Route("/api/createNewAccount", name="create_new_AccountAPI",methods={"GET", "POST"})
+     */
+    public function StudentRegisterAPI(Request $request, UserPasswordEncoderInterface $encoder,SerializerInterface $serializer): Response
+    {
+        try {
+
+            $content=$request->getContent();
+            $user=$serializer->deserialize($content,User::class,'json');
+            $user->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($user);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
+
+    /**
+     * @Route("/api/getStudents", name="getStudents",methods={"GET"})
+     */
+    public function getStudentsAPI(Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        try {
+            $students = $em->createQueryBuilder()->select('u')
+                ->from('App\Entity\User', 'u')
+                ->where('u.role=\'Etudiant\' ')
+                ->getQuery()
+                ->getArrayResult();
+            $json = $serializer->serialize($students, 'json');
+            return new Response($json, 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
+
+    /**
+     * @Route("/api/findUser/{email}", name="findUser",methods={"GET"})
+     */
+    public function findUserAPI($email,Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        try {
+            $students = $em->createQueryBuilder()->select('u')
+                ->from('App\Entity\User', 'u')
+                ->where('u.email=:email')
+                ->setParameter('email',$email)
+                ->getQuery()
+                ->getArrayResult();
+            dump($students);
+            $json = $serializer->serialize($students, 'json');
+            return new Response($json, 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
+//</editor-fold>
 
 }
 

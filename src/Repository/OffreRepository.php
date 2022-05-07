@@ -22,6 +22,23 @@ class OffreRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return Offre[] Returns an array of Articles objects
+     */
+    public function apiFindAll() : array
+    {
+        $qb = $this->createQueryBuilder('o')
+            ->select('o.idoffer', 'o.titleoffer', 'o.descoffer', 'o.catoffre')
+            ->orderBy('o.idoffer', 'DESC');
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
+
+
+
+    /**
      * @throws ORMException
      * @throws OptimisticLockException
      */

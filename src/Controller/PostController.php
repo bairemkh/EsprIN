@@ -253,7 +253,6 @@ class PostController extends AbstractController
      *  * Creates a new ActionItem entity.
      *
      * @Route("/search", name="ajax_search")
-     * @Method("GET")
      */
     public function searchAction(Request $request)
     {
