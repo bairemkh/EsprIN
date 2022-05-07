@@ -5,10 +5,13 @@ namespace App\Repository;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\NoResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\Query\ResultSetMapping;
 use Doctrine\Persistence\ManagerRegistry;
+use PHPUnit\Util\Exception;
 use Symfony\Component\Mime\Email;
 
 /**
@@ -164,6 +167,25 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery();
         dump($res->getArrayResult());
         return $res->getArrayResult();
+
+    }
+
+    public function getStatistics(): array
+    {
+        $em=$this->getEntityManager();
+        try {
+            $numberProfs = $em->createQueryBuilder()
+                ->select('u.role,count(u)')
+                ->from('App\Entity\User', 'u')
+                ->groupBy('u.role')
+                ->getQuery()
+                ->getArrayResult();
+            return $numberProfs;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        die;
+        }
+
 
     }
 

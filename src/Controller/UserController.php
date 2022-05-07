@@ -361,8 +361,11 @@ class UserController extends AbstractController
     /**
      * @Route("/test2", name="test2")
      */
-    public function test2Query(SessionManagmentService $sessionManagmentService)
+    public function test2Query(SessionManagmentService $sessionManagmentService, UserRepository $userRepository)
     {
+        dump($userRepository->getStatistics()) ;
+        $stats=$userRepository->getStatistics();
+        echo $stats[0]>
         //$sessionManagmentService->verifySessionOpened();
         dump($sessionManagmentService->getUser());
         die;
@@ -370,15 +373,14 @@ class UserController extends AbstractController
 
     /**
      * @Route("/test3", name="test3")
-     * @param UserRepository $userRepository
-     * @return Response
      */
-    public function test3Query(SessionManagmentService $sessionManagmentService)
+    public function test3Query(SessionManagmentService $sessionManagmentService,EntityManagerInterface $em)
     {
         //$s = $this->get('session');
-        $sessionManagmentService->deleteCurrentSession();
+        $em->createQueryBuilder()->
+        /*$sessionManagmentService->deleteCurrentSession();
         $session = $this->get('session');
-        dump($session);
+        dump($session);*/
         die;
     }
 
@@ -395,6 +397,7 @@ class UserController extends AbstractController
             $content=$request->getContent();
             $user=$serializer->deserialize($content,User::class,'json');
             $user->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $user->setPasswd($encoder->encodePassword($user,$user->getPasswd()));
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
@@ -415,7 +418,6 @@ class UserController extends AbstractController
         try {
             $students = $em->createQueryBuilder()->select('u')
                 ->from('App\Entity\User', 'u')
-                ->where('u.role=\'Etudiant\' ')
                 ->getQuery()
                 ->getArrayResult();
             $json = $serializer->serialize($students, 'json');

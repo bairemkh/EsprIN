@@ -135,9 +135,9 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Disconnected"})
      */
-    private $state = 'Active';
+    private $state = 'Disconnected';
 
 
 

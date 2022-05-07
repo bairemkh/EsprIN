@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class PostController extends AbstractController
 {
@@ -277,6 +278,20 @@ class PostController extends AbstractController
         }
 
         return $realEntities;
+    }
+
+    /**
+     * @Route ("api/getposts",name="get-posts-api")
+     */
+    public function getpostsApi(SerializerInterface $serializer): Response
+    {
+        $posts = $this->getDoctrine()
+            ->getRepository(Post::class)
+            ->findAll();
+        $json = $serializer->serialize($posts, 'json', ['groups' => 'posts']);
+        $Response = new Response($json);
+
+        return $Response;
     }
 
 
