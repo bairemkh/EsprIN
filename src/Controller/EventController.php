@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Repository\EventRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DomCrawler\Image;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\Date;
 
 class EventController extends AbstractController
@@ -27,27 +29,28 @@ class EventController extends AbstractController
         ]);
     }
     /* ******************* EVENT ******************* */
-            /* *********** BACK *********** */
+    /* *********** BACK *********** */
 
     //affichage back
     /**
      * @Route ("/EventsDashboard",name="EventsDashboard")
      */
-    public function getEvents():Response
+    public function getEvents(): Response
     {
         $events = $this->getDoctrine()
             ->getRepository(Event::class)
             ->findByExampleField('Active');
-        return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
+        return $this->render('BackOffice/EventsDashboard.html.twig', ['events' => $events]);
     }
 
     // delete back
+
     /**
      * @Route ("/EventsDashboard/{id}",name="deleteevent")
      */
     public function deleteevent($id)
     {
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $event = $this->getDoctrine()
             ->getRepository(Event::class)
             ->find($id);
@@ -86,7 +89,7 @@ class EventController extends AbstractController
     /**
      * @Route("/eventsFront", name="eventsFront")
      */
-    public function getlistevents():Response
+    public function getlistevents(): Response
     {
         $events = $this->getDoctrine()
             ->getRepository(Event::class)
@@ -99,12 +102,12 @@ class EventController extends AbstractController
     /**
      * @Route("/navbar-v1-eventDetails/{id}", name="eventDetails")
      */
-    public function DetailsEvents($id):Response
+    public function DetailsEvents($id): Response
     {
         $event = $this->getDoctrine()
             ->getRepository(Event::class)
             ->find($id);
-        return $this->render('FrontOffice/navbar-v1-eventDetails.html.twig',['event'=>$event]);
+        return $this->render('FrontOffice/navbar-v1-eventDetails.html.twig', ['event' => $event]);
     }
 
 
@@ -112,12 +115,13 @@ class EventController extends AbstractController
 
 
     // delete front
+
     /**
      * @Route ("/navbar-v2-events/{id}",name="deleteventfront")
      */
     public function deleteeventfront($id)
     {
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $event = $this->getDoctrine()
             ->getRepository(Event::class)
             ->find($id);
@@ -147,9 +151,9 @@ class EventController extends AbstractController
         $event->setDatedebut($dateD);
         $event->setDatefin($dateF);
         $event->setIdorganizer($user);
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($event);
-            $manager->flush();
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($event);
+        $manager->flush();
 
         return $this->redirectToRoute('navbar-v2-events');
     }
@@ -157,12 +161,12 @@ class EventController extends AbstractController
     /**
      * @Route("/editevent", name="editevent")
      */
-  /*  public function editevent(Request $request, Event $event, EventRepository $eventRepository): Response
-    {
-        $form= $this->createForm();
+    /*  public function editevent(Request $request, Event $event, EventRepository $eventRepository): Response
+      {
+          $form= $this->createForm();
 
 
-    }*/
+      }*/
 
 
 
@@ -176,36 +180,37 @@ class EventController extends AbstractController
     /**
      * @Route ("/ParticipateListEvents{id}",name="ParticipateList")
      */
-    public function ParticipateList($id):Response
+    public function ParticipateList($id): Response
     {
-        $participates= $this->getDoctrine()
+        $participates = $this->getDoctrine()
             ->getRepository(Event::class)
             ->find($id);
-        return $this->render('BackOffice/ParticipatesDashboard.html.twig',['participates'=>$participates->getCinuser()]);
+        return $this->render('BackOffice/ParticipatesDashboard.html.twig', ['participates' => $participates->getCinuser()]);
     }
 
 
-                 /* *********** Front *********** */
+    /* *********** Front *********** */
     ////participate list Front
     /**
      * @Route ("/navbar-v2-events/ParticipateList/{id}",name="ParticipateListFront")
      */
-    public function ParticipateListfront($id):Response
+    public function ParticipateListfront($id): Response
     {
-        $participates= $this->getDoctrine()
+        $participates = $this->getDoctrine()
             ->getRepository(Event::class)
             ->find($id);
-        return $this->render('FrontOffice/navbar-v2-participateList.html.twig',['participates'=>$participates->getCinuser()]);
+        return $this->render('FrontOffice/navbar-v2-participateList.html.twig', ['participates' => $participates->getCinuser()]);
     }
 
 
 
 
     //// add participate Front
+
     /**
      * @Route ("/navbar-v2-events/Participate/{id}",name="addParticipate")
      */
-    public function addParticipate(Request $request , $id):Response
+    public function addParticipate(Request $request, $id): Response
     {
         dump($request);
         $user = $this->getDoctrine()
@@ -216,14 +221,14 @@ class EventController extends AbstractController
         $event = $this->getDoctrine()
             ->getRepository(Event::class)
             ->find($id);
-       // $nbPart= $event->getNbrparticipant();
+        // $nbPart= $event->getNbrparticipant();
         // $nbPart =$request->get('NbParticipate');
-      //  $nbPart = $nbPart+1;
+        //  $nbPart = $nbPart+1;
         //$event->setNbrparticipant($nbPart);
 
 
         $event->addCinuser($user);
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $em->flush();
 
         return $this->redirectToRoute('navbar-v2-event');
@@ -231,12 +236,13 @@ class EventController extends AbstractController
 
 
     // delete Part Front
+
     /**
      * @Route ("/navbar-v2-events/delPart/{id}",name="deleteParticipate")
      */
     public function deleteParticipate($id)
     {
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->find(1010101);
@@ -252,18 +258,18 @@ class EventController extends AbstractController
 
 
 
-       /* *************** metier ********************** */
+    /* *************** metier ********************** */
     ////Location event list Front
     /**
      * @Route ("/navbar-v2-events/Participate/locationList/{id}",name="locationList")
      */
-    public function LocationListfront($cin=1010101):Response
+    public function LocationListfront($cin = 1010101): Response
     {
-        $participates= $this->getDoctrine()
+        $participates = $this->getDoctrine()
             ->getRepository(Event::class)
             ->find($cin);
 
-        return $this->render('FrontOffice/navbar-v1-eventDetails.html.twig',['participates'=>$participates->getEventlocal()]);
+        return $this->render('FrontOffice/navbar-v1-eventDetails.html.twig', ['participates' => $participates->getEventlocal()]);
     }
 
 
@@ -315,4 +321,16 @@ class EventController extends AbstractController
 
 
 
+    /**
+     * @Route ("api/getevents",name="get-events-api")
+     */
+    public function geteventApi(SerializerInterface $serializer): Response
+    {
+        $events = $this->getDoctrine()
+            ->getRepository(Event::class)
+            ->findAll();
+        $json = $serializer->serialize($events, 'json', ['groups' => 'events']);
+        $Response = new Response($json);
+        return $Response;
+    }
 }

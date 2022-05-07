@@ -6,8 +6,11 @@ use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * @ApiResource(formats={"json"})
  * @ORM\Entity(repositoryClass=PostRepository::class)
  */
 class Post
@@ -15,7 +18,7 @@ class Post
 
     /**
      * @var int
-     *
+     * @Groups("posts")
      * @ORM\Column(name="idPost", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
@@ -24,6 +27,7 @@ class Post
 
     /**
      * @var string
+     * @Groups("posts")
      * @Assert\NotBlank(message="Post Description is required")
      * @Assert\Length(
      *      min = 10,
@@ -37,12 +41,14 @@ class Post
 
     /**
      * @var string
+     * @Groups("posts")
      * @ORM\Column(name="mediaURL", type="text", length=65535, nullable=true)
      */
     private $mediaurl;
 
     /**
      * @var \DateTime
+     * @Groups("posts")
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false)
      */
@@ -50,13 +56,14 @@ class Post
 
     /**
      * @var string
-     *
+     * @Groups("posts")
      * @ORM\Column(name="categorie", type="string", length=20, nullable=false)
      */
     private $categorie;
 
     /**
      * @var int
+     * @Groups("posts")
      *
      * @ORM\Column(name="likeNum", type="integer", nullable=false)
      */
@@ -64,6 +71,7 @@ class Post
 
     /**
      * @var string
+     * @Groups("posts")
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
      */
@@ -71,7 +79,7 @@ class Post
 
     /**
      * @var \User
-     *
+     * @Groups("posts")
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idOwer", referencedColumnName="cinUser")
@@ -80,7 +88,7 @@ class Post
     private $idower;
 
     /**
-     *
+     * @Groups("posts")
      * @ORM\ManyToMany(targetEntity="User", mappedBy="likepost")
      */
     private $likeuser;
