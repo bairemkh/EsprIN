@@ -55,7 +55,7 @@ class Alert
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
-    private $state = '\'Active\'';
+    private $state = 'Active';
 
     /**
      * @var \Catalert

@@ -21,6 +21,7 @@ class AlertRepository extends ServiceEntityRepository
         parent::__construct($registry, Alert::class);
     }
 
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException
