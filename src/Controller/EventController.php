@@ -324,13 +324,50 @@ class EventController extends AbstractController
     /**
      * @Route ("api/getevents",name="get-events-api")
      */
-    public function geteventApi(SerializerInterface $serializer): Response
+    public function geteventApi(SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
-        $events = $this->getDoctrine()
+       /* $events = $this->getDoctrine()
             ->getRepository(Event::class)
-            ->findAll();
+            ->findAll();*/
+        $events=$em->createQueryBuilder()
+            ->select('e.idevent,e.titleevent,e.contentevent,e.contentevent,e.eventlocal,e.nbrparticipant,e.datedebut,e.datefin,u.cinuser AS idOrganizer')
+            ->from('App\Entity\Event','e')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = e.idorganizer")
+            ->getQuery()
+            ->getArrayResult();
         $json = $serializer->serialize($events, 'json', ['groups' => 'events']);
         $Response = new Response($json);
         return $Response;
+    }
+
+    /**
+     * @Route("/api/addevent", name="addEventApi")
+     */
+    public function addeventApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+            $event = new Event();
+            $json=$request->getContent();
+            $content=json_decode($json,true);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($content['idOrganizer']);
+            $event->setTitleevent($content['titleEvent']);
+            $event->setContentevent($content['contentEvent']);
+            $event->setEventlocal($content['locationEvent']);
+            $dateD = new \DateTime($content['dateDebut']);
+            $dateF = new \DateTime($content['dateFin']);
+            $event->setDatedebut($dateD);
+            $event->setDatefin($dateF);
+            $event->setIdorganizer($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($event);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+
     }
 }
