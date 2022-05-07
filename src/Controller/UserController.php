@@ -376,11 +376,10 @@ class UserController extends AbstractController
      */
     public function test3Query(SessionManagmentService $sessionManagmentService,EntityManagerInterface $em)
     {
-        //$s = $this->get('session');
-        $em->createQueryBuilder()->
-        /*$sessionManagmentService->deleteCurrentSession();
+
+        $sessionManagmentService->deleteCurrentSession();
         $session = $this->get('session');
-        dump($session);*/
+        dump($session);
         die;
     }
 

@@ -2,16 +2,13 @@
 
 namespace App\Entity;
 
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Event
- * @ApiResource(formats={"json"})
  *
  * @ORM\Table(name="event", indexes={@ORM\Index(name="FK_organizer", columns={"idOrganizer"})})
  * @ORM\Entity
@@ -72,7 +69,7 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      * @Groups("events")
      */
     private $state = 'Active';
@@ -98,9 +95,8 @@ class Event
      *
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumns({
-     * @ORM\JoinColumn(name="idOrganizer", referencedColumnName="cinUser")
+     *   @ORM\JoinColumn(name="idOrganizer", referencedColumnName="cinUser")
      * })
-     * @Groups("events")
      */
     private $idorganizer;
 
@@ -108,7 +104,6 @@ class Event
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\ManyToMany(targetEntity="User", mappedBy="idevent")
-     * @Groups("events")
      */
     private $cinuser;
 
