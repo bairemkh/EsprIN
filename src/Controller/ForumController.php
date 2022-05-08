@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 
+use App\Entity\Event;
 use App\Entity\Forum;
 use App\Entity\Responded;
 use App\Entity\User;
@@ -190,6 +191,36 @@ class ForumController extends AbstractController
         $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
         $Response = new Response($json);
         return $Response;
+
+    }
+
+    /**
+     * @Route("/api/addforum", name="addForumApi")
+     */
+    public function addForumApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+            $event = new Event();
+            $json=$request->getContent();
+            $content=json_decode($json,true);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($content['idOwner']);
+            $forum=new Forum();
+            $date = new \DateTime('@' . strtotime('now'));
+            $forum->setDatecreation($date);
+            $forum->setTitle($content['title']);
+            $forum->setContent($content['content']);
+            $forum->setCategorieforum($content['categorieforum']);
+            $forum->setIdowner($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($forum);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
 
     }
 }

@@ -65,7 +65,7 @@ class Forum
      * @ORM\Column(name="nbrLikesForum", type="integer", nullable=false)
      * @Groups("forums")
      */
-    private $nbrlikesforum;
+    private $nbrlikesforum= '0';
 
     /**
      * @var int
@@ -73,7 +73,7 @@ class Forum
      * @ORM\Column(name="nbrResponseForum", type="integer", nullable=false)
      * @Groups("forums")
      */
-    private $nbrresponseforum;
+    private $nbrresponseforum= '0';
 
     /**
      * @var string
