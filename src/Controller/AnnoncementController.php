@@ -3,10 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Annoncement;
+use App\Entity\Catannonce;
+use App\Entity\User;
+use App\Repository\AnnoncementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class AnnoncementController extends AbstractController
 {
@@ -69,4 +76,84 @@ class AnnoncementController extends AbstractController
             return $this->render('BackOffice/AddNewAnnounce.html.twig', [
             ]);
         }
+
+
+
+        /////Api
+
+
+    /**
+     * @Route("/api/annoucementList", name="annoucementList", methods={"GET"})
+     */
+    public function annoncementList(AnnoncementRepository $annoncementRepository)
+    {
+
+        $annoncement = $annoncementRepository->apiFindAll();
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $serializer = new Serializer($normalizers, $encoders);
+
+        $jsonContent = $serializer->serialize($annoncement, 'json', [
+            'circular_reference_handler' => function ($object) {
+                return $object->getIdoffer();
+            }
+        ]);
+        $response = new Response($jsonContent);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
+    /**
+     * @Route("/api/addAnnoncementApi", name="addAnnoncementApi")
+     */
+    public function addAnnoncementApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+
+            $content=$request->getContent();
+            $annoncements=json_decode($content,true);
+            $annoncement = New Annoncement();
+            $annoncement->setSubject($annoncements['subject']);
+            $annoncement->setContent($annoncements['content']);
+            $annoncement->setDestination($annoncements['destination']);
+            $annoncement->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(['cinuser'=>$annoncements['idsender']]);
+            $annoncement->setIdsender($user);
+            $catAnn=$this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann'=>$request->get('Category')]);
+            $annoncement->setCatann($catAnn->getIdcatann());
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($annoncement);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+
+    }
+
+
+    /**
+     * @Route("/api/deleteannoncementApi/{id}", name="deleteannoncementApi")
+     */
+    public function deleteannoncementApi(Annoncement $annoncement, Request $request, $id)
+    {
+        try {
+
+            $content=$request->getContent();
+            $annoncements=json_decode($content,true);
+            $annoncement = $this->getDoctrine()->getManager()->getRepository(Annoncement::class)->find($id);
+            $annoncement->setState('Deleted');
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('Deleted',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+    }
 }

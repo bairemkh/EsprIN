@@ -21,6 +21,23 @@ class AnnoncementRepository extends ServiceEntityRepository
         parent::__construct($registry, Annoncement::class);
     }
 
+
+
+    /**
+     * @return Annoncement[] Returns an array of Articles objects
+     */
+    public function apiFindAll() : array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.idann', 'a.subject', 'a.content', 'a.destination', 'a.createdat', 'a.catann')
+            ->orderBy('a.idann', 'DESC');
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
+
     /**
      * @throws ORMException
      * @throws OptimisticLockException
