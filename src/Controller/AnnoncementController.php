@@ -78,14 +78,20 @@ class AnnoncementController extends AbstractController
     /* *********** FRONT *********** */
 
     // affichage front
+
+    /* *********** FRONT *********** */
+
+    // affichage front
     /**
      * @Route("/announceFront", name="announceFront")
      */
-    public function getlistannounce():Response
+    public function getlistann():Response
     {
-        $announces = $this->getDoctrine()
+        $ann = $this->getDoctrine()
             ->getRepository(Annoncement::class)
             ->findByStateField('Active');
-        return $this->render('FrontOffice/announceFront.html.twig',['announces'=>$announces]);
+        return $this->render('FrontOffice/announceFront.html.twig',['ann'=>$ann]);
     }
+
+
 }

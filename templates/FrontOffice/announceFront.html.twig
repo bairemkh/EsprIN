@@ -383,7 +383,7 @@
 
 
                     <!--#region test-->
-                    {% for announce in announces %}
+                    {% for announce in ann %}
                         <!--#region Announce -->
                         <!-- /partials/pages/feed/posts/feed-post1.html -->
                         <!-- POST #1 -->
@@ -401,13 +401,13 @@
                                         </div>
                                         <div class="user-info">
                                             <a href="#">{{ announce.subject }}</a>
-                                            <span class="time">{{ announce.createdat }}</span>
+                                            <span class="time">{{ announce.createdat |date('d-m-Y') }}</span>
                                         </div>
                                     </div>
                                     <!-- Right side dropdown -->
                                     <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
                                     <div class="categoryAnn">
-                                        <h4>{{ announce. }}</h4>
+                                        <h4>{{ announce.catann }}</h4>
                                     </div>
                                 </div>
                                 <!-- /Post header -->
@@ -416,7 +416,7 @@
                                 <div class="card-body">
                                     <!-- Post body text -->
                                     <div class="post-text">
-                                        <p> This is an announcement
+                                        <p> {{ announce.content }}
                                         </p>
                                     </div>
                                     <!-- Featured image -->
