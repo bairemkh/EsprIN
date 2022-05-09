@@ -7,17 +7,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\AnnoncementRepository;
 
 class AnnoncementController extends AbstractController
 {
+
+
     /**
-     * @Route ("/AnnounceDashboard",name="AnnounceDashboard")
+     * @Route("/announcementDashboard",name="announcementDashboard")
      */
-    public function getAnnounces():Response{
-        $announces= $this->getDoctrine()
+    public function GetAnnoucement():Response{
+        $announcement=$this->getDoctrine()
             ->getRepository(Annoncement::class)
-            ->findByStateField('Active');
-        return $this->render('BackOffice/AnnounceDashboard.html.twig',['announces'=>$announces]);
+            ->findAll();
+        return $this->render('BackOffice/AnnounceDashboard.html.twig',[
+           'announcement'=>$announcement
+        ]);
     }
     /**
      * @Route("/annoncement", name="app_annoncement")
@@ -69,4 +74,18 @@ class AnnoncementController extends AbstractController
             return $this->render('BackOffice/AddNewAnnounce.html.twig', [
             ]);
         }
+
+    /* *********** FRONT *********** */
+
+    // affichage front
+    /**
+     * @Route("/announceFront", name="announceFront")
+     */
+    public function getlistannounce():Response
+    {
+        $announces = $this->getDoctrine()
+            ->getRepository(Annoncement::class)
+            ->findByStateField('Active');
+        return $this->render('FrontOffice/announceFront.html.twig',['announces'=>$announces]);
+    }
 }

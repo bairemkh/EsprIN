@@ -107,7 +107,7 @@
                     <!-- ********* -->
                     <!--Contenue de tableau -->
                     {% for user in users %}
-                        {% if user.state == "Connected" or user.state == "Disconnected" or user.state == "Banned" %}
+                        {% if user.state == "Connected" or user.state == "Disconnected" or user.state == "Banned" or user.state == "Active"  %}
                             <tbody>
                             <tr>
                                 <!-- Image -->
@@ -161,9 +161,9 @@
                                       <i data-feather="more-horizontal" aria-hidden="true"></i>
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
-                                      <li><a href="##">Edit</a></li>
-                                      <li><a href="##">Delete</a></li>
-                                      <li><a href="##">Trash</a></li>
+
+                                      <li><a href={{ path('app_user_delete', {'cinuser': user.cinuser}) }}>Delete</a></li>
+
                                     </ul>
                                   </span>
                                 </td>

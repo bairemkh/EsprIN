@@ -28,7 +28,7 @@ class ForumController extends AbstractController
     }
 
     /**
-     * @Route("/navbar-v2-forums", name="navbar-v2-forum" , methods={"GET", "POST"})
+     * @Route("/forumFront", name="forumFront" , methods={"GET", "POST"})
      */
     public function getlistforums(Request $request ,PaginatorInterface $paginator): Response
     {
@@ -56,7 +56,7 @@ class ForumController extends AbstractController
             4
         );
 
-        return $this->render('FrontOffice/navbar-v2-forums.html.twig',['forums'=>$forums,'responses'=>$responded]);
+        return $this->render('FrontOffice/forumFront.html.twig',['forums'=>$forums,'responses'=>$responded]);
     }
 
     /**

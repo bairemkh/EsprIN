@@ -9,6 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DomCrawler\Image;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Date;
 
@@ -55,19 +57,41 @@ class EventController extends AbstractController
     }
 
 
+    /**
+     * @Route("/navbar-v2-events/ShowByDateAsc", name="ShowByDateAsc")
+     */
+    public function ShowByDateAsc(EventRepository $eventRepository)
+    {
+        $events = $eventRepository->sortByDateAsc();
+        dump($events);
+        return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
 
-           /* *********** FRONT *********** */
+    }
+    /**
+     * @Route("/navbar-v2-events/ShowByDateDesc", name="ShowByDateDesc")
+     */
+    public function ShowByDateDesc(EventRepository $eventRepository)
+    {
+        $events = $eventRepository->sortByDateDesc();
+        dump($events);
+        return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
+
+    }
+
+
+
+    /* *********** FRONT *********** */
 
     // affichage front
     /**
-     * @Route("/navbar-v2-events", name="navbar-v2-event")
+     * @Route("/eventsFront", name="eventsFront")
      */
     public function getlistevents():Response
     {
         $events = $this->getDoctrine()
             ->getRepository(Event::class)
             ->findByExampleField('Active');
-        return $this->render('FrontOffice/navbar-v2-events.html.twig',['events'=>$events]);
+        return $this->render('FrontOffice/eventsFront.html.twig',['events'=>$events]);
     }
 
 
@@ -240,6 +264,51 @@ class EventController extends AbstractController
             ->find($cin);
 
         return $this->render('FrontOffice/navbar-v1-eventDetails.html.twig',['participates'=>$participates->getEventlocal()]);
+    }
+
+
+    /**
+     * @Route ("/navbar-v1-LocationEvents",name="EventByParticipate")
+     */
+    public function EventByParticipate( EventRepository $eventRepository):Response
+    {
+
+        $events = $eventRepository->findByParticipate();
+        dump($events);
+
+
+        return $this->render('FrontOffice/navbar-v1-LocationEvents.html.twig',['eventsPart'=>$events]);
+    }
+
+    /**
+     * @Route ("/navbar-v1-LocationEvents/{id}",name="ShowLocation")
+     */
+    /*  public function ShowLocation(Request $request ,$id):Response
+      {
+
+
+      }*/
+
+    /**
+     * @Route ("/navbar-v2-events/notif",name="sendEmail")
+     */
+    public function sendEmail(MailerInterface $mailer)
+    {
+        $email = (new Email())
+            ->from('khedhribairem@gmail.com')
+            ->to('eya.kasmi@esprit.tn')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('notification!')
+            // ->text('Sending emails is fun again!')
+            ->html('<p>vous aver participer a un evenement!!</p>');
+
+
+        $mailer->send($email);
+        return $this->redirectToRoute('navbar-v2-event');
+
     }
 
 

@@ -6,19 +6,19 @@
         <div class="tabs is-centered">
             <ul>
                 <li>
-                    <a href="{{ path('navbar-v2-feed') }}">Posts</a>
+                    <a href="{{ path('postFront') }}">Posts</a>
                 </li>
                 <li >
-                    <a href="{{ path('navbar-v2-announces') }}">Announces</a>
+                    <a href="{{ path('announceFront') }}">Announces</a>
                 </li>
                 <li class="is-active">
-                    <a href="{{ path('navbar-v2-forums') }}">Forums</a>
+                    <a href="{{ path('forumFront') }}">Forums</a>
                 </li>
                 <li>
-                    <a href="{{ path('navbar-v2-events') }}">Events</a>
+                    <a href="{{ path('eventsFront') }}">Events</a>
                 </li>
                 <li>
-                    <a href="{{ path('navbar-v2-offres') }}">Offers</a>
+                    <a href="{{ path('offreFront') }}">Offers</a>
                 </li>
             </ul>
         </div>
@@ -433,7 +433,7 @@
                         <!-- Middle column -->
                         <div class="column is-6">
                             <div class="search-bar">
-                                <form action={{path('navbar-v2-forum')}} method="post">
+                                <form action={{path('forumFront')}} method="post">
                                     <p><input class="inputsearch" name="search" placeholder="search with title">
                                         <input class="inputsearch" name="tag" placeholder="tag">
                                         <button type="submit" class="button-shape">Search</button> </p>

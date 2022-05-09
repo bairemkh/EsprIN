@@ -66,10 +66,6 @@ function setErrorFor(errorInput, msg) {
     let msgBox = formControl.querySelector('.msg');
     small.innerText = msg;
     msgBox.className = "errorMsg show";
-    let small = formControl.querySelector('.errorMsg')
-    let msgBox = formControl.querySelector('.msg');
-    small.innerText = msg;
-    msgBox.className = "errorMsg";
 }
 
 function removeErrorFor(errorInput) {

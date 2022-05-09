@@ -16077,7 +16077,7 @@ button.button {
 }
 
 .button.light-button.raised:hover {
-    box-shadow: 0 14px 26px -12px rgba(61, 112, 178, .42), 0 4px 23px 0px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(61, 112, 178, .2) ;
+    box-shadow: 0 14px 26px -12px rgba(61, 112, 178, .42), 0 4px 23px 0px rgba(0, 0, 0, .12), 0 8px 10px -5px rgba(61, 112, 178, .2);
     opacity: .8
 }
 
@@ -47904,23 +47904,32 @@ body.is-dark .elements-wrap .element-block code {
     color: #000;
     opacity: .75
 }
-.categoryAnn{
+
+.categoryAnn {
     background: #c30007;
     position: relative;
-    margin-left:auto;
+    margin-left: auto;
     border-radius: 8px;
 }
-.categoryAnn h4{
+
+.categoryAnn h4 {
     font-size: 10px;
-    color:white;
-    margin:0;
+    color: white;
+    margin: 0;
     padding: 5px;
     font-family: "Montserrat", sans-serif;
     text-transform: uppercase;
     position: relative;
-    top:50%;
+    top: 50%;
 }
-#profilMenu{
+
+#profilMenu {
     margin-top: 100px;
 }
+
+#errorMsg {
+    color: #9b3939;
+    font-size: 22px;
+}
+
 /*# sourceMappingURL=scss */

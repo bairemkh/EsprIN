@@ -63,7 +63,7 @@ class ChatBController extends AbstractController
             'posts',
             function (BotMan $bot) {
                 $bot->reply("http://127.0.0.1:8000/showP");
-                //$bot->render(":FrontOffice:post.html.twig");
+                //$bot->render(":FrontOffice:postFront.html.twig");
             }
         );
 

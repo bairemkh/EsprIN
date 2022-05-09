@@ -16,7 +16,7 @@ class NavigationFrontOfficeController extends AbstractController
      */
     public function announces(): Response
     {
-        return $this->render('FrontOffice/navbar-v2-announces.html.twig', [
+        return $this->render('FrontOffice/announceFront.html.twig', [
             'controller_name' => 'NavigationFrontOfficeController',
         ]);
     }
@@ -25,7 +25,7 @@ class NavigationFrontOfficeController extends AbstractController
      */
     public function events(): Response
     {
-        return $this->render('FrontOffice/navbar-v2-events.html.twig', [
+        return $this->render('FrontOffice/eventsFront.html.twig', [
             'controller_name' => 'NavigationFrontOfficeController',
         ]);
     }
@@ -35,7 +35,7 @@ class NavigationFrontOfficeController extends AbstractController
      */
     public function forums(): Response
     {
-        return $this->render('FrontOffice/navbar-v2-forums.html.twig', [
+        return $this->render('FrontOffice/forumFront.html.twig', [
             'controller_name' => 'NavigationFrontOfficeController',
         ]);
     }
@@ -45,7 +45,7 @@ class NavigationFrontOfficeController extends AbstractController
      */
     public function offres(): Response
     {
-        return $this->render('FrontOffice/navbar-v2-offres.html.twig', [
+        return $this->render('FrontOffice/offreFront.html.twig', [
             'controller_name' => 'NavigationFrontOfficeController',
         ]);
     }

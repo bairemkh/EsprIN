@@ -139,70 +139,7 @@ class User implements UserInterface
      */
     private $state = 'Active';
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Offre", mappedBy="cinintrested")
-     */
-    private $idoffer;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Post", inversedBy="likeuser")
-     * @ORM\JoinTable(name="like",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="likeUser", referencedColumnName="cinUser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="likePost", referencedColumnName="idPost")
-     *   }
-     * )
-     */
-    private $likepost;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Event", inversedBy="cinuser")
-     * @ORM\JoinTable(name="participate",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="cinUser", referencedColumnName="cinUser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idEvent", referencedColumnName="idEvent")
-     *   }
-     * )
-     */
-    private $idevent;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Forum", inversedBy="idcreater")
-     * @ORM\JoinTable(name="reacted forum",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idCreater", referencedColumnName="cinUser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idForum", referencedColumnName="idForum")
-     *   }
-     * )
-     */
-    private $idforum;
-
-    private UserPasswordEncoderInterface $encoder;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->idoffer = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->likepost = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idevent = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idforum = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     public function getCinuser(): ?int
     {
@@ -384,104 +321,9 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Offre>
-     */
-    public function getIdoffer(): Collection
-    {
-        return $this->idoffer;
-    }
 
-    public function addIdoffer(Offre $idoffer): self
-    {
-        if (!$this->idoffer->contains($idoffer)) {
-            $this->idoffer[] = $idoffer;
-            $idoffer->addCinintrested($this);
-        }
 
-        return $this;
-    }
 
-    public function removeIdoffer(Offre $idoffer): self
-    {
-        if ($this->idoffer->removeElement($idoffer)) {
-            $idoffer->removeCinintrested($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Post>
-     */
-    public function getLikepost(): Collection
-    {
-        return $this->likepost;
-    }
-
-    public function addLikepost(Post $likepost): self
-    {
-        if (!$this->likepost->contains($likepost)) {
-            $this->likepost[] = $likepost;
-        }
-
-        return $this;
-    }
-
-    public function removeLikepost(Post $likepost): self
-    {
-        $this->likepost->removeElement($likepost);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Event>
-     */
-    public function getIdevent(): Collection
-    {
-        return $this->idevent;
-    }
-
-    public function addIdevent(Event $idevent): self
-    {
-        if (!$this->idevent->contains($idevent)) {
-            $this->idevent[] = $idevent;
-        }
-
-        return $this;
-    }
-
-    public function removeIdevent(Event $idevent): self
-    {
-        $this->idevent->removeElement($idevent);
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Forum>
-     */
-    public function getIdforum(): Collection
-    {
-        return $this->idforum;
-    }
-
-    public function addIdforum(Forum $idforum): self
-    {
-        if (!$this->idforum->contains($idforum)) {
-            $this->idforum[] = $idforum;
-        }
-
-        return $this;
-    }
-
-    public function removeIdforum(Forum $idforum): self
-    {
-        $this->idforum->removeElement($idforum);
-
-        return $this;
-    }
 
     public function getRoles()
     {
@@ -509,4 +351,11 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
+    public function __toString()
+    {
+        return(String)$this->getFirstname();
+    }
+
+
 }

@@ -9,8 +9,8 @@
             <div class="container">
                 <h2 class="main-title">Posts</h2>
                 <span style="margin-left:50%" class="badge-default"><a
-                            href={{ path('TrierParDateAsc') }}>tri par date asc</a></span>
-                <span style="margin-left:50%" class="badge-default">                <a  href={{ path('TrierParDateDesc') }}>tri par date desc</a>
+                            href={{ path('TrierParDateAscPost') }}>tri par date asc</a></span>
+                <span style="margin-left:50%" class="badge-default">                <a  href={{ path('TrierParDateDescPost') }}>tri par date desc</a>
 </span>
 
 
@@ -31,7 +31,7 @@
                         </tr>
                         </thead>
                         {% for post in posts %}
-                            {% if post.state == "'Active'" %}
+                            {% if post.state == 'Active' %}
                         <tbody>
                             <tr>
                                 <!-- Post -->

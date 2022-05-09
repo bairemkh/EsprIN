@@ -49,7 +49,7 @@ class PostController extends AbstractController
 
 
     /**
-     * @Route ("/showP",name="showP")
+     * @Route ("/postFront",name="postFront")
      */
     public function showP(Request $request): Response
     {
@@ -84,7 +84,7 @@ class PostController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
-            return $this->redirectToRoute('showP', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('postFront', [], Response::HTTP_SEE_OTHER);
 
 
         }
@@ -92,7 +92,7 @@ class PostController extends AbstractController
         $comments = sizeof($this->getDoctrine()->getRepository(Commented::class)->findBypostcommented($post->getIdpost()));
 
 
-        return $this->render('FrontOffice/post.html.twig', ["form" => $form->createView(), 'posts' => $posts, "user" => $user, "cmt" => $comments]);
+        return $this->render('FrontOffice/postFront.html.twig', ["form" => $form->createView(), 'posts' => $posts, "user" => $user, "cmt" => $comments]);
     }
 
 
@@ -165,7 +165,7 @@ class PostController extends AbstractController
             return $this->redirectToRoute('showP');
         }
 
-        return $this->render('FrontOffice/post.html.twig', array('form' => $formE->createView(), "posts" => $posts));
+        return $this->render('FrontOffice/postFront.html.twig', array('form' => $formE->createView(), "posts" => $posts));
     }
 
     /**
@@ -226,7 +226,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/TrierParDateAsc", name="TrierParDateAsc")
+     * @Route("/TrierParDateAscPost", name="TrierParDateAscPost")
      * @param PostRepository $postRepository
      * @return Response
      */
@@ -238,7 +238,7 @@ class PostController extends AbstractController
     }
 
     /**
-     * @Route("/TrierParDateDesc", name="TrierParDateDesc")
+     * @Route("/TrierParDateDescPost", name="TrierParDateDescPost")
      * @param PostRepository $postRepository
      * @return Response
      */
@@ -253,7 +253,6 @@ class PostController extends AbstractController
      *  * Creates a new ActionItem entity.
      *
      * @Route("/search", name="ajax_search")
-     * @Method("GET")
      */
     public function searchAction(Request $request)
     {

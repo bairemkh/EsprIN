@@ -41,7 +41,7 @@ class OffreController extends AbstractController
     }
 
     /**
-     * @Route("/navbar-v2-offres", name="navbar-v2-offres")
+     * @Route("/offreFront", name="offreFront")
      */
     public function getListOffres(Request $request, PaginatorInterface $paginator):Response
     {
@@ -55,7 +55,7 @@ class OffreController extends AbstractController
             4
         );
 
-        return $this->render('FrontOffice/navbar-v2-offres.html.twig',['offres'=>$offres]);
+        return $this->render('FrontOffice/offreFront.html.twig',['offres'=>$offres]);
     }
 
     /**

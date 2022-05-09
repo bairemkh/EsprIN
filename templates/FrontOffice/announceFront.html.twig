@@ -1,39 +1,119 @@
 {% extends 'base-front.html.twig' %}
-{% block title %}Announces{% endblock %}
+{% block title %}Events{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{{ asset('FrontOffice/assets/css/eventCardStyle.css') }}">
+
+{% endblock %}
+
+
+{% block form %}
+
+    <div class="model-container" id="model-container">
+
+        <form action="{{ path('addevent') }}" method="post">
+            <div class="form  has-slimscroll">
+                <div class="tabs-wrapper">
+                    <div class="tabs is-boxed is-fullwidth">
+                        <button type="button" class="exit" id="close">X</button>
+                    </div>
+                </div>
+
+
+                <div class="title">Create</div>
+                <div class="subtitle">Let's create a new Event..</div>
+                <div class="input-container ic1">
+                    <input id="field1" class="input" name="TitleEvent" type="text" placeholder=" " />
+                    <div class="lab"></div>
+                    <label for="field1" class="placeholder">Enter title</label>
+                </div>
+                <div class="input-container ic2">
+                    <input id="field2" class="input" name="ContentEvent" type="text" placeholder=" " />
+                    <div class="lab"></div>
+                    <label for="field2" class="placeholder">Enter Content..</label>
+                </div>
+                <div class="input-container ic3">
+                    <input id="field2" class="input" name="LocationEvent" type="text" placeholder=" " />
+                    <div class="lab"></div>
+                    <label for="field2" class="placeholder">Enter Event Location..</label>
+                </div>
+                <div class="input-container ic4">
+                    <div class="lab">Start Date</div>
+                    <input id="field3" class="input" name="DateDebut" type="date" placeholder=" " />
+                </div>
+                <div class="input-container ic5">
+                    <div class="lab">End Date</div>
+                    <input id="field4" class="input" name="DateFin" type="date" placeholder=" " />
+                </div>
+                <!-- General basic options -->
+                <div id="basic-options" class="compose-options">
+                    <!-- Upload action -->
+                    <div class="compose-option">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera">
+                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                            <circle cx="12" cy="13" r="4"></circle></svg>
+                        <!--<span>Media</span>-->
+                        <input id="feed-upload-input-2" type="file" name="imgURL" accept=".png, .jpg, .jpeg" onchange="readURL(this)">
+                    </div>
+                </div>
+                <!-- /General basic options -->
+
+                <button type="submit" class="submit">Add Event</button>
+            </div>
+        </form>
+
+
+    </div>
+
+{% endblock %}
+
 {% block navigation%}
     <div class="sub-nav">
         <div class="sub-nav-tabs">
             <div class="tabs is-centered">
                 <ul>
                     <li>
-                        <a href="{{ path('navbar-v2-feed') }}">Posts</a>
-                    </li>
-                    <li class="is-active">
-                        <a href="{{ path('navbar-v2-announces') }}">Announces</a>
+                        <a href="{{ path('postFront') }}">Posts</a>
                     </li>
                     <li >
-                        <a href="{{ path('navbar-v2-forums') }}">Forums</a>
+                        <a href="{{ path('announceFront') }}">Announces</a>
+                    </li>
+                    <li >
+                        <a href="{{ path('forumFront') }}">Forums</a>
+                    </li>
+                    <li class="is-active">
+                        <a href="{{ path('eventsFront') }}">Events</a>
                     </li>
                     <li>
-                        <a href="{{ path('navbar-v2-events') }}">Events</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('navbar-v2-offres') }}">Offers</a>
+                        <a href="{{ path('offreFront') }}">Offers</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
-    </div>
+
 {% endblock %}
 
+
+
+
+
+
+
 {% block main %}
-    <div class="container">
+
+
+    <div class="view-wrapper"></div>
+    <div id="main-feed" class="navbar-v2-wrapper">
+
+        <!-- Container -->
+        <div class="container" id="eventContainer">
 
             <!-- Content placeholders at page load -->
             <!-- this holds the animated content placeholders that show up before content -->
             <div id="shadow-dom" class="view-wrap">
                 <div class="columns">
+
+
 
                     <div class="column is-3">
 
@@ -282,159 +362,83 @@
                 </div>
             </div>
             <!-- Feed page main wrapper -->
+        </div>
+
+        <div id="activity-feed" class="view-wrap true-dom is-hidden">
+            <div class="model-container" id="model-container">
 
 
 
-
-            <div id="activity-feed" class="view-wrap true-dom is-hidden">
-                <div class="columns">
-                    <!-- Left side column -->
-                    <div class="column is-3 is-hidden-mobile"></div>
-                    <!-- /Left side column -->
-
-                    <!-- Middle column -->
-                    <div class="column is-6">
-
-                        <!--#region Announce -->
-                        <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- POST #1 -->
-                        <div  class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
-                                <div class="card-heading">
-                                    <!-- User meta -->
-                                    <div class="user-block">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                 alt="">
-                                        </div>
-                                        <div class="user-info">
-                                            <a href="#">Financial Service</a>
-                                            <span class="time">July 26 2018, 01:03pm</span>
-                                        </div>
-                                    </div>
-                                    <!-- Right side dropdown -->
-                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="categoryAnn">
-                                        <h4>Informative</h4>
-                                    </div>
-                                </div>
-                                <!-- /Post header -->
-
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
-                                    <div class="post-text">
-                                        <p> This is an announcement
-                                        </p>
-                                    </div>
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <div class="post-image">
-                                            <img src="assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" data-demo-src="assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--#endregion Announce -->
-                        <!--#region Alert -->
-                        <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- POST #1 -->
-                        <div  class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
-                                <div class="card-heading">
-                                    <!-- User meta -->
-                                    <div class="user-block">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                 alt="">
-                                        </div>
-                                        <div class="user-info">
-                                            <a href="#">Financial Service</a>
-                                            <span class="time">July 26 2018, 01:03pm</span>
-                                        </div>
-                                    </div>
-                                    <!-- Right side dropdown -->
-                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="categoryAnn">
-                                        <h4>Exam</h4>
-                                    </div>
-                                </div>
-                                <!-- /Post header -->
-
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
-                                    <div class="post-text">
-                                        <p> This is an announcement
-                                        </p>
-                                    </div>
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <div class="post-image">
-                                            <img src="assets/img/demo/unsplash/16.jpg" data-demo-src="assets/img/demo/unsplash/16.jpg" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--#endregion Alert -->
-                        <!--#region Announce -->
-                        <!-- /partials/pages/feed/posts/feed-post1.html -->
-                        <!-- POST #1 -->
-                        <div  class="card is-post">
-                            <!-- Main wrap -->
-                            <div class="content-wrap">
-                                <!-- Post header -->
-                                <div class="card-heading">
-                                    <!-- User meta -->
-                                    <div class="user-block">
-                                        <div class="image">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                 alt="">
-                                        </div>
-                                        <div class="user-info">
-                                            <a href="#">Financial Service</a>
-                                            <span class="time">July 26 2018, 01:03pm</span>
-                                        </div>
-                                    </div>
-                                    <!-- Right side dropdown -->
-                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                    <div class="categoryAnn">
-                                        <h4>Informative</h4>
-                                    </div>
-                                </div>
-                                <!-- /Post header -->
-
-                                <!-- Post body -->
-                                <div class="card-body">
-                                    <!-- Post body text -->
-                                    <div class="post-text">
-                                        <p> This is an announcement
-                                        </p>
-                                    </div>
-                                    <!-- Featured image -->
-                                    <div class="post-image">
-                                        <div class="post-image">
-                                            <img src="assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" data-demo-src="assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" alt="">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--#endregion Announce -->
-                    </div>
-                </div>
             </div>
-                    <!-- /Feed page main wrapper -->
+            <div class="columns">
+                <!-- Left side column -->
+                <div class="column is-3 is-hidden-mobile">
+                </div>
+                <!-- /Left side column -->
+
+                <!-- Middle column -->
+                <div class="column is-6">
+
+                    <button id="open" class="btnAdd" value="click me">Add Event</button>
 
 
+                    <!--#region test-->
+                    {% for announce in announces %}
+                        <!--#region Announce -->
+                        <!-- /partials/pages/feed/posts/feed-post1.html -->
+                        <!-- POST #1 -->
+                        <div  class="card is-post">
+                            <!-- Main wrap -->
+                            <div class="content-wrap">
+                                <!-- Post header -->
+                                <div class="card-heading">
+                                    <!-- User meta -->
+                                    <div class="user-block">
+                                        <div class="image">
+                                            <img src="https://via.placeholder.com/300x300"
+                                                 data-demo-src="assets/img/avatars/dan.jpg" data-user-popover="1"
+                                                 alt="">
+                                        </div>
+                                        <div class="user-info">
+                                            <a href="#">{{ announce.subject }}</a>
+                                            <span class="time">{{ announce.createdat }}</span>
+                                        </div>
+                                    </div>
+                                    <!-- Right side dropdown -->
+                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
+                                    <div class="categoryAnn">
+                                        <h4>{{ announce. }}</h4>
+                                    </div>
+                                </div>
+                                <!-- /Post header -->
+
+                                <!-- Post body -->
+                                <div class="card-body">
+                                    <!-- Post body text -->
+                                    <div class="post-text">
+                                        <p> This is an announcement
+                                        </p>
+                                    </div>
+                                    <!-- Featured image -->
+                                    <div class="post-image">
+                                        <div class="post-image">
+                                            <img src="assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" data-demo-src="assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--#endregion Announce -->
+                    {% endfor %}
+                    <!--#endregion test-->
+                </div>
+
+                <!-- /Feed page main wrapper -->
+            </div>
+
+        </div>
     </div>
+
+
+
 {% endblock %}
