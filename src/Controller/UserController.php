@@ -452,6 +452,31 @@ class UserController extends AbstractController
     }
 //</editor-fold>
 
+    /**
+     * @Route("/api/rechercheUserCinEmailRole/{cin}/{email}/{role}", name="rechercheUserCinEmailRole",methods={"GET"})
+     */
+    public function rechercheUserCinEmailRole($email, $cin, $role, Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        try {
+            $students = $em->createQueryBuilder()->select('u')
+                ->from('App\Entity\User', 'u')
+                ->where('u.email=:email')
+                ->andWhere('u.cinuser=:cin')
+                ->andWhere('u.role=:role')
+                ->setParameters(array('email'=>$email,'cin'=>$cin,'role'=>$role))
+                ->getQuery()
+                ->getArrayResult();
+            dump($students);
+            $json = $serializer->serialize($students, 'json');
+            return new Response($json, 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
+
 }
 
 

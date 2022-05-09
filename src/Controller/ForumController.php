@@ -13,6 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ForumController extends AbstractController
 {
@@ -154,5 +161,25 @@ class ForumController extends AbstractController
         return $this->render('forum/index.html.twig', [
             'controller_name' => 'ForumController',
         ]);
+    }
+
+    /**
+     * @Route("/api/rechercheForumIdTitleCat/{id}/{title}/{category}", name="rechercheForumIdTitleCat", methods={"GET"})
+     */
+    public function rechercheForumIdTitleCat($id, $title, $category, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $forums=$em->createQueryBuilder()
+            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idowner')
+            ->from('App\Entity\Forum','f')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = f.idowner")
+            ->where('f.idforum=:id')
+            ->andWhere('f.title=:title')
+            ->andWhere('f.categorieforum=:category')
+            ->setParameters(array('id'=>$id,'title'=>$title,'category'=>$category))
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($forums, 'json', ['groups' => '$forums']);
+        $Response = new Response($json);
+        return $Response;
     }
 }

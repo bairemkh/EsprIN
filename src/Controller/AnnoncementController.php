@@ -120,6 +120,24 @@ class AnnoncementController extends AbstractController
         return $Response;
     }
 
+    /**
+     * @Route("/api/rechercheAnnoncementId/{id}/", name="rechercheAnnoncementId", methods={"GET"})
+     */
+    public function rechercheAnnoncementId( $id, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $annoncements=$em->createQueryBuilder()
+            ->select('a.idann, a.subject, a.content, a.destination, a.createdat, a.catann, u.cinuser AS idsender')
+            ->from('App\Entity\Annoncement','a')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
+            ->Where('a.idann=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($annoncements, 'json', ['groups' => '$annoncements']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
 
     /**
      * @Route("/api/addAnnoncementApi", name="addAnnoncementApi")

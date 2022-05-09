@@ -309,6 +309,26 @@ class OffreController extends AbstractController
         return $Response;
     }
 
+
+    /**
+     * @Route("/api/rechercheOffreId/{id}", name="rechercheOffreId", methods={"GET"})
+     */
+    public function rechercheOffreId($id, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $offres=$em->createQueryBuilder()
+            ->select('o.idoffer,o.titleoffer,o.descoffer,o.catoffre,u.cinuser AS offerprovider')
+            ->from('App\Entity\Offre','o')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = o.offerprovider")
+            ->where('o.idoffer=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($offres, 'json', ['groups' => '$offres']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
+
     /**
      * @Route("/api/addOfferAPI", name="addOfferApi")
      */

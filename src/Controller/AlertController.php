@@ -77,6 +77,25 @@ class AlertController extends AbstractController
         return $Response;
     }
 
+    /**
+     * @Route("/api/rechercheAlertId/{id}", name="rechercheAlertId", methods={"GET"})
+     */
+    public function rechercheAlertId($id, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $offres=$em->createQueryBuilder()
+            ->select('a.idalert,c.libcatalert,a.alerttitle,a.content,a.destclass,u.cinuser as Idsender,a.createdat')
+            ->from('App\Entity\Alert','a')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
+            ->innerJoin('App\Entity\catalert','c','with', "a.catalert = c.idcatalert")
+            ->where('a.idalert=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($offres, 'json', ['groups' => '$offres']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
 
     /**
      * @Route("/api/deleteAlertApi/{id}", name="deleteAlertApi")

@@ -11,6 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 
 class EventController extends AbstractController
 {
@@ -242,6 +249,25 @@ class EventController extends AbstractController
         return $this->render('FrontOffice/navbar-v1-eventDetails.html.twig',['participates'=>$participates->getEventlocal()]);
     }
 
+    /**
+     * @Route("/api/rechercheEventIdTitleLocal/{id}/{title}/{local}", name="rechercheEventIdTitleLocal", methods={"GET"})
+     */
+    public function rechercheEventIdTitleLocal($id, $title, $local, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $events=$em->createQueryBuilder()
+            ->select('e.idevent,e.titleevent,e.contentevent,e.contentevent,e.eventlocal,e.nbrparticipant,e.datedebut,e.datefin,u.cinuser AS idOrganizer')
+            ->from('App\Entity\Event','e')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = e.idorganizer")
+            ->where('e.idevent=:id')
+            ->andWhere('e.titleevent=:title')
+            ->andWhere('e.eventlocal=:local')
+            ->setParameters(array('id'=>$id,'title'=>$title,'local'=>$local))
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($events, 'json', ['groups' => '$events']);
+        $Response = new Response($json);
+        return $Response;
+    }
 
 
 

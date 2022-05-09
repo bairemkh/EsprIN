@@ -328,6 +328,23 @@ class PostController extends AbstractController
         return $Response;
     }
 
+    /**
+     * @Route("/api/recherchePostId/{id}", name="recherchePostId", methods={"GET"})
+     */
+    public function recherchePostId($id, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $posts=$em->createQueryBuilder()
+            ->select('p.idpost, p.content, p.mediaurl, p.createdat, p.categorie, p.likenum, u.cinuser AS idower')
+            ->from('App\Entity\Post','p')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.idower")
+            ->where('p.idpost=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($posts, 'json', ['groups' => '$posts']);
+        $Response = new Response($json);
+        return $Response;
+    }
 
 
     /**
