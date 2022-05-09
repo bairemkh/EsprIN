@@ -15,6 +15,8 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+
 
 class AnnoncementController extends AbstractController
 {
@@ -146,17 +148,18 @@ class AnnoncementController extends AbstractController
     {
         try {
 
-            $content=$request->getContent();
-            $annoncements=json_decode($content,true);
             $annoncement = New Annoncement();
-            $annoncement->setSubject($annoncements['subject']);
-            $annoncement->setContent($annoncements['content']);
-            $annoncement->setDestination($annoncements['destination']);
-            $annoncement->setCreatedat(new \DateTime('@' . strtotime('now')));
-            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(['cinuser'=>$annoncements['idsender']]);
+            $json=$request->getContent();
+            $content=json_decode($json,true);
+            $annoncement->setSubject($content['subject']);
+            $annoncement->setContent($content['content']);
+            $annoncement->setDestination($content['destination']);
+            $date = new \DateTime('@' . strtotime('now'));
+            $annoncement->setCreatedat($date);
+            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(['cinuser'=>$content['idsender']]);
             $annoncement->setIdsender($user);
-            $catAnn=$this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann'=>$request->get('Category')]);
-            $annoncement->setCatann($catAnn->getIdcatann());
+            $catAnn=$this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann'=>$content['libcatann']]);
+            $annoncement->setCatann($catAnn);
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($annoncement);
             $manager->flush();
@@ -191,4 +194,5 @@ class AnnoncementController extends AbstractController
             return new Response($exception->getMessage());
         }
     }
+
 }
