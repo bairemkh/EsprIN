@@ -23,6 +23,23 @@ class AlertRepository extends ServiceEntityRepository
 
 
     /**
+     * @return Alert[] Returns an array of Articles objects
+     */
+    public function apiFindAll() : array
+    {
+        $qb = $this->createQueryBuilder('a')
+            ->select('a.idalert,a.alerttitle,a.content,a.destclass,a.createdat,c.idCatAlert AS catalert, c.cinuser AS idsender')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
+            ->innerJoin('App\Entity\Catalert','c','with','c.idCatAlert = a.catalert')
+            ->orderBy('a.idalert', 'ASC');
+
+        $query = $qb->getQuery();
+
+        return $query->execute();
+    }
+
+
+    /**
      * @throws ORMException
      * @throws OptimisticLockException
      */

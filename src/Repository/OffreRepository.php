@@ -27,8 +27,9 @@ class OffreRepository extends ServiceEntityRepository
     public function apiFindAll() : array
     {
         $qb = $this->createQueryBuilder('o')
-            ->select('o.idoffer', 'o.titleoffer', 'o.descoffer', 'o.catoffre')
-            ->orderBy('o.idoffer', 'DESC');
+            ->select('o.idoffer,o.titleoffer,o.descoffer,o.catoffre,u.cinuser AS offerprovider')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = o.offerprovider")
+            ->orderBy('o.idoffer', 'ASC');
 
         $query = $qb->getQuery();
 

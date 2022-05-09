@@ -6,6 +6,7 @@ use App\Entity\Annoncement;
 use App\Entity\Catannonce;
 use App\Entity\User;
 use App\Repository\AnnoncementRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -87,7 +88,6 @@ class AnnoncementController extends AbstractController
      */
     public function annoncementList(AnnoncementRepository $annoncementRepository)
     {
-
         $annoncement = $annoncementRepository->apiFindAll();
         $encoders = [new JsonEncoder()];
         $normalizers = [new ObjectNormalizer()];
@@ -101,6 +101,25 @@ class AnnoncementController extends AbstractController
         $response = new Response($jsonContent);
         $response->headers->set('Content-Type', 'application/json');
         return $response;
+    }
+
+
+    /**
+     * @Route("/api/rechercheAnnoncementDestination/{destination}", name="rechercheAnnoncementDestination", methods={"GET"})
+     */
+    public function rechercheAnnoncementDestination($destination, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $annoncements=$em->createQueryBuilder()
+            ->select('a.idann, a.subject, a.content, a.destination, a.createdat, a.catann, u.cinuser AS idsender')
+            ->from('App\Entity\Annoncement','a')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
+            ->where('a.destination=:destination')
+            ->setParameter('destination',$destination)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($annoncements, 'json', ['groups' => '$annoncements']);
+        $Response = new Response($json);
+        return $Response;
     }
 
 

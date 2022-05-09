@@ -29,8 +29,9 @@ class AnnoncementRepository extends ServiceEntityRepository
     public function apiFindAll() : array
     {
         $qb = $this->createQueryBuilder('a')
-            ->select('a.idann', 'a.subject', 'a.content', 'a.destination', 'a.createdat', 'a.catann')
-            ->orderBy('a.idann', 'DESC');
+            ->select('a.idann, a.subject, a.content, a.destination, a.createdat, a.catann, u.cinuser AS idsender')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
+            ->orderBy('a.idann', 'ASC');
 
         $query = $qb->getQuery();
 

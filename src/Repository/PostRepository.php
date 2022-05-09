@@ -31,8 +31,9 @@ class PostRepository extends ServiceEntityRepository
     public function apiFindAll() : array
     {
         $qb = $this->createQueryBuilder('p')
-            ->select('p.idpost', 'p.content', 'p.mediaurl', 'p.createdat', 'p.categorie', 'p.likenum')
-            ->orderBy('p.idpost', 'DESC');
+            ->select('p.idpost, p.content, p.mediaurl, p.createdat, p.categorie, p.likenum,u.cinuser AS idower')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.idower")
+            ->orderBy('p.idpost', 'ASC');
 
         $query = $qb->getQuery();
 

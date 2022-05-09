@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\PostType;
 use App\Repository\PostRepository;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -309,6 +310,27 @@ class PostController extends AbstractController
         return $response;
     }
 
+
+    /**
+     * @Route("/api/recherchePostId/{id}", name="recherchePostId", methods={"GET"})
+     */
+    public function recherchePostId($id, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $posts=$em->createQueryBuilder()
+            ->select('p.idpost, p.content, p.mediaurl, p.createdat, p.categorie, p.likenum, u.cinuser AS idower')
+            ->from('App\Entity\Post','p')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.idower")
+            ->where('p.idpost=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($posts, 'json', ['groups' => '$posts']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
+
+
     /**
      * @Route("/api/addPostApi", name="addPostApi")
      */
@@ -364,16 +386,6 @@ class PostController extends AbstractController
             return new Response($exception->getMessage());
         }
     }
-
-
-
-
-
-
-
-
-
-
 
     /**
      * @Route("/api/deletePostApi/{id}", name="deletePostApi")
