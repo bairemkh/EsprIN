@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Alert
@@ -19,6 +20,7 @@ class Alert
      * @ORM\Column(name="idAlert", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("alerts")
      */
     private $idalert;
 
@@ -26,6 +28,7 @@ class Alert
      * @var string
      *
      * @ORM\Column(name="alertTitle", type="string", length=30, nullable=false)
+     * @Groups("alerts")
      */
     private $alerttitle;
 
@@ -33,6 +36,7 @@ class Alert
      * @var string
      *
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
+     * @Groups("alerts")
      */
     private $content;
 
@@ -40,6 +44,7 @@ class Alert
      * @var string
      *
      * @ORM\Column(name="destClass", type="string", length=20, nullable=false)
+     * @Groups("alerts")
      */
     private $destclass;
 
@@ -47,15 +52,17 @@ class Alert
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("alerts")
      */
     private $createdat ;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
+     * @Groups("alerts")
      */
-    private $state = '\'Active\'';
+    private $state = 'Active';
 
     /**
      * @var \Catalert
@@ -64,6 +71,7 @@ class Alert
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="catAlert", referencedColumnName="idCatAlert")
      * })
+     * @Groups("alerts")
      */
     private $catalert;
 
@@ -74,6 +82,7 @@ class Alert
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSender", referencedColumnName="cinUser")
      * })
+     * @Groups("alerts")
      */
     private $idsender;
 

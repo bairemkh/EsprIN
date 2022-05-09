@@ -176,7 +176,7 @@ class ForumController extends AbstractController
     }
 
     /**
-     * @Route ("api/getforum/{id}",name="getforumsApi")
+     * @Route ("api/getforum/{id}",name="getforumsbyIdApi")
      */
     public function getForumByIdApi($id,SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
