@@ -86,35 +86,33 @@ class AnnoncementController extends AbstractController
     /**
      * @Route("/api/annoucementList", name="annoucementList", methods={"GET"})
      */
-    public function annoncementList(AnnoncementRepository $annoncementRepository)
-    {
-        $annoncement = $annoncementRepository->apiFindAll();
-        $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($annoncement, 'json', [
-            'circular_reference_handler' => function ($object) {
-                return $object->getIdoffer();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-
-    /**
-     * @Route("/api/rechercheAnnoncementDestination/{destination}", name="rechercheAnnoncementDestination", methods={"GET"})
-     */
-    public function rechercheAnnoncementDestination($destination, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    public function annoncementList(SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
         $annoncements=$em->createQueryBuilder()
             ->select('a.idann, a.subject, a.content, a.destination, a.createdat, a.catann, u.cinuser AS idsender')
             ->from('App\Entity\Annoncement','a')
             ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
-            ->where('a.destination=:destination')
-            ->setParameter('destination',$destination)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($annoncements, 'json', ['groups' => '$annoncements']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
+
+    /**
+     * @Route("/api/rechercheAnnoncementIdSubjectDestination/{id}/{subject}/{destination}", name="rechercheAnnoncementIdSubjectDestination", methods={"GET"})
+     */
+    public function rechercheAnnoncementIdSubjectDestination( $id, $subject, $destination, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $annoncements=$em->createQueryBuilder()
+            ->select('a.idann, a.subject, a.content, a.destination, a.createdat, a.catann, u.cinuser AS idsender')
+            ->from('App\Entity\Annoncement','a')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
+            ->Where('a.idann=:id')
+            ->andWhere('a.subject=:subject')
+            ->andWhere('a.destination=:destination')
+            ->setParameters(array('id'=>$id,'subject'=>$subject,'destination'=>$destination))
             ->getQuery()
             ->getArrayResult();
         $json = $serializer->serialize($annoncements, 'json', ['groups' => '$annoncements']);

@@ -292,36 +292,35 @@ class PostController extends AbstractController
     /**
      * @Route("/api/postList", name="postList", methods={"GET"})
      */
-    public function postList(PostRepository $postRepository)
+    public function postList(SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
 
-        $posts = $postRepository->apiFindAll();
-        $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($posts, 'json', [
-            'circular_reference_handler' => function ($object) {
-                return $object->getIdpost();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        $alerts=$em->createQueryBuilder()
+            ->select('p.idpost, p.content, p.mediaurl, p.createdat, p.categorie, p.likenum,u.cinuser AS idower')
+            ->from('App\Entity\Post','p')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.idower")
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($alerts, 'json', ['groups' => 'alerts']);
+        $Response = new Response($json);
+        return $Response;
     }
 
 
     /**
-     * @Route("/api/recherchePostId/{id}", name="recherchePostId", methods={"GET"})
+     * @Route("/api/recherchePostIdContentCategory/{id}/{content}/{category}", name="recherchePostIdContentCategory", methods={"GET"})
      */
-    public function recherchePostId($id, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    public function recherchePostIdContentCategory($id, $content, $category, SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
         $posts=$em->createQueryBuilder()
             ->select('p.idpost, p.content, p.mediaurl, p.createdat, p.categorie, p.likenum, u.cinuser AS idower')
             ->from('App\Entity\Post','p')
             ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.idower")
             ->where('p.idpost=:id')
-            ->setParameter('id',$id)
+            ->andWhere('p.content=:content')
+            ->andWhere('p.categorie=:categorie')
+            ->setParameters(array('id'=>$id,'content'=>$content,'categorie'=>$category))
+
             ->getQuery()
             ->getArrayResult();
         $json = $serializer->serialize($posts, 'json', ['groups' => '$posts']);

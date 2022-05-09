@@ -42,40 +42,41 @@ class AlertController extends AbstractController
     /**
      * @Route("/api/listAlert", name="listAlert", methods={"GET"})
      */
-    public function listAlert(AlertRepository $alertRepository)
-    {
-
-        // bil find all
-        $alerts = $alertRepository->findAll();
-        $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($alerts, 'json', [
-            'circular_reference_handler' => function ($object) {
-                return $object->setIdalert();
-            }
-        ]);
-
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-
-        // bil joiture : ti5dimich 5atir joiture ta3 il catAlert bou zouz 3raftich na3malha
-/*    public function listAlert(SerializerInterface $serializer, EntityManagerInterface $em): Response
+    public function listAlert(SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
         $alerts=$em->createQueryBuilder()
-            ->select('a.idalert,a.alerttitle,a.content,a.destclass,a.createdat, c.idCatAlert AS catalert, c.cinuser AS idsender')
+            ->select('a.idalert,c.libcatalert,a.alerttitle,a.content,a.destclass,u.cinuser as Idsender,a.createdat')
             ->from('App\Entity\Alert','a')
             ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
-            ->innerJoin('App\Entity\Catalert','c','with','c.idCatAlert = a.catalert')
+            ->innerJoin('App\Entity\catalert','c','with', "a.catalert = c.idcatalert")
             ->getQuery()
             ->getArrayResult();
-        $json = $serializer->serialize($alerts, 'json', ['groups' => '$alerts']);
+        $json = $serializer->serialize($alerts, 'json', ['groups' => 'alerts']);
         $Response = new Response($json);
-        return $Response;*/
+        return $Response;
     }
+
+    /**
+     * @Route("/api/rechercheAlertTitleContentDestination/{title}/{content}/{destination}", name="rechercheAlertTitleContentDestination", methods={"GET"})
+     */
+    public function rechercheAlertTitleContentDestination($title, $content, $destination, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $offres=$em->createQueryBuilder()
+            ->select('a.idalert,c.libcatalert,a.alerttitle,a.content,a.destclass,u.cinuser as Idsender,a.createdat')
+            ->from('App\Entity\Alert','a')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
+            ->innerJoin('App\Entity\catalert','c','with', "a.catalert = c.idcatalert")
+            ->where('a.alerttitle=:title')
+            ->andWhere('a.content=:content')
+            ->andWhere('a.destclass=:destination')
+            ->setParameters(array('title'=>$title,'content'=>$content,'destination'=>$destination))
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($offres, 'json', ['groups' => '$offres']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
 
     /**
      * @Route("/api/deleteAlertApi/{id}", name="deleteAlertApi")

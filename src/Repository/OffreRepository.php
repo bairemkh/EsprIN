@@ -21,23 +21,6 @@ class OffreRepository extends ServiceEntityRepository
         parent::__construct($registry, Offre::class);
     }
 
-    /**
-     * @return Offre[] Returns an array of Articles objects
-     */
-    public function apiFindAll() : array
-    {
-        $qb = $this->createQueryBuilder('o')
-            ->select('o.idoffer,o.titleoffer,o.descoffer,o.catoffre,u.cinuser AS offerprovider')
-            ->innerJoin('App\Entity\User','u','with', "u.cinuser = o.offerprovider")
-            ->orderBy('o.idoffer', 'ASC');
-
-        $query = $qb->getQuery();
-
-        return $query->execute();
-    }
-
-
-
 
     /**
      * @throws ORMException

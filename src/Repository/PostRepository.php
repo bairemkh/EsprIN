@@ -25,20 +25,6 @@ class PostRepository extends ServiceEntityRepository
 
 
 
-    /**
-         * @return Post[] Returns an array of Articles objects
-     */
-    public function apiFindAll() : array
-    {
-        $qb = $this->createQueryBuilder('p')
-            ->select('p.idpost, p.content, p.mediaurl, p.createdat, p.categorie, p.likenum,u.cinuser AS idower')
-            ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.idower")
-            ->orderBy('p.idpost', 'ASC');
-
-        $query = $qb->getQuery();
-
-        return $query->execute();
-    }
 
     /**
      * @throws ORMException

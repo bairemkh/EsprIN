@@ -240,10 +240,16 @@ class OffreController extends AbstractController
             ->getQuery()
             ->getSingleScalarResult();
 
+        //$state="Active";
+        //$Stage="Stage";
+
         $Stage = $offreRepository->createQueryBuilder('o')
             ->select('count(o.idoffer)')
             ->Where('o.catoffre= :catoffre')
+            //->andWhere('o.state= :Active')
             ->setParameter('catoffre', "Stage")
+            //->setParameters(array('o.catoffre'=>$Stage,'o.state'=>$state))
+
             ->getQuery()
             ->getSingleScalarResult();
 
@@ -269,38 +275,33 @@ class OffreController extends AbstractController
     /**
      * @Route("/api/offreList", name="offreList", methods={"GET"})
      */
-    public function offreList(OffreRepository $offreRepository)
-    {
-        $offres = $offreRepository->apiFindAll();
-        $encoders = [new JsonEncoder()];
-        $normalizers = [new ObjectNormalizer()];
-        $serializer = new Serializer($normalizers, $encoders);
-
-        $jsonContent = $serializer->serialize($offres, 'json', [
-            'circular_reference_handler' => function ($object) {
-                return $object->getIdoffer();
-            }
-        ]);
-        $response = new Response($jsonContent);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
-    }
-
-
-    /**
-     * @Route("/api/rechercheOffreTitle/{title}", name="rechercheOffreTitle", methods={"GET"})
-     */
-    public function rechercheOffreTitle($title, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    public function offreList(SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
         $offres=$em->createQueryBuilder()
             ->select('o.idoffer,o.titleoffer,o.descoffer,o.catoffre,u.cinuser AS offerprovider')
             ->from('App\Entity\Offre','o')
             ->innerJoin('App\Entity\User','u','with', "u.cinuser = o.offerprovider")
-         //   ->where('o.idoffer=:id')
-            ->where('o.titleoffer=:title')
-           // ->setParameter('id',$id)
-            ->setParameter('title',$title)
-           // ->setParameters(array('id'=>$id,'title'=>$title))
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($offres, 'json', ['groups' => '$offres']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
+
+    /**
+     * @Route("/api/rechercheOffreIdTitleCat/{id}/{title}/{category}", name="rechercheOffreIdTitleCat", methods={"GET"})
+     */
+    public function rechercheOffreIdTitleCat($id, $title, $category, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $offres=$em->createQueryBuilder()
+            ->select('o.idoffer,o.titleoffer,o.descoffer,o.catoffre,u.cinuser AS offerprovider')
+            ->from('App\Entity\Offre','o')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = o.offerprovider")
+            ->where('o.idoffer=:id')
+            ->andWhere('o.titleoffer=:title')
+            ->andWhere('o.catoffre=:category')
+            ->setParameters(array('id'=>$id,'title'=>$title,'category'=>$category))
             ->getQuery()
             ->getArrayResult();
         $json = $serializer->serialize($offres, 'json', ['groups' => '$offres']);
@@ -338,7 +339,7 @@ class OffreController extends AbstractController
 
 
     /**
-     * @Route("/api/updateOfferAPI/{id}", name="edit")
+     * @Route("/api/updateOfferAPI/{id}", name="updateOfferAPI")
      */
     public function updateOfferAPI(Offre $offre, Request $request, $id)
     {
