@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Alert;
 use App\Entity\Annoncement;
+use App\Entity\Catalert;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -90,7 +93,39 @@ class AnnoncementController extends AbstractController
         $ann = $this->getDoctrine()
             ->getRepository(Annoncement::class)
             ->findByStateField('Active');
-        return $this->render('FrontOffice/announceFront.html.twig',['ann'=>$ann]);
+        $alerts = $this->getDoctrine()
+            ->getRepository(Alert::class)
+            ->findByExampleField('Active');
+
+        return $this->render('FrontOffice/announceFront.html.twig',
+            array('alerts'=>$alerts,
+            'ann'=>$ann)
+            );
+    }
+
+    /**
+     * @Route("/addalert", name="addalert")
+     */
+    public function addalert(Request $request): Response
+    {
+        dump($request);
+        $alert = new Alert();
+        $catalert=new Catalert();
+
+        $user = $this->getDoctrine()->getRepository(User::class)->find(10020855);
+        $alert->setAlerttitle($request->get('SubjectAlert'));
+        $alert->setContent($request->get('ContentAlert'));
+        $catalert->setLibcatalert($request->get('CatAlert'));
+        $alert->setCatalert($catalert);
+        $alert->setDestclass($request->get('DestAlert'));
+        $alert->setCreatedat(new \DateTime('@' . strtotime('now')));
+        $alert->setIdsender($user);
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($catalert);
+        $manager->persist($alert);
+        $manager->flush();
+
+        return $this->redirectToRoute('announceFront');
     }
 
 

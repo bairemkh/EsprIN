@@ -50,10 +50,14 @@ class Annoncement
      */
     private $createdat ;
 
+
     /**
-     * @var int
+     * @var \Catannonce
      *
-     * @ORM\Column(name="catAnn", type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Catannonce")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="catAnn", referencedColumnName="idCatAnn")
+     * })
      */
     private $catann;
 
@@ -155,13 +159,13 @@ class Annoncement
     }
 
 
-    public function getCatann(): ?int
+    public function getCatann(): ?Catannonce
     {
         return $this->catann;
     }
 
     /**
-     * @param int $catann
+     * @param Catannonce $catann
      */
     public function setCatann(int $catann): void
     {

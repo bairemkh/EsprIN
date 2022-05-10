@@ -10,7 +10,7 @@
 
     <div class="model-container" id="model-container">
 
-        <form action="{{ path('addevent') }}" method="post">
+        <form action="{{ path('addalert') }}" method="post">
             <div class="form  has-slimscroll">
                 <div class="tabs-wrapper">
                     <div class="tabs is-boxed is-fullwidth">
@@ -20,44 +20,32 @@
 
 
                 <div class="title">Create</div>
-                <div class="subtitle">Let's create a new Event..</div>
+                <div class="subtitle">Let's create a new Alert..</div>
                 <div class="input-container ic1">
-                    <input id="field1" class="input" name="TitleEvent" type="text" placeholder=" " />
+                    <input id="field1" class="input" name="SubjectAlert" type="text" placeholder=" " />
                     <div class="lab"></div>
-                    <label for="field1" class="placeholder">Enter title</label>
+                    <label for="field1" class="placeholder">Enter Subject</label>
                 </div>
                 <div class="input-container ic2">
-                    <input id="field2" class="input" name="ContentEvent" type="text" placeholder=" " />
+                    <input id="field2" class="input" name="ContentAlert" type="text" placeholder=" " />
                     <div class="lab"></div>
                     <label for="field2" class="placeholder">Enter Content..</label>
                 </div>
                 <div class="input-container ic3">
-                    <input id="field2" class="input" name="LocationEvent" type="text" placeholder=" " />
+                    <input id="field2" class="input" name="CatAlert" type="text" placeholder=" " />
                     <div class="lab"></div>
-                    <label for="field2" class="placeholder">Enter Event Location..</label>
+                    <label for="field2" class="placeholder">Category</label>
                 </div>
-                <div class="input-container ic4">
-                    <div class="lab">Start Date</div>
-                    <input id="field3" class="input" name="DateDebut" type="date" placeholder=" " />
-                </div>
-                <div class="input-container ic5">
-                    <div class="lab">End Date</div>
-                    <input id="field4" class="input" name="DateFin" type="date" placeholder=" " />
+                <div class="input-container ic3">
+                    <input id="field2" class="input" name="DestAlert" type="text" placeholder=" " />
+                    <div class="lab"></div>
+                    <label for="field2" class="placeholder">Destination</label>
                 </div>
                 <!-- General basic options -->
-                <div id="basic-options" class="compose-options">
-                    <!-- Upload action -->
-                    <div class="compose-option">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera">
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                            <circle cx="12" cy="13" r="4"></circle></svg>
-                        <!--<span>Media</span>-->
-                        <input id="feed-upload-input-2" type="file" name="imgURL" accept=".png, .jpg, .jpeg" onchange="readURL(this)">
-                    </div>
-                </div>
+
                 <!-- /General basic options -->
 
-                <button type="submit" class="submit">Add Event</button>
+                <button type="submit" class="submit">Add Alert</button>
             </div>
         </form>
 
@@ -379,7 +367,7 @@
                 <!-- Middle column -->
                 <div class="column is-6">
 
-                    <button id="open" class="btnAdd" value="click me">Add Event</button>
+                    <button id="open" class="btnAdd" value="click me">Add Alert</button>
 
 
                     <!--#region test-->
@@ -407,7 +395,7 @@
                                     <!-- Right side dropdown -->
                                     <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
                                     <div class="categoryAnn">
-                                        <h4>{{ announce.catann }}</h4>
+                                        <h4>{{ announce.getCatann().libcatann }}</h4>
                                     </div>
                                 </div>
                                 <!-- /Post header -->
@@ -416,13 +404,15 @@
                                 <div class="card-body">
                                     <!-- Post body text -->
                                     <div class="post-text">
+
                                         <p> {{ announce.content }}
                                         </p>
                                     </div>
                                     <!-- Featured image -->
                                     <div class="post-image">
                                         <div class="post-image">
-                                            <img src="assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" data-demo-src="assets/img/demo/unsplash/Logo_ESPRIT_og.jpg" alt="">
+
+                                            <img src="{{ asset('FrontOffice/img/demo/unsplash/Logo_ESPRIT_og.jpg') }}" data-demo-src="{{ asset('FrontOffice/img/demo/unsplash/Logo_ESPRIT_og.jpg') }}" alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -430,6 +420,52 @@
                         </div>
                         <!--#endregion Announce -->
                     {% endfor %}
+
+                    {% for alert in alerts %}
+                        <!--#region Announce -->
+                        <!-- /partials/pages/feed/posts/feed-post1.html -->
+                        <!-- POST #1 -->
+                        <div  class="card is-post">
+                            <!-- Main wrap -->
+                            <div class="content-wrap">
+                                <!-- Post header -->
+                                <div class="card-heading">
+                                    <!-- User meta -->
+                                    <div class="user-block">
+                                        <div class="image">
+                                            <img src="https://via.placeholder.com/300x300"
+                                                 data-demo-src="assets/img/avatars/dan.jpg" data-user-popover="1"
+                                                 alt="">
+                                        </div>
+                                        <div class="user-info">
+                                            <a href="#">{{ alert.alerttitle }}</a>
+                                            <span class="time">{{ alert.createdat |date('d-m-Y') }}</span>
+                                        </div>
+                                    </div>
+                                    <!-- Right side dropdown -->
+                                    <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
+                                    <div class="categoryAnn">
+                                        <h4>{{ alert.getCatalert().libcatalert }}</h4>
+                                    </div>
+                                </div>
+                                <!-- /Post header -->
+
+                                <!-- Post body -->
+                                <div class="card-body">
+                                    <!-- Post body text -->
+                                    <div class="post-text">
+
+                                        <p> {{ alert.content }}
+                                        </p>
+                                    </div>
+                                    <!-- Featured image -->
+
+                                </div>
+                            </div>
+                        </div>
+                        <!--#endregion Announce -->
+                    {% endfor %}
+
                     <!--#endregion test-->
                 </div>
 
