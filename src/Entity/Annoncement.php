@@ -51,7 +51,7 @@ class Annoncement
     private $createdat ;
 
     /**
-     * @var int
+     * @var string
      *
      * @ORM\Column(name="catAnn", type="integer", nullable=false)
      */
@@ -155,15 +155,15 @@ class Annoncement
     }
 
 
-    public function getCatann(): ?int
+    public function getCatann(): ?string
     {
         return $this->catann;
     }
 
     /**
-     * @param int $catann
+     * @param string $catann
      */
-    public function setCatann(int $catann): void
+    public function setCatann(string $catann): void
     {
         $this->catann = $catann;
     }

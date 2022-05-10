@@ -158,8 +158,7 @@ class AnnoncementController extends AbstractController
             $annoncement->setCreatedat($date);
             $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(['cinuser'=>$content['idsender']]);
             $annoncement->setIdsender($user);
-            $catAnn=$this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann'=>$content['libcatann']]);
-            $annoncement->setCatann($catAnn);
+            $annoncement->setCatann($content['catann']);
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($annoncement);
             $manager->flush();
