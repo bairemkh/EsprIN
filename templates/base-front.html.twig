@@ -36,12 +36,6 @@
 
 
 
-<!-- Pageloader -->
-<div class="pageloader"></div>
-<div class="infraloader is-active"></div>
-<div class="app-overlay"></div>
-
-
 
 <div class="navbar-v2">
     <div class="top-nav">
@@ -103,7 +97,11 @@
 
             <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
                 <div class="user-image">
-                    <img src="https://via.placeholder.com/400x400" data-demo-src="FrontOffice/assets/img/avatars/jenna.png" alt="">
+                    <img src="{{asset('images/users/'~render(controller(
+                        'App\\Controller\\DashboardBackOfficeController::renderProfileAvatar'
+                    )))}}" data-demo-src="{{asset('images/users/'~render(controller(
+                        'App\\Controller\\DashboardBackOfficeController::renderProfileAvatar'
+                    )))}}" alt="">
                     <span class="indicator"></span>
                 </div>
 
@@ -170,8 +168,7 @@
 
     <!-- Concatenated js plugins and jQuery -->
     <script src="{{ asset('FrontOffice/assets/js/app.js') }}"></script>
-    <script src="{{ asset('https://js.stripe.com/v3/') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/data/tipuedrop_content.js') }}"></script>
+
 
     <!-- Core js -->
     <script src="{{ asset('FrontOffice/assets/js/global.js') }}"></script>
@@ -185,18 +182,6 @@
 
     <!-- Core instance js -->
     <script src="{{ asset('FrontOffice/assets/js/main.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/chat.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/touch.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/tour.js') }}"></script>
-
-
-    <!-- Components js -->
-    <script src="{{ asset('FrontOffice/assets/js/explorer.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/widgets.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/modal-uploader.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/popovers-users.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/popovers-pages.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/lightbox.js') }}"></script>
 
 
     <!-- Landing page js -->
@@ -205,11 +190,6 @@
 
     <!-- Feed pages js -->
     <script src="{{ asset('FrontOffice/assets/js/feed.js') }}"></script>
-
-    <script src="{{ asset('FrontOffice/assets/js/webcam.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/compose.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/autocompletes.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/formpopupscript.js') }}"></script>
 
 
     <!-- profile js -->

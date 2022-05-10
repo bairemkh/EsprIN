@@ -174,8 +174,9 @@ class UserController extends AbstractController
     public function profile($userCin, SessionManagmentService $sessionManagmentService): Response
     {
         if ($sessionManagmentService->verifySessionOpened()) {
-            $user = $this->getDoctrine()->getRepository(User::class)->find($userCin);
-            echo $user->getCinuser() . $user->getFirstname();
+            //$user = $this->getDoctrine()->getRepository(User::class)->find($userCin);
+            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(["cinuser"=>$userCin]);
+            dump($user);
             $imgPath = 'images/users/' . $user->getImgurl();
             return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
                 'user' => $user,
