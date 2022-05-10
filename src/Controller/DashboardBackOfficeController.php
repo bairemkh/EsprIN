@@ -2,12 +2,40 @@
 
 namespace App\Controller;
 
+use App\Services\SessionManagmentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardBackOfficeController extends AbstractController
 {
+
+    private SessionManagmentService $currentSession;
+    public function __construct(SessionManagmentService $session)
+    {
+        $this->currentSession=$session;
+    }
+    public function renderProfileItem():Response
+    {
+        $user=$this->currentSession->getUser();
+        return $this->render('BackOffice/Comps/ProfileDashboard.html.twig',[
+                'user'=>$user
+            ]
+        );
+    }
+
+    public function renderProfileAvatar():Response
+    {
+        $user=$this->currentSession->getUser()->getImgurl();
+        return new Response($user);
+    }
+
+    public function verifySession():Response{
+        $isSession=$this->currentSession->verifySessionOpened();
+        return new Response(strval($isSession));
+    }
+
     /**
      * @Route("/BackOffice", name="app_dashboard_back_office")
      */
