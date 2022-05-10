@@ -26,6 +26,7 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class UserController extends AbstractController
 {
+
     //<editor-fold desc="Web">
 
     /**
@@ -231,11 +232,12 @@ class UserController extends AbstractController
     /**
      * @Route ("/UserDashboard",name="UserDashboard")
      */
-    public function getUsers(): Response
+    public function getUsers(SessionManagmentService $s): Response
     {
         $users = $this->getDoctrine()
             ->getRepository(User::class)
             ->findAll();
+
         return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
     }
 
@@ -368,6 +370,7 @@ class UserController extends AbstractController
         echo $stats[0]>
         //$sessionManagmentService->verifySessionOpened();
         dump($sessionManagmentService->getUser());
+        dump($sessionManagmentService->getData());
         die;
     }
 
