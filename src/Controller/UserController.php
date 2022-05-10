@@ -387,6 +387,29 @@ class UserController extends AbstractController
         die;
     }
 
+    /**
+     * @Route("/test4", name="test4")
+     */
+    public function test4Query(EntityManagerInterface $em)
+    {
+
+       /*$list= $em->createQueryBuilder()
+           ->select('u.cinuser,a,e,al')
+           ->from('App\Entity\User', 'u')
+           //->innerJoin('App\Entity\Offre','o','with', "u.cinuser = o.offerprovider")
+           ->innerJoin('App\Entity\Alert','al','with', "u.cinuser = al.idsender")
+           ->innerJoin('App\Entity\Annoncement','a','with', "u.cinuser = a.idsender")
+           ->innerJoin('App\Entity\Event','e','with', "u.cinuser = e.idorganizer")
+           //->innerJoin('App\Entity\Post','p','with', "u.cinuser = p.idower")
+           ->where('u.cinuser=:id')
+           ->setParameter('id',10020855)
+           ->getQuery()
+           ->get
+
+        dump($list);*/
+        die;
+    }
+
 //</editor-fold>
 
 //<editor-fold desc="API">
