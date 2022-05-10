@@ -3,13 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Annoncement;
+use App\Entity\Catannonce;
+use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\AnnoncementRepository;
 
-class AnnoncementController extends AbstractController
+class  AnnoncementController extends AbstractController
 {
 
 
@@ -93,5 +95,19 @@ class AnnoncementController extends AbstractController
         return $this->render('FrontOffice/announceFront.html.twig',['ann'=>$ann]);
     }
 
+    /**
+     * @Route("/test5", name="test5")
+     */
+    public function test():Response
+    {
+        $ann = $this->getDoctrine()
+            ->getRepository(Annoncement::class)
+            ->findOneBy(['idann'=>'13']);
+            //->findByStateField('Active');
 
+        dump($ann);
+        //dump($ann['idsender']);
+        echo $ann->getIdsender()->getCinuser();
+        die;
+    }
 }
