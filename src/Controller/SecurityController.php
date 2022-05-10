@@ -16,6 +16,17 @@ use Symfony\Component\Serializer\SerializerInterface;
 class SecurityController extends AbstractController
 {
 
+    private SessionManagmentService $currentSession;
+    public function __construct(SessionManagmentService $session)
+    {
+        $this->currentSession=$session;
+    }
+
+    public function getCin():Response{
+        $cin=$this->currentSession->getUser()->getCinuser();
+        return new Response(strval($cin));
+    }
+
     /**
      * @Route("/login", name="Login")
      */
@@ -39,10 +50,15 @@ class SecurityController extends AbstractController
             $hash=$encoder->isPasswordValid($user,$userPasswd);
             if($hash){
                 //login
-                $sessionManagmentService->createSession($user);
-                if($user->getRole()=='Admin')
-                    return $this->redirectToRoute('app_dashboard_back_office', []);
-                return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
+                if($user->getState() == 'Deleted'){
+                    return $this->redirectToRoute('loginFailed', ['error'=>'Account Deleted']);
+                }
+                else {
+                    $sessionManagmentService->createSession($user);
+                    if ($user->getRole() == 'Admin')
+                        return $this->redirectToRoute('app_dashboard_back_office', []);
+                    return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
+                }
             }
             else{
                 //error wrong password

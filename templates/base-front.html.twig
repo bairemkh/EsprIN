@@ -111,14 +111,14 @@
                         <div class="nav-drop-body account-items">
 
 
-                            <a href="#" class="account-item">
+                            <a href="{{ path('profile',{'userCin':render(controller('App\\Controller\\SecurityController::getCin'))}) }}" class="account-item">
                                 <div class="media">
                                     <div class="icon-wrap">
-                                        <i data-feather="settings"></i>
+                                        <i data-feather="user"></i>
                                     </div>
                                     <div class="media-content">
-                                        <h3>Settings</h3>
-                                        <small>Access widget settings.</small>
+                                        <h3>Profile</h3>
+                                        <small>Access Your Profile.</small>
                                     </div>
                                 </div>
                             </a>
