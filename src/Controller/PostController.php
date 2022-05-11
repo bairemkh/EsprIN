@@ -8,6 +8,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
 use App\Repository\PostRepository;
+use App\Services\SessionManagmentService;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,11 +53,11 @@ class PostController extends AbstractController
     /**
      * @Route ("/postFront",name="postFront")
      */
-    public function showP(Request $request): Response
+    public function showP(Request $request,SessionManagmentService $sessionManagmentService): Response
     {
-
+        $currentUser=$sessionManagmentService->getUser();
         $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("'Active'");
-        $user = $this->getDoctrine()->getRepository(User::class)->find(25451120);
+        $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $post = new Post();
 
         $form = $this->createForm(PostType::class, $post);
@@ -66,7 +67,7 @@ class PostController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $user = $this->getDoctrine()->getRepository(User::class)->find(25451120);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
             $currentDate = new \datetime();
             $uploadedFile = $form['mediaURL']->getData();
             if ($uploadedFile) {
@@ -172,13 +173,14 @@ class PostController extends AbstractController
     /**
      * @Route("/love/{id}", name="love")
      */
-    public function love($id): Response
+    public function love($id,SessionManagmentService $sessionManagmentService): Response
     {
+        $currentUser=$sessionManagmentService->getUser();
         $like = new Like();
-        $user = $this->getDoctrine()->getRepository(User::class)->find(25451120);
+        $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
         $em = $this->getDoctrine()->getManager();
-        $likes = $this->getDoctrine()->getRepository(Like::class)->findlike($id, 25451120);
+        $likes = $this->getDoctrine()->getRepository(Like::class)->findlike($id, $currentUser->getCinuser());
 
         if ($likes == null) {
             $integer = intval($post->getLikenum()) + 1;

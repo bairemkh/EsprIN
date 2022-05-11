@@ -48081,4 +48081,63 @@ body.is-dark .elements-wrap .element-block code {
     height: 100%;
     width: 100%;
 }
+
+.has-slimscroll {
+    overflow-x: hidden !important;
+}
+.form {
+    background-color: #942626;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height:500px;
+    padding: 20px 20px 60px;
+    width: auto;
+    left: 40%;
+    top: 0%;
+    overflow-y: auto;
+
+// overflow-x: hidden;
+// overflow-y: scroll;
+}
+
+.title {
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 36px;
+    font-weight: 600;
+}
+
+
+.subtitle {
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.input-container {
+    height: 50px;
+    position: relative;
+    width: 100%;
+}
+
+.ic1 {
+    margin-top: 40px;
+}
+
+.ic2 {
+    margin-top: 30px;
+}
+.ic3 {
+    margin-top: 30px;
+}
+.ic4 {
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
+.ic5 {
+    margin-top: 30px;
+    margin-bottom: 40px;
+}
 /*# sourceMappingURL=scss */

@@ -1,3 +1,4 @@
+{% if render(controller('App\\Controller\\DashboardBackOfficeController::verifySession'))==true %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -238,3 +239,6 @@
 
 
 </html>
+{% else %}
+    {{ render(path('error')) }}
+{% endif %}

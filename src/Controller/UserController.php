@@ -393,7 +393,7 @@ class UserController extends AbstractController
     public function test4Query(EntityManagerInterface $em)
     {
 
-       /*$list= $em->createQueryBuilder()
+       $list= $em->createQueryBuilder()
            ->select('u.cinuser,a,e,al')
            ->from('App\Entity\User', 'u')
            //->innerJoin('App\Entity\Offre','o','with', "u.cinuser = o.offerprovider")
@@ -404,9 +404,9 @@ class UserController extends AbstractController
            ->where('u.cinuser=:id')
            ->setParameter('id',10020855)
            ->getQuery()
-           ->get
+           ->getArrayResult();
 
-        dump($list);*/
+        dump($list);
         die;
     }
 

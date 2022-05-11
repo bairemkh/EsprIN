@@ -8,10 +8,10 @@ use App\Entity\Catannonce;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Entity\Catalert;
-use App\Entity\User;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Services\SessionManagmentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -60,13 +60,14 @@ class  AnnoncementController extends AbstractController
         /**
          * @Route("/addAnnoncement", name="add_new_annoncement", methods={"GET", "POST"})
          */
-        public function addAnnounce(Request $request): Response
+        public function addAnnounce(Request $request,SessionManagmentService $sessionManagmentService): Response
         {
             dump($request);
             if ($request->request->count() > 0) {
                 $announce=new Annoncement();
                 $announce->setSubject($request->get('subject'));
-                $user=$this->getDoctrine()->getRepository(User::class)->find(10020855);
+                $currentUser=$sessionManagmentService->getUser();
+                $user=$this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
                 echo $user->getLastname()." ".$user->getFirstname();
                 $announce->setIdsender($user);
                 $announce->setCreatedat(new \DateTime('@' . strtotime('now')));

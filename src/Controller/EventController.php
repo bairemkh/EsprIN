@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Repository\EventRepository;
+use App\Services\SessionManagmentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DomCrawler\Image;
@@ -146,11 +147,12 @@ class EventController extends AbstractController
     /**
      * @Route("/addEvent", name="addevent")
      */
-    public function addevent(Request $request): Response
+    public function addevent(Request $request,SessionManagmentService $sessionManagmentService): Response
     {
         dump($request);
         $event = new Event();
-        $user = $this->getDoctrine()->getRepository(User::class)->find(10020855);
+        $currentUser=$sessionManagmentService->getUser();
+        $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $event->setTitleevent($request->get('TitleEvent'));
         $event->setContentevent($request->get('ContentEvent'));
         $event->setEventlocal($request->get('LocationEvent'));
@@ -158,6 +160,16 @@ class EventController extends AbstractController
         $dateF = new \DateTime($request->get('DateFin'));
         $event->setDatedebut($dateD);
         $event->setDatefin($dateF);
+        $uploadedFile =$request->get('imgURL');
+        if ($uploadedFile) {
+            $destination = $this->getParameter('kernel.project_dir') . '\public\images\events';
+            $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFilename = $originalFilename . '.' . $uploadedFile->getClientOriginalExtension();
+            $uploadedFile->move(
+                $destination,
+                $newFilename);
+            $event->setImgurl($newFilename);
+        }
         $event->setIdorganizer($user);
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($event);
@@ -226,12 +238,6 @@ class EventController extends AbstractController
         $event = $this->getDoctrine()
             ->getRepository(Event::class)
             ->find($id);
-        // $nbPart= $event->getNbrparticipant();
-        // $nbPart =$request->get('NbParticipate');
-        //  $nbPart = $nbPart+1;
-        //$event->setNbrparticipant($nbPart);
-
-
         $event->addCinuser($user);
         $em = $this->getDoctrine()->getManager();
         $em->flush();

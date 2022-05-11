@@ -20,9 +20,11 @@
                     <li>
                         <a href="{{ path('offreFront') }}">Offers</a>
                     </li>
+                    {% if user.role=="Admin" %}
                     <li>
                         <a href="{{ path('app_dashboard_back_office') }}">Dashboard</a>
                     </li>
+                    {% endif %}
                 </ul>
             </div>
         </div>

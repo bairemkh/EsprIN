@@ -45,10 +45,10 @@ class Event
     /**
      * @var string|null
      *
-     * @ORM\Column(name="imgURL", type="text", length=65535, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="imgURL", type="text", length=65535, nullable=true, options={"default"="event-default.jpg"})
      * @Groups("events")
      */
-    private $imgurl = NULL;
+    private $imgurl = 'event-default.jpg';
 
     /**
      * @var string
