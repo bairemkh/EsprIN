@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Annoncement;
 use App\Entity\Catannonce;
+use App\Entity\Event;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -101,13 +102,12 @@ class  AnnoncementController extends AbstractController
     public function test():Response
     {
         $ann = $this->getDoctrine()
-            ->getRepository(Annoncement::class)
-            ->findOneBy(['idann'=>'13']);
-            //->findByStateField('Active');
+            ->getRepository(Event::class)
+            ->findAll();
 
         dump($ann);
         //dump($ann['idsender']);
-        echo $ann->getIdsender()->getCinuser();
+       // echo $ann->getIdsender()->getCinuser();
         die;
     }
 }

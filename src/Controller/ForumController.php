@@ -9,6 +9,7 @@ use App\Entity\Responded;
 use App\Entity\User;
 use App\Form\ForumType;
 use App\Repository\ForumRepository;
+use App\Services\SessionManagmentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +20,14 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ForumController extends AbstractController
 {
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->entityManager = $em;
+    }
+
     /**
      * @Route ("/ForumDashboard",name="ForumDashboard")
      */
@@ -65,12 +74,13 @@ class ForumController extends AbstractController
     /**
      * @Route("/addresponse/{idforum}", name="createresponse",methods={"GET", "POST"})
      */
-    public function addresponse(Request $request, $idforum): Response
+    public function addresponse(Request $request, $idforum,SessionManagmentService $sessionManagmentService): Response
     {
         dump($request);
         $response = new Responded();
+        $currentUser=$sessionManagmentService->getUser();
         $forum = $this->getDoctrine()->getRepository(Forum::class)->find($idforum);
-        $user = $this->getDoctrine()->getRepository(User::class)->find(10020855);
+        $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $response->setContent($request->get('responsecontent'));
         $response->setIdforum($forum);
         $response->setCinuser($user);
@@ -79,17 +89,18 @@ class ForumController extends AbstractController
         $manager->persist($response);
         $manager->flush();
 
-        return $this->redirectToRoute('navbar-v2-forum');
+        return $this->redirectToRoute('forumFront');
     }
 
     /**
      * @Route("/addforum", name="addforum",methods={"GET", "POST"})
      */
-    public function addforum(Request $request): Response
+    public function addforum(Request $request,SessionManagmentService $sessionManagmentService): Response
     {
         dump($request);
         $forum = new Forum();
-        $user = $this->getDoctrine()->getRepository(User::class)->find(10020855);
+        $currentUser=$sessionManagmentService->getUser();
+        $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $forum->setTitle($request->get('title'));
         $forum->setContent($request->get('content'));
         $forum->setCategorieforum($request->get('tag'));
@@ -102,7 +113,7 @@ class ForumController extends AbstractController
         $manager->flush();
 
 
-        return $this->redirectToRoute('navbar-v2-forum');
+        return $this->redirectToRoute('forumFront');
     }
 
     /**
@@ -130,7 +141,7 @@ class ForumController extends AbstractController
             ->find($id);
         $offer->setState("Desactive");
         $em->flush();
-        return $this->redirectToRoute('navbar-v2-forums');
+        return $this->redirectToRoute('forumFront');
     }
 
     /**
@@ -145,7 +156,7 @@ class ForumController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->redirectToRoute("navbar-v2-forum");
+            return $this->redirectToRoute("forumFront");
         }
         return $this->render("FrontOffice/edit-forum.html.twig",array("forum"=>$forum,"formForum"=>$form->createView()));
     }
@@ -224,5 +235,25 @@ class ForumController extends AbstractController
         }
 
 
+    }
+    /**
+     * @Route("/likesl", name="likesl")
+     */
+    public function getLikesList():Response{
+        /*$likes=$this->entityManager->createQueryBuilder()
+            ->select('u.imgurl')
+            ->from('App\Entity\Forum', 'f')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
+            ->where('f.idforum=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();*/
+        /*return $this->render('FrontOffice/cells/ForumLikes.html.twig', [
+
+        ]);*/
+        $likes=$this->getDoctrine()->getRepository(Forum::class)->findAll();
+        dump($likes);
+        die;
     }
 }

@@ -18,6 +18,12 @@ use Symfony\Component\Validator\Constraints\Date;
 
 class EventController extends AbstractController
 {
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->entityManager = $em;
+    }
 
     /**
      * @Route("/event", name="app_event")
@@ -67,9 +73,10 @@ class EventController extends AbstractController
     {
         $events = $eventRepository->sortByDateAsc();
         dump($events);
-        return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
+        return $this->render('BackOffice/EventsDashboard.html.twig', ['events' => $events]);
 
     }
+
     /**
      * @Route("/navbar-v2-events/ShowByDateDesc", name="ShowByDateDesc")
      */
@@ -77,7 +84,7 @@ class EventController extends AbstractController
     {
         $events = $eventRepository->sortByDateDesc();
         dump($events);
-        return $this->render('BackOffice/EventsDashboard.html.twig',['events'=>$events]);
+        return $this->render('BackOffice/EventsDashboard.html.twig', ['events' => $events]);
 
     }
 
@@ -94,11 +101,12 @@ class EventController extends AbstractController
         $events = $this->getDoctrine()
             ->getRepository(Event::class)
             ->findByExampleField('Active');
-        return $this->render('FrontOffice/eventsFront.html.twig',['events'=>$events]);
+        return $this->render('FrontOffice/eventsFront.html.twig', ['events' => $events]);
     }
 
 
     // details front
+
     /**
      * @Route("/navbar-v1-eventDetails/{id}", name="eventDetails")
      */
@@ -169,11 +177,8 @@ class EventController extends AbstractController
       }*/
 
 
-
     /* ******************* Participate ******************* */
-               /* *********** BACK *********** */
-
-
+    /* *********** BACK *********** */
 
 
     ////participate list back
@@ -276,14 +281,14 @@ class EventController extends AbstractController
     /**
      * @Route ("/navbar-v1-LocationEvents",name="EventByParticipate")
      */
-    public function EventByParticipate( EventRepository $eventRepository):Response
+    public function EventByParticipate(EventRepository $eventRepository): Response
     {
 
         $events = $eventRepository->findByParticipate();
         dump($events);
 
 
-        return $this->render('FrontOffice/navbar-v1-LocationEvents.html.twig',['eventsPart'=>$events]);
+        return $this->render('FrontOffice/navbar-v1-LocationEvents.html.twig', ['eventsPart' => $events]);
     }
 
     /**
@@ -318,21 +323,18 @@ class EventController extends AbstractController
     }
 
 
-
-
-
     /**
      * @Route ("api/getevents",name="get-events-api")
      */
     public function geteventApi(SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
-       /* $events = $this->getDoctrine()
-            ->getRepository(Event::class)
-            ->findAll();*/
-        $events=$em->createQueryBuilder()
+        /* $events = $this->getDoctrine()
+             ->getRepository(Event::class)
+             ->findAll();*/
+        $events = $em->createQueryBuilder()
             ->select('e.idevent,e.titleevent,e.contentevent,e.contentevent,e.eventlocal,e.nbrparticipant,e.datedebut,e.datefin,u.cinuser AS idOrganizer')
-            ->from('App\Entity\Event','e')
-            ->innerJoin('App\Entity\User','u','with', "u.cinuser = e.idorganizer")
+            ->from('App\Entity\Event', 'e')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
             ->getQuery()
             ->getArrayResult();
         $json = $serializer->serialize($events, 'json', ['groups' => 'events']);
@@ -343,17 +345,17 @@ class EventController extends AbstractController
     /**
      * @Route ("api/getevent/{id}",name="getEventById")
      */
-    public function getEventByIdApi($id,SerializerInterface $serializer, EntityManagerInterface $em): Response
+    public function getEventByIdApi($id, SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
         /* $events = $this->getDoctrine()
              ->getRepository(Event::class)
              ->findAll();*/
-        $events=$em->createQueryBuilder()
+        $events = $em->createQueryBuilder()
             ->select('e.idevent,e.titleevent,e.contentevent,e.contentevent,e.eventlocal,e.nbrparticipant,e.datedebut,e.datefin,u.cinuser AS idOrganizer')
-            ->from('App\Entity\Event','e')
-            ->innerJoin('App\Entity\User','u','with', "u.cinuser = e.idorganizer")
+            ->from('App\Entity\Event', 'e')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
             ->where('e.idevent=:id')
-            ->setParameter('id',$id)
+            ->setParameter('id', $id)
             ->getQuery()
             ->getArrayResult();
         $json = $serializer->serialize($events, 'json', ['groups' => 'events']);
@@ -368,8 +370,8 @@ class EventController extends AbstractController
     {
         try {
             $event = new Event();
-            $json=$request->getContent();
-            $content=json_decode($json,true);
+            $json = $request->getContent();
+            $content = json_decode($json, true);
             $user = $this->getDoctrine()->getRepository(User::class)->find($content['idOrganizer']);
             $event->setTitleevent($content['titleEvent']);
             $event->setContentevent($content['contentEvent']);
@@ -382,7 +384,7 @@ class EventController extends AbstractController
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($event);
             $manager->flush();
-            return new Response('Added to DataBase',200);
+            return new Response('Added to DataBase', 200);
 
         } catch
         (\Exception $exception) {
@@ -390,5 +392,19 @@ class EventController extends AbstractController
         }
 
 
+    }
+
+    public function setEventCard(): Response
+    {
+        $event = $this->entityManager->createQueryBuilder()
+            ->select('e.titleevent,u.firstname,u.lastname,u.imgurl')
+            ->from('App\Entity\Event', 'e')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
+            ->orderBy('e.idevent', 'desc')
+            ->getQuery()
+            ->getArrayResult();
+        return $this->render('FrontOffice/cells/NewEventCell.html.twig', [
+            'event' => $event[0],
+        ]);
     }
 }
