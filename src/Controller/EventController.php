@@ -67,7 +67,7 @@ class EventController extends AbstractController
 
 
     /**
-     * @Route("/navbar-v2-events/ShowByDateAsc", name="ShowByDateAsc")
+     * @Route("/eventsFront/ShowByDateAsc", name="ShowByDateAsc")
      */
     public function ShowByDateAsc(EventRepository $eventRepository)
     {
@@ -78,7 +78,7 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/navbar-v2-events/ShowByDateDesc", name="ShowByDateDesc")
+     * @Route("/eventsFront/ShowByDateDesc", name="ShowByDateDesc")
      */
     public function ShowByDateDesc(EventRepository $eventRepository)
     {
@@ -125,7 +125,7 @@ class EventController extends AbstractController
     // delete front
 
     /**
-     * @Route ("/navbar-v2-events/{id}",name="deleteventfront")
+     * @Route ("/eventsFront/{id}",name="deleteventfront")
      */
     public function deleteeventfront($id)
     {
@@ -135,7 +135,7 @@ class EventController extends AbstractController
             ->find($id);
         $event->setState("Deleted");
         $em->flush();
-        return $this->redirectToRoute('navbar-v2-event');
+        return $this->redirectToRoute('eventsFront');
     }
 
 
@@ -163,7 +163,7 @@ class EventController extends AbstractController
         $manager->persist($event);
         $manager->flush();
 
-        return $this->redirectToRoute('navbar-v2-events');
+        return $this->redirectToRoute('eventsFront');
     }
 
     /**
@@ -197,7 +197,7 @@ class EventController extends AbstractController
     /* *********** Front *********** */
     ////participate list Front
     /**
-     * @Route ("/navbar-v2-events/ParticipateList/{id}",name="ParticipateListFront")
+     * @Route ("/eventsFront/ParticipateList/{id}",name="ParticipateListFront")
      */
     public function ParticipateListfront($id): Response
     {
@@ -213,7 +213,7 @@ class EventController extends AbstractController
     //// add participate Front
 
     /**
-     * @Route ("/navbar-v2-events/Participate/{id}",name="addParticipate")
+     * @Route ("/eventsFront/Participate/{id}",name="addParticipate")
      */
     public function addParticipate(Request $request, $id): Response
     {
@@ -236,14 +236,14 @@ class EventController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return $this->redirectToRoute('navbar-v2-event');
+        return $this->redirectToRoute('eventsFront');
     }
 
 
     // delete Part Front
 
     /**
-     * @Route ("/navbar-v2-events/delPart/{id}",name="deleteParticipate")
+     * @Route ("/eventsFront/delPart/{id}",name="deleteParticipate")
      */
     public function deleteParticipate($id)
     {
@@ -257,7 +257,7 @@ class EventController extends AbstractController
             ->find($id);
         $event->removeCinuser($user);
         $em->flush();
-        return $this->redirectToRoute('navbar-v2-event');
+        return $this->redirectToRoute('eventsFront');
     }
 
 
@@ -266,7 +266,7 @@ class EventController extends AbstractController
     /* *************** metier ********************** */
     ////Location event list Front
     /**
-     * @Route ("/navbar-v2-events/Participate/locationList/{id}",name="locationList")
+     * @Route ("/eventsFront/Participate/locationList/{id}",name="locationList")
      */
     public function LocationListfront($cin = 1010101): Response
     {
@@ -301,7 +301,7 @@ class EventController extends AbstractController
       }*/
 
     /**
-     * @Route ("/navbar-v2-events/notif",name="sendEmail")
+     * @Route ("/eventsFront/notif",name="sendEmail")
      */
     public function sendEmail(MailerInterface $mailer)
     {
@@ -318,7 +318,7 @@ class EventController extends AbstractController
 
 
         $mailer->send($email);
-        return $this->redirectToRoute('navbar-v2-event');
+        return $this->redirectToRoute('eventsFront');
 
     }
 

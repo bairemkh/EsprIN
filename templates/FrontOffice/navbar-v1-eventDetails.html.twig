@@ -498,59 +498,8 @@
                 <!--Participants-->
                 <div class="event-participants">
                     <div class="container-inner">
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-02.png" data-user-popover="1" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-03.png" data-user-popover="8" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-04.png" data-user-popover="2" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-05.png" data-user-popover="7" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-illustrated-01.png" data-user-popover="4" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-illustrated-02.png" data-user-popover="10" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-illustrated-03.png" data-user-popover="4" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-illustrated-04.png" data-user-popover="12" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/Avatar.svg" data-user-popover="20" alt="">
-                            </div>
-                        </a>
-                        <a class="participant">
-                            <div class="participant-avatar">
-                                <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-2.svg" data-user-popover="0" alt="">
-                                <div class="more-overlay">
-                                    <span>+26</span>
-                                </div>
-                            </div>
-                        </a>
+
+
                     </div>
                 </div>
 
@@ -566,13 +515,8 @@
 
                         <div class="details-block">
                             <h3>Event Photo</h3>
-
-
-                            <div class="video-block-wrapper">
-                                <a href="https://via.placeholder.com/1600x900" data-demo-href="../../FrontOffice/assets/img/demo/unsplash/1.jpg" data-fancybox data-caption="">
-                                    <img src="https://via.placeholder.com/1600x900" data-demo-src="../../FrontOffice/assets/img/demo/unsplash/1.jpg" alt="">
-                                </a>
-
+                            <div class="post-image">
+                                <img src="{{asset('images/events/'~event.imgurl)}}" data-demo-src="{{asset('images/events/'~event.imgurl)}}" height="1067" width="1600" alt="">
                             </div>
                         </div>
                     </div>
@@ -581,7 +525,9 @@
                     <div class="right">
                         <div class="event-owner">
 
-                            <img class="avatar" src="https://via.placeholder.com/150x150" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-04.png" data-user-popover="2" alt="">
+                            <div class="image">
+                                <img src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-demo-src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-user-popover="1" alt="">
+                            </div>
                             <div class="meta">
                                 <span>Event organized by</span>
                                 <span>{{ event.idorganizer.firstname }}  {{ event.idorganizer.lastname }} </span>
