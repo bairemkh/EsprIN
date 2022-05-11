@@ -32740,7 +32740,8 @@ body.is-dark .error-container .error-wrapper .error-inner h3 {
 }
 
 .event-page-wrapper {
-    padding-bottom: 60px
+    padding-bottom: 60px;
+    margin-top:200px
 }
 
 .event-page-wrapper .event-cover img {
