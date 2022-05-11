@@ -253,7 +253,9 @@ class ForumController extends AbstractController
 
         ]);*/
         $likes=$this->getDoctrine()->getRepository(Forum::class)->findAll();
+        $users=$this->getDoctrine()->getRepository(User::class)->findAll();
         dump($likes);
+        dump($users);
         die;
     }
 }

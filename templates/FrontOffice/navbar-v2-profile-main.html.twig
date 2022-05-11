@@ -1,6 +1,6 @@
 {% extends 'base-front.html.twig' %}
 {% block title %}Profile {{ user.firstname }}{% endblock %}
-{% block navigation%}
+{% block navigation %}
     <div class="sub-nav">
         <div class="sub-nav-tabs">
             <div class="tabs is-centered">
@@ -8,10 +8,10 @@
                     <li>
                         <a href="{{ path('postFront') }}">Posts</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="{{ path('announceFront') }}">Announces</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="{{ path('forumFront') }}">Forums</a>
                     </li>
                     <li class="is-active">
@@ -19,6 +19,9 @@
                     </li>
                     <li>
                         <a href="{{ path('offreFront') }}">Offers</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('app_dashboard_back_office') }}">Dashboard</a>
                     </li>
                 </ul>
             </div>

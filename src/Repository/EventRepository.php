@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use App\Entity\User;
+use App\Services\SessionManagmentService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -17,8 +18,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EventRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private SessionManagmentService $session;
+    public function __construct(ManagerRegistry $registry,SessionManagmentService $session)
     {
+        $this->session=$session;
         parent::__construct($registry, Event::class);
     }
 
@@ -132,16 +135,19 @@ class EventRepository extends ServiceEntityRepository
     public function findByParticipate(): array
     {
         $em=$this->getEntityManager();
+        $id=$this->session->getUser()->getCinuser();
 
         $res =$em->createQueryBuilder()
             ->select('e')
             ->from('App\Entity\Participate', 'p')
             ->innerJoin('App\Entity\Event','e','with', "p.event = e.idevent")
             ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.participent")
-            ->where('u.cinuser = 1010101')
-            ->getQuery();
-        dump($res->getArrayResult());
-        return $res->getArrayResult();
+            ->where('u.cinuser = '.$id)
+            ->getQuery()
+            ->getArrayResult();
+
+        dump($res);
+        return $res;
 
     }
 
