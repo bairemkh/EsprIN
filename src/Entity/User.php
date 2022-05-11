@@ -354,7 +354,7 @@ class User implements UserInterface
 
     public function __toString()
     {
-        return(String)$this->getFirstname();
+        return(String)$this->getEntreprisename();
     }
 
 

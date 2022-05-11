@@ -305,9 +305,8 @@
                     <!-- Middle column -->
                     <div class="column is-6">
                         <!--#region Offer -->
-                        <button>   <a href="{{ path('addOffer') }}">add</a> </button>
-                         <button>   <a href="{{ path('Generate Pdf') }}">Generate Pdf</a> </button>
-                        <button>Mail</button>
+                        <button id="open" class="btnAdd" value="click me">   <a href="{{ path('addOffer') }}">add</a> </button>
+                        <button id="open" class="btnAdd" value="click me">   <a href="{{ path('Generate Pdf') }}">Generate Pdf</a> </button>
                         {% for offre in offres %}
                             {% if offre.state == "Active" %}
                                 <div  class="card is-post">
@@ -317,13 +316,15 @@
                                         <div class="card-heading">
                                             <!-- User meta -->
                                             <div class="user-block">
-                                                <div class="image">
-                                                    <img src="https://via.placeholder.com/300x300"
-                                                         data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
-                                                         alt="">
+                                                <div class="pages-table-img">
+                                                    <picture>
+                                                        <source srcset="images/users/{{ offre.offerprovider.imgurl }}"
+                                                                type="image/webp">
+                                                        <img src="images/users/{{ offre.offerprovider.imgurl }}" alt="User Name">
+                                                    </picture>
                                                 </div>
                                                 <div class="user-info">
-                                                    <h4>{{ offre.offerprovider }}</h4>
+                                                    <h4>{{ offre.offerprovider.entreprisename }}</h4>
                                                 </div>
                                             </div>
                                             <!-- Right side dropdown -->
@@ -373,8 +374,7 @@
                                             </div>
                                         </div>
 
-                                            <button> <a href={{ path('addIntrest', {'id': offre.idoffer}) }} class="like-button">Interested </a></li> </button>
-                                            <button> <a href={{ path('deleteIntrest', {'id': offre.idoffer}) }} class="like-button">Uninterested </a></li> </button>
+                                        <button id="open" class="btnAdd" value="click me"><a href={{ path('addIntrest', {'id': offre.idoffer}) }} class="like-button">Interested </a></li> </button>
 
                                     </div>
                                 </div>

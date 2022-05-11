@@ -71,7 +71,7 @@ class OffreController extends AbstractController
         $em->flush();*/
         $em->remove($offre);
         $em->flush();
-       return $this->redirectToRoute('navbar-v2-offres');
+       return $this->redirectToRoute('offreFront');
 
     }
 
@@ -104,7 +104,7 @@ class OffreController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($offre);
             $em->flush();
-            return $this->redirectToRoute('navbar-v2-offres');
+            return $this->redirectToRoute('offreFront');
         }
 
         return $this->render('FrontOffice/addOffre.html.twig',['f'=>$form->createView()]);
@@ -122,7 +122,7 @@ class OffreController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->redirectToRoute('navbar-v2-offres');
+            return $this->redirectToRoute('offreFront');
         }
 
         return $this->render('FrontOffice/updateOffre.html.twig',['f'=>$form->createView()]);
@@ -134,7 +134,7 @@ class OffreController extends AbstractController
 
 
     /**
-     * @Route ("/navbar-v2-offres/Intrest/{id}",name="addIntrest")
+     * @Route ("/offreFront/Intrest/{id}",name="addIntrest")
      */
     public function addIntrest(Request $request , $id):Response
     {
@@ -157,11 +157,11 @@ class OffreController extends AbstractController
             'Intrest Added Successfully'
         );
 
-        return $this->redirectToRoute('navbar-v2-offres');
+        return $this->redirectToRoute('offreFront');
     }
 
     /**
-     * @Route ("/navbar-v2-offres/deleteIntrest/{id}",name="deleteIntrest")
+     * @Route ("/offreFront/deleteIntrest/{id}",name="deleteIntrest")
      */
     public function deleteIntrest($id)
     {
@@ -180,7 +180,7 @@ class OffreController extends AbstractController
             'info',
             'Intrest Deleted Successfully'
         );
-        return $this->redirectToRoute('navbar-v2-offres');
+        return $this->redirectToRoute('offreFront');
     }
 
     /**
