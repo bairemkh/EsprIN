@@ -14691,8 +14691,8 @@ body.is-white {
 
 .card .card-heading, .shop-wrapper .cart-container .cart-content .cart-summary .summary-card .card-heading {
     display: flex;
-    justify-content: flex-start;
-    align-items: center;
+    justify-content: space-between;
+    align-items: baseline;
     padding: 16px
 }
 
@@ -47992,5 +47992,5 @@ body.is-dark .elements-wrap .element-block code {
     color: #9b3939;
     font-size: 22px;
 }
-
+.TitleEv-text {font-size: 28px;font-weight: 500;}
 /*# sourceMappingURL=scss */

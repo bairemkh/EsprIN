@@ -432,6 +432,10 @@
 
                         <!-- Middle column -->
                         <div class="column is-6">
+                            <div id="compose-card" class="card is-new-content">
+                                <!-- Top tabs -->
+
+                            </div>
                             <div class="search-bar">
                                 <form action={{path('forumFront')}} method="post">
                                     <p><input class="inputsearch" name="search" placeholder="search with title">
@@ -453,7 +457,7 @@
                                         <!-- User image -->
                                         <div class="user-block">
                                             <div class="image">
-                                                <img src={{ forum.idowner.getImgurl() }}
+                                                <img src="{{asset('images/users/'~forum.idowner.imgurl)}}"
                                                       data-user-popover="8"
                                                      alt="">
                                             </div>
@@ -579,8 +583,8 @@
                                             <!-- User image -->
                                             <div class="media-left">
                                                 <div class="image">
-                                                    <img src="https://via.placeholder.com/300x300"
-                                                         data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" data-user-popover="1"
+                                                    <img src="{{asset('images/users/'~response.cinuser.getImgurl())}}"
+                                                         data-demo-src="{{asset('images/users/'~response.cinuser.getImgurl())}}" data-user-popover="1"
                                                          alt="">
                                                 </div>
                                             </div>
@@ -741,24 +745,9 @@
                         <!-- Right side column -->
                         <div class="column is-3">
                             <!--#region event feed card  -->
-                            <div class="card is-feed-card event">
-                                <div class="card-heading">
-                                    <i data-feather="calendar"></i>
-                                </div>
-                                <div class="card-body">
-                                    <div>
-                                        <div class="feed-avatar">
-                                            <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="FrontOffice/assets/img/avatars/dan.jpg" alt="">
-                                        </div>
-                                        <div class="feed-content">
-                                            <h4>Orenda Junior Entreprise is organising an event</h4>
-                                            <p>You can consult the event organised by Orenda Junior Entreprise</p>
-                                            <button type="button" class="button light-button">Consult</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{ render(controller(
+                                'App\\Controller\\EventController::setEventCard'
+                            )) }}
 
 
                             <!--#endregion -->

@@ -1,0 +1,18 @@
+<div class="card is-feed-card event">
+    <div class="card-heading">
+        <i data-feather="calendar"></i>
+    </div>
+    <div class="card-body">
+        <div>
+            <div class="feed-avatar">
+                <img src="{{asset('images/users/'~event.imgurl)}}"
+                     data-demo-src="{{asset('images/users/'~event.imgurl)}}" alt="">
+            </div>
+            <div class="feed-content">
+                <h4>{{ event.firstname}} {{ event.lastname }} is organising an event</h4>
+                <p>{{ event.firstname}} {{ event.lastname }} just added an event named {{ event.titleevent }}. come take a look !!</p>
+                <button type="button" class="button light-button" onclick="location.href = '{{ path('eventsFront') }}';">Consult</button>
+            </div>
+        </div>
+    </div>
+</div>

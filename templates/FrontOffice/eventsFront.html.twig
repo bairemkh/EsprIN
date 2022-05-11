@@ -436,7 +436,7 @@
 
                                     <!-- Featured image -->
                                     <div class="post-image">
-                                        <img src="../../FrontOffice/assets/img/demo/unsplash/1.jpg" data-demo-src="FrontOffice/assets/img/demo/unsplash/1.jpg" alt="">
+                                        <img src="{{asset('images/events/'~event.imgurl)}}" data-demo-src="{{asset('images/events/'~event.imgurl)}}" height="1067" width="1600" alt="">
                                     </div>
                                     <div class="post-text">
                                         <p>{{ event.contentevent }}</p>
@@ -446,7 +446,7 @@
                                         <div class="user-block">
 
                                             <div class="image">
-                                                <img src="../../FrontOffice/assets/img/avatar/avatar-face-04.png" data-demo-src="../../FrontOffice/assets/img/avatar/avatar-face-04.png" data-user-popover="1" alt="">
+                                                <img src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-demo-src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-user-popover="1" alt="">
                                             </div>
                                             <div class="user-info">
                                                 <a href="#">{{ event.idorganizer }}</a>
