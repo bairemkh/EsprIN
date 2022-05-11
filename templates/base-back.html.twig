@@ -84,14 +84,14 @@
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
                         </span>
-                            </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="{{ path('PostDashboard') }}">All Posts</a>
-                                </li>
-                                <li>
-                                    <a href="##">Comments</a>
-                                </li>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a href="{{ path('PostDashboard') }}">All Posts</a>
+                            </li>
+                            <li><a href="{{ path('CommentsDashboard') }}">Comments</a>
+
+                            </li>
 
 
                             </ul>
@@ -123,20 +123,21 @@
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
                         </span>
-                            </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="{{ path('announcementDashboard') }}">All Announces</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('AnnounceCatDashboard') }}">All Categories</a>
-                                </li>
-                                <li>
-                                    <a href="##">Add new Category</a>
-                                </li>
-                                <li>
-                                    <a href="{{ path('AddNewAnnounce') }}">Add new Announce</a>
-                                </li>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a href="{{ path('announcementDashboard') }}">All Announces</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('AnnounceCatDashboard') }}">All Categories</a>
+                            </li>
+                            <li>
+                                <a href="{{ path('AddNewAnnounceCat') }}">Add new Category</a>
+
+                            </li>
+                            <li>
+                                <a href="{{ path('add_new_annoncement') }}">Add new Announce</a>
+                            </li>
 
                             </ul>
                         </li>
@@ -151,14 +152,11 @@
                             </a>
                             <ul class="cat-sub-menu">
                                 <li>
-                                    <a href="{{ path('AlertDashboard') }}">All Alerts</a>
+                                    <a href="{{ path('AlertCatDashboard') }}">All Alerts</a>
                                 </li>
                                 <li>
                                     <a href="{{ path('AlertCatDashboard') }}">Categories</a>
-                                </li>
-                                <li>
-                                    <a href="##">Cat2</a>
-                                </li>
+                            </li>
 
                             </ul>
                         </li>
@@ -186,11 +184,11 @@
                             <span class="sr-only">Open list</span>
                             <span class="icon arrow-down" aria-hidden="true"></span>
                         </span>
-                            </a>
-                            <ul class="cat-sub-menu">
-                                <li>
-                                    <a href="{{ path('ForumDashboard') }}">All Forum</a>
-                                </li>
+                        </a>
+                        <ul class="cat-sub-menu">
+                            <li>
+                                <a href="{{ path('ForumDashboard') }}">All Forum</a>
+                            </li>
 
 
                             </ul>
@@ -200,6 +198,17 @@
                     </ul>
 
 
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <a href="##" class="sidebar-user">
+            <span class="sidebar-user-img">
+                <picture><source srcset="BackOffice/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
+                            src="BackOffice/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
+            </span>
+                <div class="sidebar-user-info">
+                    <span class="sidebar-user__title">Nafisa Sh.</span>
+                    <span class="sidebar-user__subtitle">Support manager</span>
                 </div>
             </div>
             {{ render(controller(
@@ -215,46 +224,46 @@
                 <div class="container main-nav">
                     <div class="main-nav-start">
                         <script src="{{ asset('BackOffice/js/jquery.min.js') }}"></script>
-                        <div class="search-wrapper">
+                    <div class="search-wrapper">
                             <i data-feather="search" aria-hidden="true"></i>
                             <input type="text" id="ach" placeholder="Enter keywords ..." required>
-                        </div>
                     </div>
-                    <div class="main-nav-end">
-                        <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
-                            <span class="sr-only">Toggle menu</span>
-                            <span class="icon menu-toggle--gray" aria-hidden="true"></span>
+                </div>
+                <div class="main-nav-end">
+                    <button class="sidebar-toggle transparent-btn" title="Menu" type="button">
+                        <span class="sr-only">Toggle menu</span>
+                        <span class="icon menu-toggle--gray" aria-hidden="true"></span>
+                    </button>
+                    <div class="lang-switcher-wrapper">
+                        <button class="lang-switcher transparent-btn" type="button">
+                            EN
+                            <i data-feather="chevron-down" aria-hidden="true"></i>
                         </button>
-                        <div class="lang-switcher-wrapper">
-                            <button class="lang-switcher transparent-btn" type="button">
-                                EN
-                                <i data-feather="chevron-down" aria-hidden="true"></i>
-                            </button>
-                            <ul class="lang-menu dropdown">
-                                <li><a href="##">English</a></li>
-                                <li><a href="##">French</a></li>
-                                <li><a href="##">Uzbek</a></li>
-                            </ul>
-                        </div>
-                        <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
-                            <span class="sr-only">Switch theme</span>
-                            <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
-                            <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
+                        <ul class="lang-menu dropdown">
+                            <li><a href="##">English</a></li>
+                            <li><a href="##">French</a></li>
+                            <li><a href="##">Uzbek</a></li>
+                        </ul>
+                    </div>
+                    <button class="theme-switcher gray-circle-btn" type="button" title="Switch theme">
+                        <span class="sr-only">Switch theme</span>
+                        <i class="sun-icon" data-feather="sun" aria-hidden="true"></i>
+                        <i class="moon-icon" data-feather="moon" aria-hidden="true"></i>
+                    </button>
+                    <div class="notification-wrapper">
+                        <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
+                            <span class="sr-only">To messages</span>
+                            <span class="icon notification active" aria-hidden="true"></span>
                         </button>
-                        <div class="notification-wrapper">
-                            <button class="gray-circle-btn dropdown-btn" title="To messages" type="button">
-                                <span class="sr-only">To messages</span>
-                                <span class="icon notification active" aria-hidden="true"></span>
-                            </button>
-                            <ul class="users-item-dropdown notification-dropdown dropdown">
-                                <li>
-                                    <a href="##">
-                                        <div class="notification-dropdown-icon info">
-                                            <i data-feather="check"></i>
-                                        </div>
-                                        <div class="notification-dropdown-text">
-                                            <span class="notification-dropdown__title">System just updated</span>
-                                            <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more
+                        <ul class="users-item-dropdown notification-dropdown dropdown">
+                            <li>
+                                <a href="##">
+                                    <div class="notification-dropdown-icon info">
+                                        <i data-feather="check"></i>
+                                    </div>
+                                    <div class="notification-dropdown-text">
+                                        <span class="notification-dropdown__title">System just updated</span>
+                                        <span class="notification-dropdown__subtitle">The system has been successfully upgraded. Read more
                   here.</span>
                                         </div>
                                     </a>
@@ -293,7 +302,8 @@
                                 <span class="nav-user-img">
             <picture><source srcset="images/users/{{ render(controller(
                     'App\\Controller\\DashboardBackOfficeController::renderProfileAvatar'
-                )) }}" type="image/webp"><img src="images/users/{{ render(controller(
+                )) }}" type="image/webp"><img
+                        src="images/users/{{ render(controller(
                     'App\\Controller\\DashboardBackOfficeController::renderProfileAvatar'
                 )) }}" alt="User name"></picture>
           </span>
@@ -314,23 +324,23 @@
             </nav>
             <!-- ! Main -->
 
-            {% block body %}
+        {% block body %}
 
-            {% endblock %}
+        {% endblock %}
 
 
-        </div>
     </div>
+</div>
 
 
-    <!-- Chart library -->
-    <script src="{{ asset('BackOffice/plugins/chart.min.js') }}"></script>
-    <!-- Icons library -->
-    <script src="{{ asset('BackOffice/plugins/feather.min.js') }}"></script>
-    <!-- Custom scripts -->
-    <script src="{{ asset('BackOffice/js/script.js') }}"></script>
+<!-- Chart library -->
+<script src="{{ asset('BackOffice/plugins/chart.min.js') }}"></script>
+<!-- Icons library -->
+<script src="{{ asset('BackOffice/plugins/feather.min.js') }}"></script>
+<!-- Custom scripts -->
+<script src="{{ asset('BackOffice/js/script.js') }}"></script>
 
-    </body>
+</body>
 
     </html>
 {% else %}

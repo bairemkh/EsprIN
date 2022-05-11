@@ -1,0 +1,64 @@
+{% extends 'base-back.html.twig' %}
+{% block title %} AnnounceDashboard {% endblock %}
+
+{% block body %}
+
+
+    <!-- ! Main -->
+    <main class="main users chart-page" id="skip-target">
+        <div class="container">
+            <h2 class="main-title">Announce</h2>
+
+
+
+            <div class="users-table table-wrapper">
+                <table class="posts-table">
+                    <thead>
+                    <tr class="users-table-info">
+                        <th>
+                            <label class="users-table__checkbox ms-20">
+                                <input type="checkbox" class="check-all">Title
+                            </label>
+                        </th>
+
+                    </tr>
+                    </thead>
+
+                    {% for announce in announcementCat %}
+                        <tbody>
+                        <tr>
+                            <!-- Title -->
+                            <td>
+                                <label class="users-table__checkbox">
+                                    <input type="checkbox" class="check">
+                                    {{ announce.libcatann }}
+                                </label>
+                            </td>
+
+
+                            <!-- Edit -->
+                            <td>
+                                  <span class="p-relative">
+                                    <button class="dropdown-btn transparent-btn" type="button" title="More info">
+                                      <div class="sr-only">More info</div>
+                                      <i data-feather="more-horizontal" aria-hidden="true"></i>
+                                    </button>
+                                    <ul class="users-item-dropdown dropdown">
+                                      <li><a href="{{ path('deleteannouncecat', {'id':announce.idcatann}) }}">Delete</a></li>
+
+                                    </ul>
+                                  </span>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    {% endfor %}
+                </table>
+            </div>
+
+        </div>
+    </main>
+    <!-- ! Footer -->
+
+
+{% endblock %}

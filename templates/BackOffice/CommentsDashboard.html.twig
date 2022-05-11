@@ -22,8 +22,8 @@
                         <th>Action</th>
                     </tr>
                     </thead>
-                    {% for post in posts %}
-                        {% if post.state == "'Active'" %}
+                    {% for post in comments %}
+                        {% if post.state == 'Active' %}
                             <tbody>
                             <tr>
                                 <!-- Post -->
@@ -52,7 +52,7 @@
                                       <i data-feather="more-horizontal" aria-hidden="true"></i>
                                     </button>
                                     <ul class="users-item-dropdown dropdown">
-                                      <li><a href={{ path('deletecomment', {'id': post.content}) }}>Delete</a></li>
+                                      <li><a href={{ path('deleteCb', {'crt': post.idComment}) }}>Delete</a></li>
 
                                     </ul>
                                   </span>

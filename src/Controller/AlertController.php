@@ -10,6 +10,7 @@ use App\Entity\Catalert;
 use App\Entity\Event;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Annoncement;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -143,4 +144,19 @@ class AlertController extends AbstractController
 
 
     }
+
+    /**
+     * @Route("/AlertDashboard/{id}", name="deletealert")
+     */
+    public function delete($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $alert = $this->getDoctrine()
+            ->getRepository(Alert::class)
+            ->find($id);
+        $alert->setState("Deleted");
+        $em->flush();
+        return $this->redirectToRoute('AlertDashboard');
+    }
+
 }

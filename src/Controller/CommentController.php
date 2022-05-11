@@ -56,9 +56,21 @@ class CommentController extends AbstractController
         $em=$this->getDoctrine()->getManager();
         $cmt = $this->getDoctrine()->getRepository(Commented::class)->find($crt);
 
-        $em->remove($cmt[0]);
+        $em->remove($cmt);
         $em->flush();
         return $this->redirectToRoute('showC',['id'=>$crt]);
+    }
+    /**
+     * @Route ("/DeleteCb/{crt}",name="deleteCb")
+     */
+    public function deleteCb($crt)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $cmt = $this->getDoctrine()->getRepository(Commented::class)->find($crt);
+
+        $em->remove($cmt);
+        $em->flush();
+        return $this->redirectToRoute('CommentsDashboard');
     }
     /**
      * @Route("/editC/{id}/{crt}", name="editC")
@@ -81,4 +93,19 @@ class CommentController extends AbstractController
 
         return $this->render('FrontOffice/comment.html.twig',array('formC'=>$formE->createView(),'comments'=>$cmts,"post"=>$post));
     }
+
+
+    /**
+     * @Route ("/CommentsDashboard",name="CommentsDashboard")
+     */
+    public function getComments(): Response
+    {
+        $comments = $this->getDoctrine()
+            ->getRepository(Commented::class)
+            ->findAll();
+
+        return $this->render('BackOffice/CommentsDashboard.html.twig', array('comments' => $comments));
+
+    }
+
 }

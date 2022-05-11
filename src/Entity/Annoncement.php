@@ -50,7 +50,6 @@ class Annoncement
      */
     private $createdat ;
 
-
     /**
      * @var \Catannonce
      *

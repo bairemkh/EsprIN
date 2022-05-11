@@ -57,15 +57,7 @@ class DashboardBackOfficeController extends AbstractController
     }
 
 
-/**
- * @Route ("/AddNewAnnounce",name="AddNewAnnounce")
- */
-public function addannounce():Response{
-    return $this->render('BackOffice/AddNewAnnounce.html.twig',[
-    'controller_name'=>'DashboardBackOfficeController',
-        ]
-    );
-}
+
 
     /**
      * @Route ("/AlertDashboard",name="AlertDashboard")
@@ -87,15 +79,7 @@ public function addannounce():Response{
         );
     }
 
-    /**
-     * @Route ("/CommentsDashboard",name="CommentsDashboard")
-     */
-    public function CommentsDashboard():Response{
-        return $this->render('BackOffice/CommentsDashboard.html.twig',[
-                'controller_name'=>'DashboardBackOfficeController',
-            ]
-        );
-    }
+
 
     /**
      * @Route ("/EventsDashboard",name="EventsDashboard")

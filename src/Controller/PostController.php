@@ -22,7 +22,7 @@ class PostController extends AbstractController
     public function indexAction()
     {
 
-        $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("'Active'");
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("Active");
         $cmts = $this->getDoctrine()->getRepository(Commented::class)->findAll();
         $likes = $this->getDoctrine()->getRepository(Like::class)->findAll();
 
