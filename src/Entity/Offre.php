@@ -2,16 +2,14 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Offre
  *
  * @ORM\Table(name="offre", indexes={@ORM\Index(name="FK Provider", columns={"offerProvider"})})
  * @ORM\Entity
- * * @ORM\Entity(repositoryClass="App\Repository\OffreRepository")
  */
 class Offre
 {
@@ -33,6 +31,12 @@ class Offre
 
     /**
      * @var string
+     * @Assert\NotBlank(message=" titre doit etre non vide")
+     * @Assert\Length(
+     *      min = 5,
+     *      minMessage=" Entrer un titre au mini de 5 caracteres"
+     *
+     *     )
      *
      * @ORM\Column(name="titleOffer", type="string", length=20, nullable=false)
      */
@@ -41,6 +45,7 @@ class Offre
     /**
      * @var string
      *
+     * @Assert\NotBlank(message=" description doit etre non vide")
      * @ORM\Column(name="descOffer", type="text", length=65535, nullable=false)
      */
     private $descoffer;
@@ -48,7 +53,7 @@ class Offre
     /**
      * @var string|null
      *
-     * @ORM\Column(name="imgOffre", type="text", length=65535, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="imgOffre", type="string", length=55, nullable=true, options={"default"="NULL"})
      */
     private $imgoffre = 'NULL';
 
@@ -57,7 +62,7 @@ class Offre
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
      */
-    private $state = '\'Active\'';
+    private $state = 'Active';
 
     /**
      * @var \User
@@ -111,7 +116,7 @@ class Offre
     /**
      * @return string
      */
-    public function getCatoffre(): string
+    public function getCatoffre(): ?string
     {
         return $this->catoffre;
     }
@@ -127,7 +132,7 @@ class Offre
     /**
      * @return string
      */
-    public function getTitleoffer(): string
+    public function getTitleoffer(): ?string
     {
         return $this->titleoffer;
     }
@@ -143,7 +148,7 @@ class Offre
     /**
      * @return string
      */
-    public function getDescoffer(): string
+    public function getDescoffer(): ?string
     {
         return $this->descoffer;
     }
@@ -189,15 +194,14 @@ class Offre
     }
 
 
+
     public function getOfferprovider(): ?User
     {
         return $this->offerprovider;
     }
 
-    /**
-     * @param \User $offerprovider
-     */
-    public function setOfferprovider(\User $offerprovider): void
+
+    public function setOfferprovider(?User $offerprovider): void
     {
         $this->offerprovider = $offerprovider;
     }
@@ -205,7 +209,7 @@ class Offre
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCinintrested()
+    public function getCinintrested(): ?User
     {
         return $this->cinintrested;
     }
@@ -233,5 +237,13 @@ class Offre
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return (string)$this->getCatoffre();
+    }
+
+
+
 
 }
