@@ -1,0 +1,68 @@
+{% block main %}
+
+    <head>
+        <style>
+            table {
+                border-collapse: collapse;
+                width: 100%;
+            }
+
+            th, td {
+                text-align: left;
+                padding: 8px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #D6EEEE;
+            }
+        </style>
+    </head>
+    <body>
+
+    <div class="row">
+
+        <div class="column">
+            <img src="{{ ('uploads/phpB439.jpeg') }}" height="100" width="180">
+        </div>
+        <center><p><h1 style="color:red;">Announce List</h1></p></center>
+    </div>
+
+
+    <table>
+        <thead>
+        <th>Sender</th>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Category</th>
+        </thead>
+
+        {% for announce in announces %}
+            {% if announce.state == "Active" %}
+                <tr>
+                    <!-- Announce Sender -->
+                    <td>
+                        {{ announce.getIdSender() }}
+                    </td>
+                    <!-- Title -->
+                    <td>
+                        {{ announce.subject }}
+                    </td>
+
+                    <!-- Description-->
+                    <td>{{ announce.content }}</td>
+
+                    <!-- Image-->
+
+                    <!-- Category -->
+                    <td>{{ announce.getCatann().libcatann }}</td>
+
+
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+    </body>
+
+{% endblock %}
+

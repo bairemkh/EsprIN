@@ -45,9 +45,9 @@ class AlertRepository extends ServiceEntityRepository
         }
     }
 
-     /**
-      * @return Alert[] Returns an array of Alert objects
-      */
+    /**
+     * @return Alert[] Returns an array of Alert objects
+     */
 
     public function findByExampleField($value)
     {
@@ -56,8 +56,7 @@ class AlertRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->orderBy('a.idalert', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 
@@ -72,4 +71,33 @@ class AlertRepository extends ServiceEntityRepository
         ;
     }
     */
+
+public function findBytitle($title, $destclass)
+{
+    if ($title != "" && $destclass != "") {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.alerttitle = :val')
+            ->setParameter('val', $title)
+            ->andWhere('f.destclass = :destclass')
+            ->setParameter('destclass', $destclass)
+            ->orderBy('f.idalert', 'ASC')
+            ->getQuery()
+            ->getResult();
+    } else if ($title != "") {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.alerttitle = :val')
+            ->setParameter('val', $title)
+            ->orderBy('f.idalert', 'ASC')
+            ->getQuery()
+            ->getResult();
+    } else if ($destclass != "") {
+        return $this->createQueryBuilder('f')
+            ->andWhere('f.destclass = :destclass')
+            ->setParameter('destclass', $destclass)
+            ->orderBy('f.idalert', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+}
 }

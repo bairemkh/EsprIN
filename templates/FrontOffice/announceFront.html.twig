@@ -10,6 +10,7 @@
 
     <div class="model-container" id="model-container">
 
+
         <form action="{{ path('addalert') }}" method="post">
             <div class="form  has-slimscroll">
                 <div class="tabs-wrapper">
@@ -95,6 +96,7 @@
 
         <!-- Container -->
         <div class="container" id="eventContainer">
+
 
             <!-- Content placeholders at page load -->
             <!-- this holds the animated content placeholders that show up before content -->
@@ -367,7 +369,20 @@
                 <!-- Middle column -->
                 <div class="column is-6">
 
-                    <button id="open" class="btnAdd" value="click me">Add Alert</button>
+                        <div class="search-bar">
+                            <form action={{path('SearchMultipleChoice')}} method="post">
+                                <p><input class="inputsearch" name="title" placeholder="search with title">
+                                    <input class="inputsearch" name="destination" placeholder="destination">
+                                    <button type="submit" class="button-shape">Search</button> </p>
+                            </form>
+                        </div>
+
+
+
+                        <button id="open" class="btnAdd" value="click me">Add Alert</button>
+                    <button>   <a href="{{ path('GeneratePdfAnnounce') }}">Generate Pdf Announces</a> </button>
+                    <button>   <a href="{{ path('GeneratePdfAlert') }}">Generate Pdf Alerts</a> </button>
+
 
 
                     <!--#region test-->

@@ -45,9 +45,9 @@ class AnnoncementRepository extends ServiceEntityRepository
         }
     }
 
-     /**
-      * @return Annoncement[] Returns an array of Annoncement objects
-      */
+    /**
+     * @return Annoncement[] Returns an array of Annoncement objects
+     */
 
     public function findByStateField($value)
     {
@@ -56,8 +56,7 @@ class AnnoncementRepository extends ServiceEntityRepository
             ->setParameter('val', $value)
             ->orderBy('a.idann', 'ASC')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 
 
@@ -72,4 +71,33 @@ class AnnoncementRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function findBytitle($title, $dest)
+    {
+        if ($title != "" && $dest != "") {
+            return $this->createQueryBuilder('a')
+                ->andWhere('a.subject = :val')
+                ->setParameter('val', $title)
+                ->andWhere('a.destination = :dest')
+                ->setParameter('dest', $dest)
+                ->orderBy('a.idann', 'ASC')
+                ->getQuery()
+                ->getResult();
+        } else if ($title != "") {
+            return $this->createQueryBuilder('a')
+                ->andWhere('a.subject = :val')
+                ->setParameter('val', $title)
+                ->orderBy('a.idann', 'ASC')
+                ->getQuery()
+                ->getResult();
+        } else if ($dest != "") {
+            return $this->createQueryBuilder('a')
+                ->andWhere('a.destination = :dest')
+                ->setParameter('tag', $dest)
+                ->orderBy('a.idann', 'ASC')
+                ->getQuery()
+                ->getResult();
+        }
+
+    }
 }

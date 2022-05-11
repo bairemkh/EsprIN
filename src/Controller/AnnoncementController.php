@@ -6,6 +6,9 @@ use App\Entity\Alert;
 use App\Entity\Annoncement;
 use App\Entity\Catalert;
 use App\Entity\User;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -127,6 +130,84 @@ class AnnoncementController extends AbstractController
 
         return $this->redirectToRoute('announceFront');
     }
+
+
+    /**
+     * @Route("/SearchMultipleChoice", name="SearchMultipleChoice" , methods={"GET", "POST"})
+     */
+    public function getlistannn(Request $request ,PaginatorInterface $paginator): Response
+    {
+        dump($request);
+        $title = $request->get('title');
+        $dest = $request->get('destination');
+        $data = [];
+        $data1=[];
+        if($title != "" || $dest!="") {
+            $data = $this->getDoctrine()
+                ->getRepository(Annoncement::class)
+                ->findBytitle($title,$dest);
+            $data1 = $this->getDoctrine()
+                ->getRepository(Alert::class)
+                ->findBytitle($title,$dest);
+        } else {
+            $data= $this->getDoctrine()
+                ->getRepository(Annoncement::class)
+                ->findAll();
+            $data1= $this->getDoctrine()
+                ->getRepository(Alert::class)
+                ->findAll();
+        }
+
+
+        $ann= $paginator->paginate(
+            $data,
+            $request->query->getInt('page',1),
+            4
+        );
+        $alerts= $paginator->paginate(
+            $data1,
+            $request->query->getInt('page',1),
+            4
+        );
+
+        return $this->render('FrontOffice/announceFront.html.twig',['ann'=>$ann ,'alerts'=>$alerts ]);
+    }
+
+    /**
+     * @Route("/GeneratePdfAnnounce", name="GeneratePdfAnnounce")
+     */
+    public function getListPDF(AnnoncementRepository $annoncementRepository):Response
+    {
+        // Configure Dompdf according to your needs
+        $pdfOptions = new Options();
+
+        $announces = $annoncementRepository->findAll();
+
+        $pdfOptions->set('defaultFont', 'Arial');
+
+        // Instantiate Dompdf with our options
+        $dompdf = new Dompdf($pdfOptions);
+
+        // Retrieve the HTML generated in our twig file
+        $html = $this->renderView('FrontOffice/announcePDF.html.twig',['announces'=>$announces]);
+
+        // Load HTML to Dompdf
+        $dompdf->loadHtml($html);
+
+        // (Optional) Setup the paper size and orientation 'portrait' or 'portrait'
+        $dompdf->setPaper('A4', 'portrait');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser (force download)
+        $dompdf->stream("AnnouncesList.pdf", [
+            "Attachment" => true
+        ]);
+
+        exit(0);
+    }
+
 
 
 }
