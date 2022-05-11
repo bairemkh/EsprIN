@@ -40,7 +40,7 @@
                             <!-- Organizer -->
                             <td>
                                 <div class="pages-table-img">
-                                    <picture><source srcset={{ event.imgurl }} type="image/webp"><img src={{ event.imgurl }} alt="UserName"></picture>
+                                    <img src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-demo-src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-user-popover="1" alt="">
                                     {{ event.idorganizer.firstname }}
                                 </div>
                             </td>
