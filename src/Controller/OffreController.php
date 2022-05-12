@@ -6,6 +6,7 @@ use App\Entity\Offre;
 use App\Entity\User;
 use App\Form\InterestType;
 use App\Repository\OffreRepository;
+use App\Services\SessionManagmentService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -95,13 +96,17 @@ class OffreController extends AbstractController
     /**
      * @Route("/addOffer", name="addOffer")
      */
-    public function addOffer(Request $request): Response
+    public function addOffer(Request $request,SessionManagmentService $sessionManagmentService): Response
     {
         $offre = new Offre();
         $form = $this->createForm(OffreType::class,$offre);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
+            $currentUser=$sessionManagmentService->getUser();
+            $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
+            $offre->setOfferprovider($user);
             $em = $this->getDoctrine()->getManager();
+
             $em->persist($offre);
             $em->flush();
             return $this->redirectToRoute('offreFront');
@@ -136,12 +141,13 @@ class OffreController extends AbstractController
     /**
      * @Route ("/offreFront/Intrest/{id}",name="addIntrest")
      */
-    public function addIntrest(Request $request , $id):Response
+    public function addIntrest(Request $request , $id,SessionManagmentService $sessionManagmentService):Response
     {
         dump($request);
+        $currentUser=$sessionManagmentService->getUser();
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->find(10000000);
+            ->find($currentUser->getCinuser());
 
         $offre = $this->getDoctrine()
             ->getRepository(Offre::class)

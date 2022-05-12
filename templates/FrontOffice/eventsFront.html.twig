@@ -379,8 +379,10 @@
                 <!-- Middle column -->
                 <div class="column is-6">
 
-                    <button id="open" class="btnAdd" value="click me">Add Event</button>
 
+                    {% if render(controller('App\\Controller\\SecurityController::getCurrentUserRole'))=='Club'%}
+                        <button id="open" class="btnAdd" value="click me">Add Event</button>
+                    {% endif %}
 
                     <!--#region test-->
                     {% for event in events %}

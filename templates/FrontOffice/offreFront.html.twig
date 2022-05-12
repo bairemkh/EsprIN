@@ -304,9 +304,12 @@
 
                     <!-- Middle column -->
                     <div class="column is-6">
+                        {% if render(controller('App\\Controller\\SecurityController::getCurrentUserRole'))=='Extern'%}
+                            <button id="open" class="btnAdd" value="click me">   <a href="{{ path('addOffer') }}">Add</a> </button>
+                            <button id="open" class="btnAdd" value="click me">   <a href="{{ path('Generate Pdf') }}">Generate Pdf</a> </button>
+                        {% endif %}
                         <!--#region Offer -->
-                        <button id="open" class="btnAdd" value="click me">   <a href="{{ path('addOffer') }}">add</a> </button>
-                        <button id="open" class="btnAdd" value="click me">   <a href="{{ path('Generate Pdf') }}">Generate Pdf</a> </button>
+
                         {% for offre in offres %}
                             {% if offre.state == "Active" %}
                                 <div  class="card is-post">

@@ -16,7 +16,6 @@ class OffreType extends AbstractType
             ->add('titleoffer')
             ->add('descoffer')
             ->add('catoffre')
-            ->add('offerprovider')
             ->add('add',SubmitType::class);
 
     }

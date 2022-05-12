@@ -27,6 +27,11 @@ class SecurityController extends AbstractController
         return new Response(strval($cin));
     }
 
+    public function getCurrentUserRole():Response{
+        $role=$this->currentSession->getUser()->getRole();
+        return new Response(strval($role));
+    }
+
     /**
      * @Route("/login", name="Login")
      */
