@@ -236,6 +236,7 @@ class PostController extends AbstractController
     public function TrierParDateAsc(PostRepository $postRepository)
     {
         $posts = $postRepository->sortByDateAsc();
+
         dump($posts);
         return $this->render('BackOffice/PostDashboard.html.twig', ['posts' => $posts,'piechart'=>$this->indexAction()]);
     }

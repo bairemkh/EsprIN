@@ -3,12 +3,17 @@
 namespace App\Controller;
 
 
+use App\Entity\Commented;
 use App\Entity\Event;
 use App\Entity\Forum;
+use App\Entity\Like;
+use App\Entity\Post;
 use App\Entity\Responded;
 use App\Entity\User;
 use App\Form\ForumType;
 use App\Repository\ForumRepository;
+use App\Repository\PostRepository;
+use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use App\Services\SessionManagmentService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -20,14 +25,34 @@ use Symfony\Component\Serializer\SerializerInterface;
 
 class ForumController extends AbstractController
 {
-
-    private EntityManagerInterface $entityManager;
-
-    public function __construct(EntityManagerInterface $em)
+    public function indexAction()
     {
-        $this->entityManager = $em;
-    }
 
+        $forms = $this->getDoctrine()->getRepository(Forum::class)->findByState('Active');
+        //$cmts = $this->getDoctrine()->getRepository(R::class)->findAll();
+        //$likes = $this->getDoctrine()->getRepository(Like::class)->findAll();
+
+
+        $pieChart = new PieChart();
+        $pieChart->getData()->setArrayToDataTable(
+            [['Task', 'Hours per Day'],
+                ['Posts',     count($forms)],
+                ['Comments',      count($forms)],
+                ['likes',  count($forms)],
+
+            ]
+        );
+        $pieChart->getOptions()->setTitle('Statistique Posts');
+        $pieChart->getOptions()->setHeight(500);
+        $pieChart->getOptions()->setWidth(900);
+        $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
+        $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
+        $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
+        $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
+        $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
+
+        return $pieChart;
+    }
     /**
      * @Route ("/ForumDashboard",name="ForumDashboard")
      */
@@ -35,8 +60,8 @@ class ForumController extends AbstractController
     {
         $forums= $this->getDoctrine()
             ->getRepository(Forum::class)
-            ->findAll();
-        return $this->render('BackOffice/ForumDashboard.html.twig',['forums'=>$forums]);
+            ->findByState('Active');
+        return $this->render('BackOffice/ForumDashboard.html.twig',['forums'=>$forums,"piechart"=>$this->indexAction()]);
     }
 
     /**
@@ -257,5 +282,30 @@ class ForumController extends AbstractController
         dump($likes);
         dump($users);
         die;
+    }
+
+    /**
+     * @Route("/TrierParDateAscForum", name="TrierParDateAscForum")
+     * @param ForumRepository $forumRepository
+     * @return Response
+     */
+    public function TrierParDateAsc(ForumRepository $forumRepository)
+    {
+        $forums = $forumRepository->sortByDateAsc('Active');
+        dump($forums);
+        return $this->render('BackOffice/ForumDashboard.html.twig', ['forums' => $forums]);
+    }
+
+    /**
+     * @Route("/TrierParDateDescForum", name="TrierParDateDescForum")
+     * @param ForumRepository $forumRepository
+     * @return Response
+     */
+    public function TrierParDateDesc(ForumRepository $forumRepository)
+    {
+        $forums = $forumRepository->sortByDateDesc('Active');
+        dump($forums);
+        return $this->render('BackOffice/ForumDashboard.html.twig', ['forums' => $forums]);
+        //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
     }
 }

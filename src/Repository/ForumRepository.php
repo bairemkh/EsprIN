@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Forum;
+use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -115,4 +116,41 @@ class ForumRepository extends ServiceEntityRepository
         ;
     }
     */
+    /**
+     * @return Forum[]
+     */
+    public function sortByDateAsc($tag): array
+    {
+        $em=$this->getEntityManager();
+
+        $res= $em->createQueryBuilder()
+            ->select('p')
+            ->from('App\Entity\Forum', 'p')
+            ->where('p.state = :val')
+            ->setParameter('val', $tag)
+            ->orderBy('p.datecreation ', 'ASC')
+            ->getQuery();
+
+        return $res->getArrayResult();
+
+    }
+
+    /**
+     * @return Forum[]
+     */
+    public function sortByDateDesc($tag): array
+    {
+        $em = $this->getEntityManager();
+        $res = $em->createQueryBuilder()
+            ->select('p')
+            ->where('p.state = :val')
+            ->setParameter('val', $tag)
+            ->from('App\Entity\Forum', 'p')
+            ->orderBy('p.datecreation ', 'DESC')
+            ->getQuery();
+
+        return $res->getArrayResult();
+
+
+    }
 }

@@ -10,18 +10,19 @@
             <div class="container">
                 <h2 class="main-title">Forum</h2>
 
-
+                <span style="margin-left:50%" class="badge-default"><a
+                            href={{ path('TrierParDateAscForum') }}>tri par date asc</a></span>
+                <span style="margin-left:50%" class="badge-default">                <a  href={{ path('TrierParDateDescForum') }}>tri par date desc</a>
+</span>
 
                 <div class="users-table table-wrapper">
                     <table class="posts-table">
                         <thead>
                         <tr class="users-table-info">
-                            <th>
-                                <label class="users-table__checkbox ms-20">
-                                    <input type="checkbox" class="check-all">Owner
-                                </label>
-                            </th>
+
                             <th>Title</th>
+                            <th>Created At</th>
+
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -30,22 +31,14 @@
                         <tbody>
                         <tr>
                             <!-- Owner -->
-                            <td>
-
-                                <label class="users-table__checkbox">
-                                    <input type="checkbox" class="check">
-                                    <div class="pages-table-img">
-                                        <picture><source srcset="./img/avatar/avatar-face-04.webp" type="image/webp"><img src="./img/avatar/avatar-face-04.png" alt="User Name"></picture>
-                                    </div>
-                                    {{ forum.idowner.getFirstName() }}
-                                </label>
-                            </td>
                             <!-- Title -->
                             <td>
                                 {{ forum.title }}
 
                             </td>
-
+<td>
+    {{ forum.datecreation|date  }}
+</td>
                             <!-- Edit -->
                             <td>
                                   <span class="p-relative">
@@ -63,6 +56,8 @@
                         </tbody>
                         {% endfor %}
                     </table>
+                    {% include "FrontOffice/index.html.twig" %}
+
                 </div>
 
             </div>
