@@ -5,22 +5,26 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\This;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * User
- *
+ * @ApiResource(formats={"json"})
  * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="email", columns={"email"})})
  * @ORM\Entity
- * * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @var int
      *
      * @ORM\Column(name="cinUser", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("users")
      */
     private $cinuser;
 
@@ -28,13 +32,15 @@ class User
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=50, nullable=false)
+     * @Groups("users")
      */
     private $email;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="passwd", type="string", length=50, nullable=false)
+     * @ORM\Column(name="passwd", type="text", length=65535, nullable=false)
+     * @Groups("users")
      */
     private $passwd;
 
@@ -42,20 +48,23 @@ class User
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("users")
      */
     private $createdat = 'current_timestamp()';
 
     /**
      * @var string
      *
-     * @ORM\Column(name="imgURL", type="text", length=65535, nullable=false, options={"default"="'https://www.jbrhomes.com/wp-content/uploads/blank-avatar.png'"})
+     * @ORM\Column(name="imgURL", type="text", length=65535, nullable=false, options={"default"="147142.png"})
+     * @Groups("users")
      */
-    private $imgurl = '\'https://www.jbrhomes.com/wp-content/uploads/blank-avatar.png\'';
+    private $imgurl = '147142.png';
 
     /**
      * @var string|null
      *
      * @ORM\Column(name="firstName", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $firstname = 'NULL';
 
@@ -63,6 +72,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="lastName", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $lastname = 'NULL';
 
@@ -70,6 +80,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="domaine", type="string", length=30, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $domaine = 'NULL';
 
@@ -77,6 +88,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="departement", type="string", length=40, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $departement = 'NULL';
 
@@ -84,6 +96,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="typeClub", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $typeclub = 'NULL';
 
@@ -91,6 +104,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="class", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $class = 'NULL';
 
@@ -98,6 +112,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="localisation", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $localisation = 'NULL';
 
@@ -105,6 +120,7 @@ class User
      * @var string|null
      *
      * @ORM\Column(name="entrepriseName", type="string", length=20, nullable=true, options={"default"="NULL"})
+     * @Groups("users")
      */
     private $entreprisename = 'NULL';
 
@@ -112,494 +128,234 @@ class User
      * @var string
      *
      * @ORM\Column(name="role", type="string", length=20, nullable=false)
+     * @Groups("users")
      */
     private $role;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Disconnected"})
      */
-    private $state = '\'Active\'';
+    private $state = 'Disconnected';
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="User", mappedBy="cinfollowed")
-     */
-    private $cinfollower;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Offre", mappedBy="cinintrested")
-     */
-    private $idoffer;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Post", inversedBy="likeuser")
-     * @ORM\JoinTable(name="like",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="likeUser", referencedColumnName="cinUser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="likePost", referencedColumnName="idPost")
-     *   }
-     * )
-     */
-    private $likepost;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Event", inversedBy="cinuser")
-     * @ORM\JoinTable(name="participate",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="cinUser", referencedColumnName="cinUser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idEvent", referencedColumnName="idEvent")
-     *   }
-     * )
-     */
-    private $idevent;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     *
-     * @ORM\ManyToMany(targetEntity="Forum", inversedBy="idcreater")
-     * @ORM\JoinTable(name="reacted forum",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="idCreater", referencedColumnName="cinUser")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="idForum", referencedColumnName="idForum")
-     *   }
-     * )
-     */
-    private $idforum;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->cinfollower = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idoffer = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->likepost = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idevent = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->idforum = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * @return int
-     */
-    public function getCinuser(): int
+    public function getCinuser(): ?int
     {
         return $this->cinuser;
     }
 
-    /**
-     * @param int $cinuser
-     */
-    public function setCinuser(int $cinuser): void
-    {
-        $this->cinuser = $cinuser;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPasswd(): string
+    public function setCinuser(int $UserCin): self
+    {
+        $this->cinuser = $UserCin;
+
+        return $this;
+    }
+
+    public function getPasswd(): ?string
     {
         return $this->passwd;
     }
 
-    /**
-     * @param string $passwd
-     */
-    public function setPasswd(string $passwd): void
+    public function setPasswd(string $passwd): self
     {
         $this->passwd = $passwd;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreatedat()
+    public function getCreatedat(): ?\DateTimeInterface
     {
         return $this->createdat;
     }
 
-    /**
-     * @param \DateTime $createdat
-     */
-    public function setCreatedat($createdat): void
+    public function setCreatedat(\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getImgurl(): string
+    public function getImgurl(): ?string
     {
         return $this->imgurl;
     }
 
-    /**
-     * @param string $imgurl
-     */
-    public function setImgurl(string $imgurl): void
+    public function setImgurl(string $imgurl): self
     {
         $this->imgurl = $imgurl;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFirstname(): ?string
     {
         return $this->firstname;
     }
 
-    /**
-     * @param string|null $firstname
-     */
-    public function setFirstname(?string $firstname): void
+    public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLastname(): ?string
     {
         return $this->lastname;
     }
 
-    /**
-     * @param string|null $lastname
-     */
-    public function setLastname(?string $lastname): void
+    public function setLastname(?string $lastname): self
     {
         $this->lastname = $lastname;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDomaine(): ?string
     {
         return $this->domaine;
     }
 
-    /**
-     * @param string|null $domaine
-     */
-    public function setDomaine(?string $domaine): void
+    public function setDomaine(?string $domaine): self
     {
         $this->domaine = $domaine;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDepartement(): ?string
     {
         return $this->departement;
     }
 
-    /**
-     * @param string|null $departement
-     */
-    public function setDepartement(?string $departement): void
+    public function setDepartement(?string $departement): self
     {
         $this->departement = $departement;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getTypeclub(): ?string
     {
         return $this->typeclub;
     }
 
-    /**
-     * @param string|null $typeclub
-     */
-    public function setTypeclub(?string $typeclub): void
+    public function setTypeclub(?string $typeclub): self
     {
         $this->typeclub = $typeclub;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getClass(): ?string
     {
         return $this->class;
     }
 
-    /**
-     * @param string|null $class
-     */
-    public function setClass(?string $class): void
+    public function setClass(?string $class): self
     {
         $this->class = $class;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLocalisation(): ?string
     {
         return $this->localisation;
     }
 
-    /**
-     * @param string|null $localisation
-     */
-    public function setLocalisation(?string $localisation): void
+    public function setLocalisation(?string $localisation): self
     {
         $this->localisation = $localisation;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getEntreprisename(): ?string
     {
         return $this->entreprisename;
     }
 
-    /**
-     * @param string|null $entreprisename
-     */
-    public function setEntreprisename(?string $entreprisename): void
+    public function setEntreprisename(?string $entreprisename): self
     {
         $this->entreprisename = $entreprisename;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getRole(): string
+    public function getRole(): ?string
     {
         return $this->role;
     }
 
-    /**
-     * @param string $role
-     */
-    public function setRole(string $role): void
+    public function setRole(string $role): self
     {
         $this->role = $role;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getState(): string
+    public function getState(): ?string
     {
         return $this->state;
     }
 
-    /**
-     * @param string $state
-     */
-    public function setState(string $state): void
+    public function setState(string $state): self
     {
         $this->state = $state;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCinfollower()
-    {
-        return $this->cinfollower;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $cinfollower
-     */
-    public function setCinfollower($cinfollower): void
-    {
-        $this->cinfollower = $cinfollower;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getIdoffer()
-    {
-        return $this->idoffer;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $idoffer
-     */
-    public function setIdoffer($idoffer): void
-    {
-        $this->idoffer = $idoffer;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getLikepost()
-    {
-        return $this->likepost;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $likepost
-     */
-    public function setLikepost($likepost): void
-    {
-        $this->likepost = $likepost;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getIdevent()
-    {
-        return $this->idevent;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $idevent
-     */
-    public function setIdevent($idevent): void
-    {
-        $this->idevent = $idevent;
-    }
-
-    /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getIdforum()
-    {
-        return $this->idforum;
-    }
-
-    /**
-     * @param \Doctrine\Common\Collections\Collection $idforum
-     */
-    public function setIdforum($idforum): void
-    {
-        $this->idforum = $idforum;
-    }
-
-    public function addCinfollower(User $cinfollower): self
-    {
-        if (!$this->cinfollower->contains($cinfollower)) {
-            $this->cinfollower[] = $cinfollower;
-            $cinfollower->addCinfollowed($this);
-        }
 
         return $this;
     }
 
-    public function removeCinfollower(User $cinfollower): self
-    {
-        if ($this->cinfollower->removeElement($cinfollower)) {
-            $cinfollower->removeCinfollowed($this);
-        }
 
-        return $this;
+
+
+
+    public function getRoles()
+    {
+        // TODO: Implement getRoles() method.
+
+        return array($this->role);
     }
 
-    public function addIdoffer(Offre $idoffer): self
+    public function getPassword()
     {
-        if (!$this->idoffer->contains($idoffer)) {
-            $this->idoffer[] = $idoffer;
-            $idoffer->addCinintrested($this);
-        }
-
-        return $this;
+        return $this->passwd;
     }
 
-    public function removeIdoffer(Offre $idoffer): self
+    public function getSalt()
     {
-        if ($this->idoffer->removeElement($idoffer)) {
-            $idoffer->removeCinintrested($this);
-        }
-
-        return $this;
+        // TODO: Implement getSalt() method.
     }
 
-    public function addLikepost(Post $likepost): self
+    public function getUsername()
     {
-        if (!$this->likepost->contains($likepost)) {
-            $this->likepost[] = $likepost;
-        }
-
-        return $this;
+        return (string)$this->email;
     }
 
-    public function removeLikepost(Post $likepost): self
+    public function eraseCredentials()
     {
-        $this->likepost->removeElement($likepost);
-
-        return $this;
+        // TODO: Implement eraseCredentials() method.
     }
 
-    public function addIdevent(Event $idevent): self
-    {
-        if (!$this->idevent->contains($idevent)) {
-            $this->idevent[] = $idevent;
-        }
-
-        return $this;
-    }
-
-    public function removeIdevent(Event $idevent): self
-    {
-        $this->idevent->removeElement($idevent);
-
-        return $this;
-    }
-
-    public function addIdforum(Forum $idforum): self
-    {
-        if (!$this->idforum->contains($idforum)) {
-            $this->idforum[] = $idforum;
-        }
-
-        return $this;
-    }
-
-    public function removeIdforum(Forum $idforum): self
-    {
-        $this->idforum->removeElement($idforum);
-
-        return $this;
-    }
     public function __toString()
     {
         return(String)$this->getFirstname();
     }
+
+
 }

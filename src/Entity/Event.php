@@ -5,11 +5,12 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Event
  *
- * @ORM\Table(name="event", indexes={@ORM\Index(name="FK organizer", columns={"idOrganizer"})})
+ * @ORM\Table(name="event", indexes={@ORM\Index(name="FK_organizer", columns={"idOrganizer"})})
  * @ORM\Entity
  * * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
@@ -21,6 +22,7 @@ class Event
      * @ORM\Column(name="idEvent", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("events")
      */
     private $idevent;
 
@@ -28,6 +30,7 @@ class Event
      * @var string
      *
      * @ORM\Column(name="titleEvent", type="string", length=20, nullable=false)
+     * @Groups("events")
      */
     private $titleevent;
 
@@ -35,20 +38,23 @@ class Event
      * @var string
      *
      * @ORM\Column(name="contentEvent", type="text", length=65535, nullable=false)
+     * @Groups("events")
      */
     private $contentevent;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="imgURL", type="text", length=65535, nullable=true, options={"default"="NULL"})
+     * @ORM\Column(name="imgURL", type="text", length=65535, nullable=true, options={"default"="event-default.jpg"})
+     * @Groups("events")
      */
-    private $imgurl = NULL;
+    private $imgurl = 'event-default.jpg';
 
     /**
      * @var string
      *
      * @ORM\Column(name="EventLocal", type="string", length=30, nullable=false)
+     * @Groups("events")
      */
     private $eventlocal;
 
@@ -56,6 +62,7 @@ class Event
      * @var int
      *
      * @ORM\Column(name="nbrParticipant", type="integer", nullable=false)
+     * @Groups("events")
      */
     private $nbrparticipant = '0';
 
@@ -63,6 +70,7 @@ class Event
      * @var string
      *
      * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @Groups("events")
      */
     private $state = 'Active';
 
@@ -70,6 +78,7 @@ class Event
      * @var ?DateTime
      *
      * @ORM\Column(name="dateDebut", type="date", nullable=true, options={"default"="NULL"})
+     * @Groups("events")
      */
     private $datedebut = null;
 
@@ -77,6 +86,7 @@ class Event
      * @var ?DateTime
      *
      * @ORM\Column(name="dateFin", type="date", nullable=true, options={"default"="NULL"})
+     * @Groups("events")
      */
     private $datefin = null ;
 

@@ -1,0 +1,195 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+body{
+    min-height: 100vh;
+    background: #c30007;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.container{
+    width: 400px;
+    padding: 18px;
+    background: #fff;
+    border-radius: 6px;
+}
+.container a{
+    color: #c30007;
+    text-decoration: none;
+    font-size: 15px;
+    font-family: 'Airbnb Cereal App', sans-serif;
+    margin-top: 20px;
+    margin-left: 25%;
+}
+.container img{
+    align-self: center;
+    align-content: center;
+    margin-left: 35%;
+}
+.container .title{
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 36px;
+}
+.container .indicator{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    margin-bottom: 24px;
+}
+.indicator .line{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    background: #cfcfcf;
+    width: 100%;
+    left: 0;
+    z-index: 10;
+}
+.indicator p{
+    position: relative;
+    z-index:20 ;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #cfcfcf;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    border-radius: 60px;
+    color: #cfcfcf;
+}
+.indicator p.active{
+    border-color: #c30007;
+    color: #c30007;
+}
+.indicator .line span{
+    position: absolute;
+    height: 100%;
+    top: 0;
+    left: 0;
+    width: 50%;
+    background: #c30007;
+}
+form .tab .form{
+    margin-bottom: 18px;
+    width: 100%;
+}
+.tab .form input{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+.tab .form input.error{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #e70f0f;
+    border-radius: 4px;
+    outline: none;
+}
+.tab .form input.correct{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7ee022;
+    border-radius: 4px;
+    outline: none;
+}
+.tab .form select{
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-bottom: 5px;
+}
+.tab .form select option{
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+.tab p{
+    margin-bottom: 18px;
+}
+form .btn{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 20px;
+}
+form .btn button{
+    padding: 10px 30px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin-left: 18px;
+}
+form .btn button.prev{
+    background: #cfcfcf;
+    border-radius: 5px;
+    color: white;
+}
+form .btn button.next{
+    background: #ababab;
+    border-radius: 5px;
+    color: white;
+}
+form .btn button.prev:hover{
+    background: #c94a4a;
+    border-radius: 5px;
+    color: white;
+}
+form .btn button.next:hover{
+    background: #9b3939;
+    border-radius: 5px;
+    color: white;
+}
+.tab{
+    display: none;
+}
+.tab.show{
+    display: block;
+}
+.typeUser{
+    display: none;
+}
+.typeUser.show{
+    display: block;
+}
+.typeUser.show input ,.typeUser.show select{
+    margin-bottom: 5px;
+}
+.iconColor{
+    color: #c30007;
+}
+.errorMsg{
+    alignment: center;
+    justify-content: space-between;
+    justify-items: center;
+
+    color: #c30007;
+    font-weight: 600;
+    font-family: "Airbnb Cereal App";
+}
+.msg{
+    display:none ;
+}
+.msg.show{
+    color: #c30007;
+    font-weight: 600;
+    font-family: "Airbnb Cereal App";
+    display: block;
+    justify-content: space-between;
+    justify-items: flex-end;
+}
+

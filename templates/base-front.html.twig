@@ -1,3 +1,4 @@
+{% if render(controller('App\\Controller\\DashboardBackOfficeController::verifySession'))==true %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,21 +36,17 @@
 {% endblock %}
 
 
-
-<!-- Pageloader -->
 <div class="pageloader"></div>
 <div class="infraloader is-active"></div>
 <div class="app-overlay"></div>
-
-
 
 <div class="navbar-v2">
     <div class="top-nav">
         <div class="left">
             <div class="brand">
                 <a href="" class="navbar-logo">
-                    <img class="logo light-image" src="FrontOffice/assets/img/logo/logo_app.svg" width="112" height="28" alt="">
-                    <img class="logo dark-image" src="FrontOffice/assets/img/logo/logo-red.svg" width="112" height="28" alt="">
+                    <img class="logo light-image" src="{{ asset('FrontOffice/img/logo/logo_app.svg') }}" width="162" height="78" alt="">
+                    <img class="logo dark-image" src="{{ asset('FrontOffice/img/logo/logo-red.svg') }}" width="162" height="78" alt="">
                 </a>
             </div>
             <div class="search">
@@ -103,7 +100,11 @@
 
             <div id="account-dropdown" class="navbar-item is-account drop-trigger has-caret">
                 <div class="user-image">
-                    <img src="https://via.placeholder.com/400x400" data-demo-src="FrontOffice/assets/img/avatars/jenna.png" alt="">
+                    <img src="{{asset('images/users/'~render(controller(
+                        'App\\Controller\\DashboardBackOfficeController::renderProfileAvatar'
+                    )))}}" data-demo-src="{{asset('images/users/'~render(controller(
+                        'App\\Controller\\DashboardBackOfficeController::renderProfileAvatar'
+                    )))}}" alt="">
                     <span class="indicator"></span>
                 </div>
 
@@ -113,19 +114,29 @@
                         <div class="nav-drop-body account-items">
 
 
-                            <a href="#" class="account-item">
+                            <a href="{{ path('profile',{'userCin':render(controller('App\\Controller\\SecurityController::getCin'))}) }}" class="account-item">
                                 <div class="media">
                                     <div class="icon-wrap">
-                                        <i data-feather="settings"></i>
+                                        <i data-feather="user"></i>
                                     </div>
                                     <div class="media-content">
-                                        <h3>Settings</h3>
-                                        <small>Access widget settings.</small>
+                                        <h3>Profile</h3>
+                                        <small>Access Your Profile.</small>
                                     </div>
                                 </div>
                             </a>
-
-                            <a class="account-item" href="{{ path('Login') }}">
+                            <a href="{{ path('EventByParticipate')}}" class="account-item">
+                                <div class="media">
+                                    <div class="icon-wrap">
+                                        <i data-feather="user"></i>
+                                    </div>
+                                    <div class="media-content">
+                                        <h3>Events List</h3>
+                                        <small>Access Your events list.</small>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="account-item" href="{{ path('logout') }}">
                                 <div class="media">
                                     <div class="icon-wrap">
                                         <i data-feather="power"></i>
@@ -168,76 +179,67 @@
     {% endblock %}
 
 
-    <!-- Concatenated js plugins and jQuery -->
-    <script src="{{ asset('FrontOffice/assets/js/app.js') }}"></script>
-    <script src="{{ asset('https://js.stripe.com/v3/') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/data/tipuedrop_content.js') }}"></script>
+<!-- Concatenated js plugins and jQuery -->
+<script src="{{ asset('FrontOffice/assets/js/app.js') }}"></script>
+<script src="{{ asset('https://js.stripe.com/v3/') }}"></script>
+<script src="{{ asset('FrontOffice/assets/data/tipuedrop_content.js') }}"></script>
 
-    <!-- Core js -->
-    <script src="{{ asset('FrontOffice/assets/js/global.js') }}"></script>
+<!-- Core js -->
+<script src="{{ asset('FrontOffice/assets/js/global.js') }}"></script>
 
-    <!-- Navigation options js -->
-    <script src="{{ asset('FrontOffice/assets/js/navbar-v1.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/navbar-v2.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/navbar-mobile.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/navbar-options.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/sidebar-v1.js') }}"></script>
+<!-- Navigation options js -->
+<script src="{{ asset('FrontOffice/assets/js/navbar-v1.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/navbar-v2.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/navbar-mobile.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/navbar-options.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/sidebar-v1.js') }}"></script>
 
-    <!-- Core instance js -->
-    <script src="{{ asset('FrontOffice/assets/js/main.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/chat.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/touch.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/tour.js') }}"></script>
-
-
-    <!-- Components js -->
-    <script src="{{ asset('FrontOffice/assets/js/explorer.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/widgets.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/modal-uploader.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/popovers-users.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/popovers-pages.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/lightbox.js') }}"></script>
+<!-- Core instance js -->
+<script src="{{ asset('FrontOffice/assets/js/main.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/chat.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/touch.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/tour.js') }}"></script>
 
 
-    <!-- Landing page js -->
-
-    <!-- Signup page js -->
-
-    <!-- Feed pages js -->
-    <script src="{{ asset('FrontOffice/assets/js/feed.js') }}"></script>
-
-    <script src="{{ asset('FrontOffice/assets/js/webcam.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/compose.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/autocompletes.js') }}"></script>
-    <script src="{{ asset('FrontOffice/assets/js/formpopupscript.js') }}"></script>
+<!-- Components js -->
+<script src="{{ asset('FrontOffice/assets/js/explorer.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/widgets.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/modal-uploader.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/popovers-users.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/popovers-pages.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/lightbox.js') }}"></script>
 
 
-    <!-- profile js -->
+<!-- Landing page js -->
 
-    <!-- stories js -->
+<!-- Signup page js -->
 
-    <!-- friends js -->
+<!-- Feed pages js -->
+<script src="{{ asset('FrontOffice/assets/js/feed.js') }}"></script>
 
-    <!-- questions js -->
+<script src="{{ asset('FrontOffice/assets/js/webcam.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/compose.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/autocompletes.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/formpopupscript.js') }}"></script>
+<script src="{{ asset('FrontOffice/assets/js/formcheck.js') }}"></script>
 
-    <!-- video js -->
 
-    <!-- events js -->
-    <script src="{{ asset('FrontOffice/assets/js/events.js') }}"></script>
+<!-- profile js -->
 
+<!-- stories js -->
 
-    <!-- news js -->
+<!-- friends js -->
 
-    <!-- shop js -->
+<!-- questions js -->
 
-    <!-- inbox js -->
+<!-- video js -->
 
-    <!-- settings js -->
-
-    <!-- map page js -->
-
-    <!-- elements page js -->
+<!-- events js -->
+<script src="{{ asset('FrontOffice/assets/js/events.js') }}"></script>
 </body>
 
 
 </html>
+{% else %}
+    {{ render(path('error')) }}
+{% endif %}

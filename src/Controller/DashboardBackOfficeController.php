@@ -2,12 +2,40 @@
 
 namespace App\Controller;
 
+use App\Services\SessionManagmentService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardBackOfficeController extends AbstractController
 {
+
+    private SessionManagmentService $currentSession;
+    public function __construct(SessionManagmentService $session)
+    {
+        $this->currentSession=$session;
+    }
+    public function renderProfileItem():Response
+    {
+        $user=$this->currentSession->getUser();
+        return $this->render('BackOffice/Comps/ProfileDashboard.html.twig',[
+                'user'=>$user
+            ]
+        );
+    }
+
+    public function renderProfileAvatar():Response
+    {
+        $user=$this->currentSession->getUser()->getImgurl();
+        return new Response($user);
+    }
+
+    public function verifySession():Response{
+        $isSession=$this->currentSession->verifySessionOpened();
+        return new Response(strval($isSession));
+    }
+
     /**
      * @Route("/BackOffice", name="app_dashboard_back_office")
      */
@@ -124,6 +152,26 @@ public function addannounce():Response{
      */
     public function UserDashboard():Response{
         return $this->render('BackOffice/UserDashboard.html.twig',[
+                'controller_name'=>'DashboardBackOfficeController',
+            ]
+        );
+    }
+
+    /**
+     * @Route ("/AnnounceCatDashboard",name="AnnounceCatDashboard")
+     */
+    public function AnnounceCatDashboard():Response{
+        return $this->render('BackOffice/AnnounceCatDashboard.html.twig',[
+                'controller_name'=>'DashboardBackOfficeController',
+            ]
+        );
+    }
+
+    /**
+     * @Route ("/AlertCatDashboard",name="AlertCatDashboard")
+     */
+    public function AlertCatDashboard():Response{
+        return $this->render('BackOffice/AlertCatDashboard.html.twig',[
                 'controller_name'=>'DashboardBackOfficeController',
             ]
         );

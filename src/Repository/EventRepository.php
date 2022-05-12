@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Event;
 use App\Entity\User;
+use App\Services\SessionManagmentService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -17,8 +18,10 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class EventRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private SessionManagmentService $session;
+    public function __construct(ManagerRegistry $registry,SessionManagmentService $session)
     {
+        $this->session=$session;
         parent::__construct($registry, Event::class);
     }
 
@@ -67,9 +70,9 @@ class EventRepository extends ServiceEntityRepository
      * @return Event[] Returns an array of Event objects
      */
 
-     public function addParticipate($idevent): ?User
+   /*  public function addParticipate($idevent): ?User
       {
-      }
+      }*/
 
 
     /**
@@ -97,4 +100,82 @@ class EventRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /**
+     * @return Event[]
+     */
+    public function sortByDateAsc(): array
+    {
+        $em=$this->getEntityManager();
+        $query= $em->createQueryBuilder()
+            ->select('e')
+            ->from('App\Entity\Event', 'e')
+            ->orderBy('e.datedebut ', 'ASC')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function sortByDateDesc(): array
+    {
+        $em=$this->getEntityManager();
+        $query= $em->createQueryBuilder()
+            ->select('e')
+            ->from('App\Entity\Event', 'e')
+            ->orderBy('e.datedebut ', 'DESC')
+            ->getQuery();
+
+        return $query->getArrayResult();
+    }
+
+    public function findByParticipate(): array
+    {
+        $em=$this->getEntityManager();
+        $id=$this->session->getUser()->getCinuser();
+
+        $res =$em->createQueryBuilder()
+            ->select('e')
+            ->from('App\Entity\Participate', 'p')
+            ->innerJoin('App\Entity\Event','e','with', "p.event = e.idevent")
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = p.participent")
+            ->where('u.cinuser = '.$id)
+            ->getQuery()
+            ->getArrayResult();
+
+        dump($res);
+        return $res;
+
+    }
+
+
+
+    public function findById($value): ?Event
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.exampleField = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+
+    public function findByString($str){
+        return $this->getEntityManager()
+            ->createQuery(
+                'SELECT e 
+                FROM Event e
+                WHERE e.title LIKE :str'
+            )
+            ->setParameter('str', '%'.$str.'%')
+            ->getResult();
+
+    }
+
+
+
 }

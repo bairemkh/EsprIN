@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Alert
@@ -19,6 +20,7 @@ class Alert
      * @ORM\Column(name="idAlert", type="integer", nullable=false)
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @Groups("alerts")
      */
     private $idalert;
 
@@ -26,6 +28,7 @@ class Alert
      * @var string
      *
      * @ORM\Column(name="alertTitle", type="string", length=30, nullable=false)
+     * @Groups("alerts")
      */
     private $alerttitle;
 
@@ -33,6 +36,7 @@ class Alert
      * @var string
      *
      * @ORM\Column(name="content", type="text", length=65535, nullable=false)
+     * @Groups("alerts")
      */
     private $content;
 
@@ -40,6 +44,7 @@ class Alert
      * @var string
      *
      * @ORM\Column(name="destClass", type="string", length=20, nullable=false)
+     * @Groups("alerts")
      */
     private $destclass;
 
@@ -47,15 +52,17 @@ class Alert
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime", nullable=false, options={"default"="current_timestamp()"})
+     * @Groups("alerts")
      */
-    private $createdat = 'current_timestamp()';
+    private $createdat ;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="'Active'"})
+     * @ORM\Column(name="state", type="string", length=15, nullable=false, options={"default"="Active"})
+     * @Groups("alerts")
      */
-    private $state = '\'Active\'';
+    private $state = 'Active';
 
     /**
      * @var \Catalert
@@ -64,6 +71,7 @@ class Alert
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="catAlert", referencedColumnName="idCatAlert")
      * })
+     * @Groups("alerts")
      */
     private $catalert;
 
@@ -74,6 +82,7 @@ class Alert
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idSender", referencedColumnName="cinUser")
      * })
+     * @Groups("alerts")
      */
     private $idsender;
 
@@ -96,7 +105,7 @@ class Alert
     /**
      * @return string
      */
-    public function getAlerttitle(): string
+    public function getAlerttitle(): ?string
     {
         return $this->alerttitle;
     }
@@ -112,7 +121,7 @@ class Alert
     /**
      * @return string
      */
-    public function getContent(): string
+    public function getContent(): ?string
     {
         return $this->content;
     }
@@ -128,7 +137,7 @@ class Alert
     /**
      * @return string
      */
-    public function getDestclass(): string
+    public function getDestclass(): ?string
     {
         return $this->destclass;
     }
@@ -160,7 +169,7 @@ class Alert
     /**
      * @return string
      */
-    public function getState(): string
+    public function getState(): ?string
     {
         return $this->state;
     }
@@ -176,7 +185,7 @@ class Alert
     /**
      * @return \Catalert
      */
-    public function getCatalert(): \Catalert
+    public function getCatalert(): ?Catalert
     {
         return $this->catalert;
     }
@@ -184,9 +193,10 @@ class Alert
     /**
      * @param \Catalert $catalert
      */
-    public function setCatalert(\Catalert $catalert): void
+    public function setCatalert(?Catalert $catalert): self
     {
         $this->catalert = $catalert;
+        return $this;
     }
 
 
@@ -196,7 +206,7 @@ class Alert
     }
 
 
-    public function setIdsender(?User $idsender): self
+    public function setIdsender(?User $idsender): void
     {
         $this->idsender = $idsender;
     }
