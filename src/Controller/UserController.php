@@ -55,7 +55,7 @@ class UserController extends AbstractController
             echo $hash . " " . $request->get('password');
             $user->setPasswd($hash);
             $user->setEmail($request->get('email'));
-            $user->setRole('Etudiant');
+            $user->setRole('Student');
             $user->setFirstname($request->get('firstName'));
             $user->setLastname($request->get('lastName'));
             $class = $request->get('grade') . " " . $request->get('classSpec') . " " . $request->get('classNum');
@@ -143,7 +143,7 @@ class UserController extends AbstractController
     /**
      * @Route("/addExtern", name="add_new_Extern_Account", methods={"GET", "POST"})
      */
-    public function addExtern(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function addExtern(Request $request, UserPasswordEncoderInterface $encoder,MailController $mail): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -152,13 +152,15 @@ class UserController extends AbstractController
             echo $request->get('compId');
             $user->setCinuser($request->get('compId'));
             $passwd = $request->get('password');
+            $user->setEmail($request->get('compEmail'));
+            $mail->sendMailToExtern($user->getEmail(),$user->getEntreprisename(),$passwd);
             $hash = $encoder->encodePassword($user, $passwd);
             $user->setPasswd($hash);
-            $user->setEmail($request->get('compEmail'));
             $user->setRole('Extern');
             $user->setEntreprisename($request->get('CompName'));
             $user->setLocalisation($request->get('local'));
             $user->setCreatedat(new \DateTime('@' . strtotime('now')));
+
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();

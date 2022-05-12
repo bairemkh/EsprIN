@@ -17,19 +17,20 @@ use Twig\Loader\FilesystemLoader;
 
 class MailController extends AbstractController
 {
+
     /**
-     * @Route("/mail", name="sendMail")
      * @throws \Symfony\Component\Mailer\Exception\TransportExceptionInterface
      */
-    public function sendMail(): Response
+    public function sendMailToExtern($to, $name, $passwd)
     {
-        $html = $this->renderView('mail/TemplateMail.html.twig', ['email' => 'bairemkh@gmail.com',
-            'password' => 'bairem1111',
-            'name'=>'Bairem khedhri'
+
+        $html = $this->renderView('mail/TemplateMail.html.twig', ['email' => $to,
+            'password' => $passwd,
+            'name'=>$name
             ]);
         $email=(new TemplatedEmail())
             ->from('khedhribairem@gmail.com')
-            ->to('bairemkh@gmail.com')
+            ->to($to)
             ->subject('Welcome to EsprIN')
             ->htmlTemplate('mail/TemplateMail.html.twig')
 
@@ -37,6 +38,5 @@ class MailController extends AbstractController
         $transport=Transport::fromDsn($_ENV['MAILER_DSN']);
         $mailer=new Mailer($transport);
         $mailer->send($email);
-        return new Response('mail sent with sucess');
     }
 }
