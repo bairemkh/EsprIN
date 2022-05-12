@@ -17,6 +17,10 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Doctrine\Persistence\ManagerRegistry;
 
 class EventController extends AbstractController
 {
@@ -351,20 +355,33 @@ class EventController extends AbstractController
         return $Response;
     }
 
+    public function setEventCard(): Response
+    {
+        $event = $this->entityManager->createQueryBuilder()
+            ->select('e.titleevent,u.firstname,u.lastname,u.imgurl')
+            ->from('App\Entity\Event', 'e')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
+            ->orderBy('e.idevent', 'desc')
+            ->getQuery()
+            ->getArrayResult();
+        return $this->render('FrontOffice/cells/NewEventCell.html.twig', [
+            'event' => $event[0],
+        ]);
+    }
     /**
      * @Route ("api/getevent/{id}",name="getEventById")
      */
-    public function getEventByIdApi($id, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    public function getEventByIdApi($id,SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
         /* $events = $this->getDoctrine()
              ->getRepository(Event::class)
              ->findAll();*/
-        $events = $em->createQueryBuilder()
+        $events=$em->createQueryBuilder()
             ->select('e.idevent,e.titleevent,e.contentevent,e.contentevent,e.eventlocal,e.nbrparticipant,e.datedebut,e.datefin,u.cinuser AS idOrganizer')
-            ->from('App\Entity\Event', 'e')
-            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
+            ->from('App\Entity\Event','e')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = e.idorganizer")
             ->where('e.idevent=:id')
-            ->setParameter('id', $id)
+            ->setParameter('id',$id)
             ->getQuery()
             ->getArrayResult();
         $json = $serializer->serialize($events, 'json', ['groups' => 'events']);
@@ -379,21 +396,51 @@ class EventController extends AbstractController
     {
         try {
             $event = new Event();
-            $json = $request->getContent();
-            $content = json_decode($json, true);
-            $user = $this->getDoctrine()->getRepository(User::class)->find($content['idOrganizer']);
-            $event->setTitleevent($content['titleEvent']);
-            $event->setContentevent($content['contentEvent']);
-            $event->setEventlocal($content['locationEvent']);
-            $dateD = new \DateTime($content['dateDebut']);
-            $dateF = new \DateTime($content['dateFin']);
-            $event->setDatedebut($dateD);
-            $event->setDatefin($dateF);
+            //$json=$request->getContent();
+            //$content=json_decode($json,true);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('idOrganizer'));
+            $event->setTitleevent($request->get('titleevent'));//$content['titleEvent']
+            $event->setContentevent($request->get('contentevent'));//$content['contentEvent']
+            $event->setEventlocal($request->get('locationEvent'));//$content['locationEvent']
+            // $dateD = new \DateTime($content['dateDebut']);
+            // $dateF = new \DateTime($content['dateFin']);
+            //$event->setDatedebut($dateD);
+            //$event->setDatefin($dateF);
             $event->setIdorganizer($user);
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($event);
             $manager->flush();
-            return new Response('Added to DataBase', 200);
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+    }
+
+
+    /**
+     * @Route("/api/updateevent/{id}", name="updateEventApi")
+     */
+    public function updateEventApi($id, Request $request, SerializerInterface $serializer)
+    {
+        try {
+            $event = $this->getDoctrine()->getManager()->getRepository(Event::class)->find($id);
+            //$json=$request->getContent();
+            //$content=json_decode($json,true);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('idOrganizer'));
+            $event->setTitleevent($request->get('titleevent'));//$content['titleEvent']
+            $event->setContentevent($request->get('contentevent'));//$content['contentEvent']
+            $event->setEventlocal($request->get('locationEvent'));//$content['locationEvent']
+            // $dateD = new \DateTime($content['dateDebut']);
+            // $dateF = new \DateTime($content['dateFin']);
+            //$event->setDatedebut($dateD);
+            //$event->setDatefin($dateF);
+            $event->setIdorganizer($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($event);
+            $manager->flush();
+            return new Response('Updated',200);
 
         } catch
         (\Exception $exception) {
@@ -403,17 +450,27 @@ class EventController extends AbstractController
 
     }
 
-    public function setEventCard(): Response
+    /**
+     * @Route("/api/deleteevent/{id}", name="deleteeventApi")
+     */
+    public function deleteeventApi($id, Request $request, SerializerInterface $serializer)
     {
-        $event = $this->entityManager->createQueryBuilder()
-            ->select('e.titleevent,u.firstname,u.lastname,u.imgurl')
-            ->from('App\Entity\Event', 'e')
-            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
-            ->orderBy('e.idevent', 'desc')
-            ->getQuery()
-            ->getArrayResult();
-        return $this->render('FrontOffice/cells/NewEventCell.html.twig', [
-            'event' => $event[0],
-        ]);
+        try {
+            $event = $this->getDoctrine()->getManager()->getRepository(Event::class)->find($id);
+            //$json=$request->getContent();
+            //$content=json_decode($json,true);
+            $event->setState('Deleted');//$content['titleEvent']
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($event);
+            $manager->flush();
+            return new Response('Updated',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+
     }
+
 }

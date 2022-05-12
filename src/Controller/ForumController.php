@@ -23,6 +23,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Doctrine\Persistence\ManagerRegistry;;
 
 class ForumController extends AbstractController
 {
@@ -197,71 +201,8 @@ class ForumController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route ("api/getforums",name="getforumsApi")
-     */
-    public function getforumsApi(SerializerInterface $serializer, EntityManagerInterface $em): Response
-    {
-        $forums = $em->createQueryBuilder()
-            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
-            ->from('App\Entity\Forum', 'f')
-            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
-            ->getQuery()
-            ->getArrayResult();
-        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
-        $Response = new Response($json);
-        return $Response;
-
-    }
-
-    /**
-     * @Route ("api/getforum/{id}",name="getforumsbyIdApi")
-     */
-    public function getForumByIdApi($id,SerializerInterface $serializer, EntityManagerInterface $em): Response
-    {
-        $forums = $em->createQueryBuilder()
-            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
-            ->from('App\Entity\Forum', 'f')
-            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
-            ->where('f.idforum=:id')
-            ->setParameter('id',$id)
-            ->getQuery()
-            ->getArrayResult();
-        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
-        $Response = new Response($json);
-        return $Response;
-
-    }
-
-    /**
-     * @Route("/api/addforum", name="addForumApi")
-     */
-    public function addForumApi(Request $request, SerializerInterface $serializer)
-    {
-        try {
-            $event = new Event();
-            $json=$request->getContent();
-            $content=json_decode($json,true);
-            $user = $this->getDoctrine()->getRepository(User::class)->find($content['idOwner']);
-            $forum=new Forum();
-            $date = new \DateTime('@' . strtotime('now'));
-            $forum->setDatecreation($date);
-            $forum->setTitle($content['title']);
-            $forum->setContent($content['content']);
-            $forum->setCategorieforum($content['categorieforum']);
-            $forum->setIdowner($user);
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($forum);
-            $manager->flush();
-            return new Response('Added to DataBase',200);
-
-        } catch
-        (\Exception $exception) {
-            return new Response($exception->getMessage());
-        }
 
 
-    }
     /**
      * @Route("/likesl", name="likesl")
      */
@@ -367,4 +308,125 @@ class ForumController extends AbstractController
         return $this->redirectToRoute("forumFront");
 
     }
+
+    /**
+     * @Route ("api/getforums",name="getforumsApi")
+     */
+    public function getforumsApi(SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $forums = $em->createQueryBuilder()
+            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
+            ->from('App\Entity\Forum', 'f')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
+        $Response = new Response($json);
+        return $Response;
+
+    }
+
+
+    /**
+     * @Route ("api/getforum/{id}",name="getforumsApibyid")
+     */
+    public function getForumByIdApi($id,SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $forums = $em->createQueryBuilder()
+            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
+            ->from('App\Entity\Forum', 'f')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
+            ->where('f.idforum=:id')
+            ->setParameter('id',$id)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
+        $Response = new Response($json);
+        return $Response;
+
+    }
+
+    /**
+     * @Route("/api/addforum", name="addForumApi")
+     */
+    public function addForumApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+            $event = new Event();
+            //$json=$request->getContent();
+            //$content=json_decode($json,true);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get("idowner"));
+            $forum=new Forum();
+            $date = new \DateTime('@' . strtotime('now'));
+            $forum->setDatecreation($date);
+            $forum->setTitle($request->get("title"));//$content['title']
+            $forum->setContent($request->get("content"));//$content['content']
+            $forum->setCategorieforum($request->get("categorieforum"));//$content['categorieforum']
+            $forum->setIdowner($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($forum);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response("not added");
+        }
+
+
+    }
+
+
+    /**
+     * @Route("/api/updateforum/{id}", name="updateforumApi")
+     */
+    public function updateforumApi($id,Request $request, ForumRepository $repository, SerializerInterface $serializer)
+    {
+        try {
+            $forum= $repository->find($id);
+            //$json=$request->getContent();
+            //$content=json_decode($json,true);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get("idowner"));
+            $forum->setTitle($request->get("title"));//$content['title']
+            $forum->setContent($request->get("content"));//$content['content']
+            $forum->setCategorieforum($request->get("categorieforum"));//$content['categorieforum']
+            $forum->setIdowner($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($forum);
+            $manager->flush();
+            return new Response('Updated',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response("not added");
+        }
+
+
+    }
+
+
+
+    /**
+     * @Route("/api/deleteforum/{id}", name="deleteforumApi")
+     */
+    public function deleteforumApi($id,Request $request, ForumRepository $repository, SerializerInterface $serializer)
+    {
+        try {
+            $forum= $repository->find($id);
+            //$json=$request->getContent();
+            //$content=json_decode($json,true);
+            $forum->setState('Deleted');
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($forum);
+            $manager->flush();
+            return new Response('Updated',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response("not added");
+        }
+
+
+    }
+
 }

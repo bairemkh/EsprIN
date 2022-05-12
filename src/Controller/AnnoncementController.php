@@ -8,6 +8,7 @@ use App\Entity\Catannonce;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Entity\Catalert;
+use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
@@ -17,6 +18,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\AnnoncementRepository;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class  AnnoncementController extends AbstractController
 {
@@ -227,4 +233,74 @@ class  AnnoncementController extends AbstractController
        // echo $ann->getIdsender()->getCinuser();
         die;
     }
+
+
+    /**
+     * @Route("/api/getanns", name="annoucementList", methods={"GET"})
+     */
+    public function annoncementList(SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $annoncements=$em->createQueryBuilder()
+            ->select('a.idann, a.subject, a.content, a.destination, a.createdat, a.catann, u.cinuser AS idsender')
+            ->from('App\Entity\Annoncement','a')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = a.idsender")
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($annoncements, 'json', ['groups' => '$annoncements']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
+
+    /**
+     * @Route("/api/addannounce", name="addAnnounceApi")
+     */
+    public function addAnnounceApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get("idowner"));
+            $announce=new Annoncement();
+            $date = new \DateTime('@' . strtotime('now'));
+            $announce->setCreatedat($date);
+            $announce->setSubject($request->get("subject"));//$content['title']
+            $announce->setContent($request->get("content"));//$content['content']
+            $announce->setDestination($request->get("destination"));//$content['categorieforum']
+            $announce->setIdsender($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($announce);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response("not added");
+        }
+
+
+    }
+
+
+    /**
+     * @Route("/api/deleteannounce/{id}", name="deleteAnnounceApi")
+     */
+    public function deleteAnnounceApi($id, Request $request, SerializerInterface $serializer)
+    {
+        try {
+            $announce = $this->getDoctrine()->getRepository(Annoncement::class)->find($id);
+            $announce->setState('Deleted');
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($announce);
+            $manager->flush();
+            return new Response('Deleted',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response("not added");
+        }
+
+
+    }
+
+
+
 }

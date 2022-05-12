@@ -10,11 +10,17 @@ use App\Form\PostType;
 use App\Repository\PostRepository;
 use App\Services\SessionManagmentService;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Doctrine\Persistence\ManagerRegistry;
 
 class PostController extends AbstractController
 {
@@ -30,9 +36,9 @@ class PostController extends AbstractController
         $pieChart = new PieChart();
         $pieChart->getData()->setArrayToDataTable(
             [['Task', 'Hours per Day'],
-                ['Posts',     count($posts)],
-                ['Comments',      count($cmts)],
-                ['likes',  count($likes)],
+                ['Posts', count($posts)],
+                ['Comments', count($cmts)],
+                ['likes', count($likes)],
 
             ]
         );
@@ -49,13 +55,12 @@ class PostController extends AbstractController
     }
 
 
-
     /**
      * @Route ("/postFront",name="postFront")
      */
-    public function postFront(Request $request,SessionManagmentService $sessionManagmentService): Response
+    public function postFront(Request $request, SessionManagmentService $sessionManagmentService): Response
     {
-        $currentUser=$sessionManagmentService->getUser();
+        $currentUser = $sessionManagmentService->getUser();
         $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("Active");
         $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $post = new Post();
@@ -107,10 +112,10 @@ class PostController extends AbstractController
             ->getRepository(Post::class)
             ->findAll();
 
-        return $this->render('BackOffice/PostDashboard.html.twig', ['posts' => $posts,"piechart"=>$this->indexAction()
+        return $this->render('BackOffice/PostDashboard.html.twig', ['posts' => $posts, "piechart" => $this->indexAction()
 
 
-            ]);
+        ]);
 
     }
 
@@ -173,9 +178,9 @@ class PostController extends AbstractController
     /**
      * @Route("/love/{id}", name="love")
      */
-    public function love($id,SessionManagmentService $sessionManagmentService): Response
+    public function love($id, SessionManagmentService $sessionManagmentService): Response
     {
-        $currentUser=$sessionManagmentService->getUser();
+        $currentUser = $sessionManagmentService->getUser();
         $like = new Like();
         $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
@@ -200,8 +205,6 @@ class PostController extends AbstractController
 
             $em->flush();
         }
-
-
 
 
         return $this->redirectToRoute("postFront");
@@ -238,7 +241,7 @@ class PostController extends AbstractController
         $posts = $postRepository->sortByDateAsc();
 
         dump($posts);
-        return $this->render('BackOffice/PostDashboard.html.twig', ['posts' => $posts,'piechart'=>$this->indexAction()]);
+        return $this->render('BackOffice/PostDashboard.html.twig', ['posts' => $posts, 'piechart' => $this->indexAction()]);
     }
 
     /**
@@ -250,9 +253,10 @@ class PostController extends AbstractController
     {
         $posts = $postRepository->sortByDateDesc();
         dump($posts);
-        return $this->render('BackOffice/PostDashboard.html.twig', ['posts' => $posts,'piechart'=>$this->indexAction()]);
+        return $this->render('BackOffice/PostDashboard.html.twig', ['posts' => $posts, 'piechart' => $this->indexAction()]);
         //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
     }
+
     /**
      *  * Creates a new ActionItem entity.
      *
@@ -264,8 +268,8 @@ class PostController extends AbstractController
 
         $requestString = $request->get('q');
 
-        $entities =  $em->getRepository(Post::class)->findEntitiesByString($requestString);
-        if(!$entities) {
+        $entities = $em->getRepository(Post::class)->findEntitiesByString($requestString);
+        if (!$entities) {
             $result['entities']['error'] = "error";
         } else {
             $result['entities'] = $this->getRealEntities($entities);
@@ -274,28 +278,112 @@ class PostController extends AbstractController
         return new Response(json_encode($result));
     }
 
-    public function getRealEntities($entities){
+    public function getRealEntities($entities)
+    {
 
-        foreach ($entities as $entity){
+        foreach ($entities as $entity) {
             $realEntities[$entity->getId()] = $entity->getFoo();
         }
 
         return $realEntities;
     }
 
-    /**
-     * @Route ("api/getposts",name="get-posts-api")
-     */
-    public function getpostsApi(SerializerInterface $serializer): Response
-    {
-        $posts = $this->getDoctrine()
-            ->getRepository(Post::class)
-            ->findAll();
-        $json = $serializer->serialize($posts, 'json', ['groups' => 'posts']);
-        $Response = new Response($json);
 
+    /**
+     * @Route("/api/getposts", name="postList", methods={"GET"})
+     */
+    public function postList(SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+
+        $alerts = $em->createQueryBuilder()
+            ->select('p.idpost, p.content, p.mediaurl, p.createdat, p.categorie, p.likenum,u.cinuser AS idower')
+            ->from('App\Entity\Post', 'p')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = p.idower")
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($alerts, 'json', ['groups' => 'alerts']);
+        $Response = new Response($json);
         return $Response;
     }
 
+    /**
+     * @Route("/api/addPost", name="addPostApi")
+     */
+    public function addPostApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
 
+            //$content=$request->getContent();
+            //$posts=json_decode($content,true);
+            $post = new Post();
+            $post->setCategorie($request->get('categorie'));//$posts['categorie']
+            $post->setContent($request->get('content'));//$posts['content']
+            //$post->setMediaurl($posts['mediaurl']);
+            $post->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('idower'));
+            $post->setIdower($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($post);
+            $manager->flush();
+            return new Response('Added to DataBase', 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
+
+    /**
+     * @Route("/api/updatePost/{id}", name="updatePostApi")
+     */
+    public function updatePostApi($id, Request $request, SerializerInterface $serializer)
+    {
+        try {
+
+            //$content=$request->getContent();
+            //$posts=json_decode($content,true);
+            $post = $this->getDoctrine()->getManager()->getRepository(Post::class)->find($id);
+            $post->setCategorie($request->get('categorie'));//$posts['categorie']
+            $post->setContent($request->get('content'));//$posts['content']
+            //$post->setMediaurl($posts['mediaurl']);
+            $post->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('idower'));
+            $post->setIdower($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($post);
+            $manager->flush();
+            return new Response('Updated', 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
+
+
+    /**
+     * @Route("/api/deletePost/{id}", name="deletePostApi")
+     */
+    public function deletePostApi($id, Request $request, SerializerInterface $serializer)
+    {
+        try {
+
+            //$content=$request->getContent();
+            //$posts=json_decode($content,true);
+            $post = $this->getDoctrine()->getManager()->getRepository(Post::class)->find($id);
+            $post->setState('Deleted');//$posts['categorie']
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($post);
+            $manager->flush();
+            return new Response('Deleted', 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
 }
