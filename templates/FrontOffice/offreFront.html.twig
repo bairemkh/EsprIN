@@ -316,12 +316,10 @@
                                         <div class="card-heading">
                                             <!-- User meta -->
                                             <div class="user-block">
-                                                <div class="pages-table-img">
-                                                    <picture>
-                                                        <source srcset="images/users/{{ offre.offerprovider.imgurl }}"
-                                                                type="image/webp">
-                                                        <img src="images/users/{{ offre.offerprovider.imgurl }}" alt="User Name">
-                                                    </picture>
+                                                <div class="image">
+                                                    <img src="https://via.placeholder.com/300x300"
+                                                         data-demo-src="{{asset('images/users/'~offre.offerprovider.imgurl)}}" data-user-popover="1"
+                                                         alt="">
                                                 </div>
                                                 <div class="user-info">
                                                     <h4>{{ offre.offerprovider.entreprisename }}</h4>

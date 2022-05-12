@@ -171,16 +171,27 @@ class UserController extends AbstractController
     /**
      * @Route("/profile/{userCin}", name="profile", methods={"GET"})
      */
-    public function profile($userCin, SessionManagmentService $sessionManagmentService): Response
+    public function profile($userCin, SessionManagmentService $sessionManagmentService, UserRepository $userRepository): Response
     {
         if ($sessionManagmentService->verifySessionOpened()) {
             //$user = $this->getDoctrine()->getRepository(User::class)->find($userCin);
-            $user=$this->getDoctrine()->getRepository(User::class)->findOneBy(["cinuser"=>$userCin]);
+            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(["cinuser" => $userCin]);
             dump($user);
             $imgPath = 'images/users/' . $user->getImgurl();
+            if ($user->getRole() == 'Admin')
+                $list = $userRepository->getAdminAnnounces($userCin);
+            elseif ($user->getRole() == 'Club')
+                $list = $userRepository->getUserEvent($userCin);
+            elseif ($user->getRole() == 'Extern')
+                $list = $userRepository->getUserOffer($userCin);
+            elseif ($user->getRole() == 'Professeur')
+                $list = $userRepository->getUserAlert($userCin);
+            else
+                $list = $userRepository->getUserPost($userCin);
             return $this->render('FrontOffice/navbar-v2-profile-main.html.twig', [
                 'user' => $user,
-                'image' => $imgPath
+                'image' => $imgPath,
+                'posts' => $list
             ]);
         } else
             return $this->redirectToRoute('error', []);
@@ -366,11 +377,11 @@ class UserController extends AbstractController
      */
     public function test2Query(SessionManagmentService $sessionManagmentService, UserRepository $userRepository)
     {
-        dump($userRepository->getStatistics()) ;
-        $stats=$userRepository->getStatistics();
-        echo $stats[0]>
-        //$sessionManagmentService->verifySessionOpened();
-        dump($sessionManagmentService->getUser());
+        dump($userRepository->getStatistics());
+        $stats = $userRepository->getStatistics();
+        echo $stats[0] >
+            //$sessionManagmentService->verifySessionOpened();
+            dump($sessionManagmentService->getUser());
         dump($sessionManagmentService->getData());
         die;
     }
@@ -378,7 +389,7 @@ class UserController extends AbstractController
     /**
      * @Route("/test3", name="test3")
      */
-    public function test3Query(SessionManagmentService $sessionManagmentService,EntityManagerInterface $em)
+    public function test3Query(SessionManagmentService $sessionManagmentService, EntityManagerInterface $em)
     {
 
         $sessionManagmentService->deleteCurrentSession();
@@ -390,23 +401,10 @@ class UserController extends AbstractController
     /**
      * @Route("/test4", name="test4")
      */
-    public function test4Query(EntityManagerInterface $em)
+    public function test4Query(UserRepository $userRepository)
     {
 
-       $list= $em->createQueryBuilder()
-           ->select('u.cinuser,a,e,al')
-           ->from('App\Entity\User', 'u')
-           //->innerJoin('App\Entity\Offre','o','with', "u.cinuser = o.offerprovider")
-           ->innerJoin('App\Entity\Alert','al','with', "u.cinuser = al.idsender")
-           ->innerJoin('App\Entity\Annoncement','a','with', "u.cinuser = a.idsender")
-           ->innerJoin('App\Entity\Event','e','with', "u.cinuser = e.idorganizer")
-           //->innerJoin('App\Entity\Post','p','with', "u.cinuser = p.idower")
-           ->where('u.cinuser=:id')
-           ->setParameter('id',10020855)
-           ->getQuery()
-           ->getArrayResult();
-
-        dump($list);
+        dump($userRepository->getUserEvent(10020855));
         die;
     }
 
@@ -416,18 +414,18 @@ class UserController extends AbstractController
     /**
      * @Route("/api/createNewAccount", name="create_new_AccountAPI",methods={"GET", "POST"})
      */
-    public function StudentRegisterAPI(Request $request, UserPasswordEncoderInterface $encoder,SerializerInterface $serializer): Response
+    public function StudentRegisterAPI(Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer): Response
     {
         try {
 
-            $content=$request->getContent();
-            $user=$serializer->deserialize($content,User::class,'json');
+            $content = $request->getContent();
+            $user = $serializer->deserialize($content, User::class, 'json');
             $user->setCreatedat(new \DateTime('@' . strtotime('now')));
-            $user->setPasswd($encoder->encodePassword($user,$user->getPasswd()));
+            $user->setPasswd($encoder->encodePassword($user, $user->getPasswd()));
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
-            return new Response('Added to DataBase',200);
+            return new Response('Added to DataBase', 200);
 
         } catch
         (\Exception $exception) {
@@ -459,13 +457,13 @@ class UserController extends AbstractController
     /**
      * @Route("/api/findUser/{email}", name="findUser",methods={"GET"})
      */
-    public function findUserAPI($email,Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer, EntityManagerInterface $em): Response
+    public function findUserAPI($email, Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer, EntityManagerInterface $em): Response
     {
         try {
             $students = $em->createQueryBuilder()->select('u')
                 ->from('App\Entity\User', 'u')
                 ->where('u.email=:email')
-                ->setParameter('email',$email)
+                ->setParameter('email', $email)
                 ->getQuery()
                 ->getArrayResult();
             dump($students);

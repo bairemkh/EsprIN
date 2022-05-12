@@ -56,7 +56,7 @@ class PostController extends AbstractController
     public function showP(Request $request,SessionManagmentService $sessionManagmentService): Response
     {
         $currentUser=$sessionManagmentService->getUser();
-        $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("'Active'");
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("Active");
         $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $post = new Post();
 
@@ -146,7 +146,7 @@ class PostController extends AbstractController
      */
     public function editP(Request $request, $id): Response
     {
-        $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("'Active'");
+        $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("Active");
         $postE = $this->getDoctrine()->getRepository(Post::class)->find($id);
         $formE = $this->createForm(PostType::class, $postE);
 

@@ -449,7 +449,7 @@
                                                 <img src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-demo-src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-user-popover="1" alt="">
                                             </div>
                                             <div class="user-info">
-                                                <a href="#">{{ event.idorganizer }}</a>
+                                                <a href="{{ path('profile',{'userCin':event.idorganizer.cinuser}) }}">{{ event.idorganizer.firstname }} {{ event.idorganizer.lastname }}</a>
                                                 <!--<span class="time">{{ event.datedebut|date }}</span>-->
                                             </div>
                                             <div class="event-subtitle">

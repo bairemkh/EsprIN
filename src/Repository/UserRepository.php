@@ -2,6 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Alert;
+use App\Entity\Annoncement;
+use App\Entity\Event;
+use App\Entity\Offre;
+use App\Entity\Post;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityRepository;
@@ -189,4 +194,87 @@ class UserRepository extends ServiceEntityRepository
 
     }
 
+    public function getUserPost($id): array
+    {
+        $em=$this->getEntityManager();
+        try {
+            $numberProfs=$this->getEntityManager()->getRepository(Post::class)->findBy(['idower'=>$id,'state'=>'Active']);
+            return $numberProfs;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+
+
+    }
+    public function getAdminAnnounces($id): array
+    {
+        $em=$this->getEntityManager();
+        try {
+            $numberProfs=$this->getEntityManager()->getRepository(Annoncement::class)->findBy(['idsender'=>$id,'state'=>'Active']);
+           /* $numberProfs =$em->createQueryBuilder()
+                ->select('a')
+                ->from('App\Entity\User', 'u')
+                //->innerJoin('App\Entity\Offre','o','with', "u.cinuser = o.offerprovider")
+                //->innerJoin('App\Entity\Alert','al','with', "u.cinuser = al.idsender")
+                ->innerJoin('App\Entity\Annoncement','a','with', "u.cinuser = a.idsender")
+                //->innerJoin('App\Entity\Event','e','with', "u.cinuser = e.idorganizer")
+                //->innerJoin('App\Entity\Post','p','with', "u.cinuser = p.idower")
+                ->where('u.cinuser=:id and a.state= :state')
+                ->setParameter('id',$id)
+                ->setParameter('state','Active')
+                ->getQuery()
+                ->getArrayResult();*/
+            return $numberProfs;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+
+
+    }
+
+    public function getUserAlert($id): array
+    {
+        $em=$this->getEntityManager();
+        try {
+            $numberProfs=$this->getEntityManager()->getRepository(Alert::class)->findBy(['idsender'=>$id,'state'=>'Active']);
+            return $numberProfs;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+
+
+    }
+
+    public function getUserEvent($id): array
+    {
+        $em=$this->getEntityManager();
+        try {
+            $numberProfs=$this->getEntityManager()->getRepository(Event::class)->findBy(['idorganizer'=>$id,'state'=>'Active']);
+
+            return $numberProfs;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+
+
+    }
+
+    public function getUserOffer($id): array
+    {
+        $em=$this->getEntityManager();
+        try {
+            $numberProfs=$this->getEntityManager()->getRepository(Offre::class)->findBy(['offerprovider'=>$id,'state'=>'Active']);
+
+            return $numberProfs;
+        } catch (Exception $e) {
+            echo $e->getMessage();
+            die;
+        }
+
+
+    }
 }
