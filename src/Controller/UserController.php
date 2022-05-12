@@ -244,11 +244,17 @@ class UserController extends AbstractController
     /**
      * @Route ("/UserDashboard",name="UserDashboard")
      */
-    public function getUsers(SessionManagmentService $s): Response
+    public function getUsers(SessionManagmentService $s,EntityManagerInterface $em): Response
     {
-        $users = $this->getDoctrine()
+        /*$users = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findAll();
+            ->findAll();*/
+        $users=$em->createQueryBuilder()
+            ->select('u')
+            ->from('App\Entity\User', 'u')
+            ->where('u.state!=Deleted')
+            ->getQuery()
+            ->getArrayResult();
 
         return $this->render('BackOffice/UserDashboard.html.twig', ['users' => $users]);
     }

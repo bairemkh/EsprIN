@@ -74,11 +74,11 @@ class  AnnoncementController extends AbstractController
                 $announce->setContent($request->get('content'));
                 $announce->setDestination($request->get('destination'));//libCatAnn
                 $catAnn=$this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann'=>$request->get('Category')]);
-                $announce->setCatann($catAnn->getIdcatann());
+                $announce->setCatann($catAnn);
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($announce);
                 $manager->flush();
-                return $this->redirectToRoute('AnnounceDashboard',[]);
+                return $this->redirectToRoute('announcementDashboard',[]);
             }
 
             return $this->render('BackOffice/AddNewAnnounce.html.twig', [

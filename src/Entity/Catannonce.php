@@ -60,5 +60,9 @@ class Catannonce
         $this->libcatann = $libcatann;
     }
 
+    public function __toString()
+    {
+        return (string) $this->getIdcatann();
+    }
 
 }

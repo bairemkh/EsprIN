@@ -166,54 +166,6 @@
                         <!-- html/partials/pages/profile/timeline/widgets/basic-infos-widget.html -->
                         <div class="box-heading">
                             <h4>Basic Infos</h4>
-                            <div class="dropdown is-neutral is-spaced is-right dropdown-trigger">
-                                <div>
-                                    <div class="button">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             class="feather feather-more-vertical">
-                                            <circle cx="12" cy="12" r="1"></circle>
-                                            <circle cx="12" cy="5" r="1"></circle>
-                                            <circle cx="12" cy="19" r="1"></circle>
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div class="dropdown-menu" role="menu">
-                                    <div class="dropdown-content">
-                                        <a href="profile-about.html" class="dropdown-item">
-                                            <div class="media">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                     class="feather feather-eye">
-                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                    <circle cx="12" cy="12" r="3"></circle>
-                                                </svg>
-                                                <div class="media-content">
-                                                    <h3>View</h3>
-                                                    <small>View user details.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                        <a href="#" class="dropdown-item">
-                                            <div class="media">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                     class="feather feather-search">
-                                                    <circle cx="11" cy="11" r="8"></circle>
-                                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                                                </svg>
-                                                <div class="media-content">
-                                                    <h3>Related</h3>
-                                                    <small>Search for related users.</small>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="basic-infos-wrapper">
@@ -326,7 +278,7 @@
                                                 <!-- Right side dropdown -->
                                                 <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
                                                 <div class="categoryAnn">
-                                                    <h4>{{ announce.catann }}</h4>
+                                                    <h4>{{ announce.getCatann().libcatann }}</h4>
                                                 </div>
                                             </div>
                                             <!-- /Post header -->
