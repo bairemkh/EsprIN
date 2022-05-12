@@ -23,22 +23,22 @@
                 <div class="title">Create</div>
                 <div class="subtitle">Let's create a new Alert..</div>
                 <div class="input-container ic1">
-                    <input id="field1" class="input" name="SubjectAlert" type="text" placeholder=" " />
+                    <input id="field1" class="input" name="SubjectAlert" type="text" placeholder=" "/>
                     <div class="lab"></div>
                     <label for="field1" class="placeholder">Enter Subject</label>
                 </div>
                 <div class="input-container ic2">
-                    <input id="field2" class="input" name="ContentAlert" type="text" placeholder=" " />
+                    <input id="field2" class="input" name="ContentAlert" type="text" placeholder=" "/>
                     <div class="lab"></div>
                     <label for="field2" class="placeholder">Enter Content..</label>
                 </div>
                 <div class="input-container ic3">
-                    <input id="field2" class="input" name="CatAlert" type="text" placeholder=" " />
+                    <input id="field2" class="input" name="CatAlert" type="text" placeholder=" "/>
                     <div class="lab"></div>
                     <label for="field2" class="placeholder">Category</label>
                 </div>
                 <div class="input-container ic3">
-                    <input id="field2" class="input" name="DestAlert" type="text" placeholder=" " />
+                    <input id="field2" class="input" name="DestAlert" type="text" placeholder=" "/>
                     <div class="lab"></div>
                     <label for="field2" class="placeholder">Destination</label>
                 </div>
@@ -55,7 +55,7 @@
 
 {% endblock %}
 
-{% block navigation%}
+{% block navigation %}
     <div class="sub-nav">
         <div class="sub-nav-tabs">
             <div class="tabs is-centered">
@@ -63,10 +63,10 @@
                     <li>
                         <a href="{{ path('postFront') }}">Posts</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="{{ path('announceFront') }}">Announces</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="{{ path('forumFront') }}">Forums</a>
                     </li>
                     <li class="is-active">
@@ -102,7 +102,6 @@
             <!-- this holds the animated content placeholders that show up before content -->
             <div id="shadow-dom" class="view-wrap">
                 <div class="columns">
-
 
 
                     <div class="column is-3">
@@ -358,7 +357,6 @@
             <div class="model-container" id="model-container">
 
 
-
             </div>
             <div class="columns">
                 <!-- Left side column -->
@@ -369,28 +367,30 @@
                 <!-- Middle column -->
                 <div class="column is-6">
 
-                        <div class="search-bar">
-                            <form action={{path('SearchMultipleChoice')}} method="post">
-                                <p><input class="inputsearch" name="title" placeholder="search with title">
-                                    <input class="inputsearch" name="destination" placeholder="destination">
-                                    <button type="submit" class="button-shape">Search</button> </p>
-                            </form>
-                        </div>
+                    <div class="search-bar">
+                        <form action={{ path('SearchMultipleChoice') }} method="post">
+                            <p><input class="inputsearch" name="title" placeholder="search with title">
+                                <input class="inputsearch" name="destination" placeholder="destination">
+                                <button type="submit" class="button-shape">Search</button>
+                            </p>
+                        </form>
+                    </div>
 
 
-
+                    {% if render(controller('App\\Controller\\SecurityController::getCurrentUserRole'))=='Professeur' %}
                         <button id="open" class="btnAdd" value="click me">Add Alert</button>
-                    <button>   <a href="{{ path('GeneratePdfAnnounce') }}">Generate Pdf Announces</a> </button>
-                    <button>   <a href="{{ path('GeneratePdfAlert') }}">Generate Pdf Alerts</a> </button>
-
-
+                    {% endif %}
+                    <button><a href="{{ path('GeneratePdfAnnounce') }}">Generate Pdf Announces</a></button>
+                    {% if render(controller('App\\Controller\\SecurityController::getCurrentUserRole'))=='Professeur' %}
+                        <button><a href="{{ path('GeneratePdfAlert') }}">Generate Pdf Alerts</a></button>
+                    {% endif %}
 
                     <!--#region test-->
                     {% for announce in ann %}
                         <!--#region Announce -->
                         <!-- /partials/pages/feed/posts/feed-post1.html -->
                         <!-- POST #1 -->
-                        <div  class="card is-post">
+                        <div class="card is-post">
                             <!-- Main wrap -->
                             <div class="content-wrap">
                                 <!-- Post header -->
@@ -399,7 +399,8 @@
                                     <div class="user-block">
                                         <div class="image">
                                             <img src="https://via.placeholder.com/300x300"
-                                                 data-demo-src="{{asset('images/users/'~announce.idsender.imgurl)}}" data-user-popover="1"
+                                                 data-demo-src="{{ asset('images/users/'~announce.idsender.imgurl) }}"
+                                                 data-user-popover="1"
                                                  alt="">
                                         </div>
                                         <div class="user-info">
@@ -426,7 +427,9 @@
                                     <!-- Featured image -->
                                     <div class="post-image">
                                         <div class="post-image">
-                                            <img src="{{ asset('FrontOffice/img/demo/unsplash/Logo_ESPRIT_og.jpg') }}" data-demo-src="{{ asset('FrontOffice/img/demo/unsplash/Logo_ESPRIT_og.jpg') }}" alt="">
+                                            <img src="{{ asset('FrontOffice/img/demo/unsplash/Logo_ESPRIT_og.jpg') }}"
+                                                 data-demo-src="{{ asset('FrontOffice/img/demo/unsplash/Logo_ESPRIT_og.jpg') }}"
+                                                 alt="">
                                         </div>
                                     </div>
                                 </div>
@@ -439,7 +442,7 @@
                         <!--#region Announce -->
                         <!-- /partials/pages/feed/posts/feed-post1.html -->
                         <!-- POST #1 -->
-                        <div  class="card is-post">
+                        <div class="card is-post">
                             <!-- Main wrap -->
                             <div class="content-wrap">
                                 <!-- Post header -->

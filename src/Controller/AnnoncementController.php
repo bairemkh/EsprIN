@@ -12,8 +12,6 @@ use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
 use App\Services\SessionManagmentService;
-use App\Entity\Catannonce;
-use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

@@ -166,7 +166,7 @@ class Annoncement
     /**
      * @param Catannonce $catann
      */
-    public function setCatann(int $catann): void
+    public function setCatann(Catannonce $catann): void
     {
         $this->catann = $catann;
     }

@@ -139,7 +139,28 @@ class User implements UserInterface
      */
     private $state = 'Disconnected';
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\ManyToMany(targetEntity="Event", inversedBy="cinuser")
+     * @ORM\JoinTable(name="participate",
+     *   joinColumns={
+     *     @ORM\JoinColumn(name="cinUser", referencedColumnName="cinUser")
+     *   },
+     *   inverseJoinColumns={
+     *     @ORM\JoinColumn(name="idEvent", referencedColumnName="idEvent")
+     *   }
+     * )
+     */
+    private $idevent;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->idevent = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     public function getCinuser(): ?int
     {
@@ -355,6 +376,37 @@ class User implements UserInterface
     public function __toString()
     {
         return(String)$this->getEntreprisename();
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getIdevent()
+    {
+        return $this->idevent;
+    }
+
+    /**
+     * @param \Doctrine\Common\Collections\Collection $idevent
+     */
+    public function setIdevent($idevent): void
+    {
+        $this->idevent = $idevent;
+    }
+    public function addIdevent(Event $idevent): self
+    {
+        if (!$this->idevent->contains($idevent)) {
+            $this->idevent[] = $idevent;
+        }
+
+        return $this;
+    }
+
+    public function removeIdevent(Event $idevent): self
+    {
+        $this->idevent->removeElement($idevent);
+
+        return $this;
     }
 
 

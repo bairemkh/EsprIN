@@ -229,16 +229,18 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/{cinuser}", name="app_user_delete", methods={"POST"})
+     * @Route("UserDashboard/{cinuser}", name="app_user_delete")
      */
-    public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
+    public function delete($cinuser)
     {
-        if ($this->isCsrfTokenValid('delete' . $user->getCinuser(), $request->request->get('_token'))) {
-            $entityManager->remove($user);
-            $entityManager->flush();
-        }
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($cinuser);
+        $em->remove($user);
+        $em->flush();
 
-        return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('UserDashboard');
     }
 
     /**
@@ -252,7 +254,7 @@ class UserController extends AbstractController
         $users=$em->createQueryBuilder()
             ->select('u')
             ->from('App\Entity\User', 'u')
-            ->where('u.state!=Deleted')
+            ->where('u.state!=\'Deleted\'')
             ->getQuery()
             ->getArrayResult();
 

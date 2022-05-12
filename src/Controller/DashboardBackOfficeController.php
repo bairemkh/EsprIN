@@ -59,25 +59,9 @@ class DashboardBackOfficeController extends AbstractController
 
 
 
-    /**
-     * @Route ("/AlertDashboard",name="AlertDashboard")
-     */
-    public function AlertDashboard():Response{
-        return $this->render('BackOffice/AlertDashboard.html.twig',[
-                'controller_name'=>'DashboardBackOfficeController',
-            ]
-        );
-    }
 
-    /**
-     * @Route ("/AnnounceDashboard",name="AnnounceDashboard")
-     */
-    public function AnnounceDashboard():Response{
-        return $this->render('BackOffice/AnnounceDashboard.html.twig',[
-                'controller_name'=>'DashboardBackOfficeController',
-            ]
-        );
-    }
+
+
 
 
 
@@ -91,15 +75,7 @@ class DashboardBackOfficeController extends AbstractController
         );
     }
 
-    /**
-     * @Route ("/ParticipatesDashboard",name="ParticipatesDashboard")
-     */
-    public function ParticipatesDashboard():Response{
-        return $this->render('BackOffice/ParticipatesDashboard.html.twig',[
-                'controller_name'=>'DashboardBackOfficeController',
-            ]
-        );
-    }
+
 
     /**
      * @Route ("/ForumDashboard",name="ForumDashboard")
@@ -141,25 +117,9 @@ class DashboardBackOfficeController extends AbstractController
         );
     }
 
-    /**
-     * @Route ("/AnnounceCatDashboard",name="AnnounceCatDashboard")
-     */
-    public function AnnounceCatDashboard():Response{
-        return $this->render('BackOffice/AnnounceCatDashboard.html.twig',[
-                'controller_name'=>'DashboardBackOfficeController',
-            ]
-        );
-    }
 
-    /**
-     * @Route ("/AlertCatDashboard",name="AlertCatDashboard")
-     */
-    public function AlertCatDashboard():Response{
-        return $this->render('BackOffice/AlertCatDashboard.html.twig',[
-                'controller_name'=>'DashboardBackOfficeController',
-            ]
-        );
-    }
+
+
 
 
 }

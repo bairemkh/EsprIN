@@ -152,7 +152,7 @@
                             </a>
                             <ul class="cat-sub-menu">
                                 <li>
-                                    <a href="{{ path('AlertCatDashboard') }}">All Alerts</a>
+                                    <a href="{{ path('AlertDashboard') }}">All Alerts</a>
                                 </li>
                                 <li>
                                     <a href="{{ path('AlertCatDashboard') }}">Categories</a>
@@ -201,16 +201,9 @@
             </div>
         </div>
         <div class="sidebar-footer">
-            <a href="##" class="sidebar-user">
-            <span class="sidebar-user-img">
-                <picture><source srcset="BackOffice/img/avatar/avatar-illustrated-01.webp" type="image/webp"><img
-                            src="BackOffice/img/avatar/avatar-illustrated-01.png" alt="User name"></picture>
-            </span>
-                <div class="sidebar-user-info">
-                    <span class="sidebar-user__title">Nafisa Sh.</span>
-                    <span class="sidebar-user__subtitle">Support manager</span>
-                </div>
-            </div>
+
+
+
             {{ render(controller(
                 'App\\Controller\\DashboardBackOfficeController::renderProfileItem'
             )) }}

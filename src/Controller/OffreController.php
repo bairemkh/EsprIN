@@ -27,7 +27,7 @@ class OffreController extends AbstractController
     {
         $offres = $this->getDoctrine()
             ->getRepository(Offre::class)
-            ->findByStateField('Active');
+            ->findByState('Active');
         return $this->render('BackOffice/OfferDashboard.html.twig',['offres'=>$offres]);
     }
 
@@ -280,16 +280,7 @@ class OffreController extends AbstractController
 
 
 
-    /**
-     * @Route("/navbar-v2-offres", name="navbar-v2-offres")
-     */
-    public function getListOffres():Response
-    {
-        $offres = $this->getDoctrine()
-            ->getRepository(Offre::class)
-            ->findAll();
-        return $this->render('FrontOffice/navbar-v2-offres.html.twig',['offres'=>$offres]);
-    }
+
 
     // delete front
     /**

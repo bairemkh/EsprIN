@@ -20,7 +20,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 class AlertController extends AbstractController
 {
     /**
-     * @Route ("/AlertDashboard",name="AlertDashboardd")
+     * @Route ("/AlertDashboard",name="AlertDashboard")
      */
     public function getAlertes():Response{
         $alerts= $this->getDoctrine()

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\Participate;
 use App\Entity\User;
 use App\Repository\EventRepository;
 use App\Services\SessionManagmentService;
@@ -195,14 +196,15 @@ class EventController extends AbstractController
 
     ////participate list back
     /**
-     * @Route ("/ParticipateListEvents{id}",name="ParticipateList")
+     * @Route ("/ParticipateListEvents/{id}",name="ParticipateList")
      */
-    public function ParticipateList($id): Response
+    public function ParticipateList($id):Response
     {
-        $participates = $this->getDoctrine()
-            ->getRepository(Event::class)
-            ->find($id);
-        return $this->render('BackOffice/ParticipatesDashboard.html.twig', ['participates' => $participates->getCinuser()]);
+        $participates= $this->getDoctrine()
+            ->getRepository(Participate::class)
+            ->findAll();
+//        dd($participates);
+        return $this->render('BackOffice/ParticipatesDashboard.html.twig',['participates'=>$participates,'id'=>$id]);
     }
 
 
@@ -227,12 +229,12 @@ class EventController extends AbstractController
     /**
      * @Route ("/eventsFront/Participate/{id}",name="addParticipate")
      */
-    public function addParticipate(Request $request, $id): Response
-    {
+    public function addParticipate(Request $request, $id,SessionManagmentService $sessionManagmentService): Response
+    {$currentUser=$sessionManagmentService->getUser();
         dump($request);
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->find(1010101);
+            ->find($currentUser->getCinuser());
 
 
         $event = $this->getDoctrine()
@@ -251,12 +253,13 @@ class EventController extends AbstractController
     /**
      * @Route ("/eventsFront/delPart/{id}",name="deleteParticipate")
      */
-    public function deleteParticipate($id)
+    public function deleteParticipate($id,SessionManagmentService $sessionManagmentService)
     {
+        $currentUser=$sessionManagmentService->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()
             ->getRepository(User::class)
-            ->find(1010101);
+            ->find($currentUser->getCinuser());
 
         $event = $this->getDoctrine()
             ->getRepository(Event::class)
@@ -274,7 +277,7 @@ class EventController extends AbstractController
     /**
      * @Route ("/eventsFront/Participate/locationList/{id}",name="locationList")
      */
-    public function LocationListfront($cin = 1010101): Response
+    public function LocationListfront($cin): Response
     {
         $participates = $this->getDoctrine()
             ->getRepository(Event::class)

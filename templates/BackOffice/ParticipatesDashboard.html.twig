@@ -17,36 +17,36 @@
                         <th>Status</th>
                     </tr>
                     </thead>
-                    <!-- ********* -->
+                    <!-- ** -->
                     <!--Contenue de tableau -->
 
                     {% for participate in participates %}
                         {% if participate.event.idevent == id %}
 
                             <tbody>
-                    <tr>
+                            <tr>
 
-                        <!-- Name -->
-                        <td>
-                            {{ participate.participent.firstname   }} {{ participate.participent.lastname }}
-                        </td>
-                        <!-- Role -->
-                        <td>
-                            <div class="pages-table-img">
-                         {{  participate.participent.role }}
-                            </div>
-                        </td>
-                        <!-- Status -->
-                        <td>
-                            <span class="badge-pending">{{ participate.participent.getState() }}</span>
-                        </td>
+                                <!-- Name -->
+                                <td>
+                                    {{ participate.participent.firstname   }} {{ participate.participent.lastname }}
+                                </td>
+                                <!-- Role -->
+                                <td>
+                                    <div class="pages-table-img">
+                                        {{  participate.participent.role }}
+                                    </div>
+                                </td>
+                                <!-- Status -->
+                                <td>
+                                    <span class="badge-pending">{{ participate.participent.getState() }}</span>
+                                </td>
 
-                    </tr>
-                    </tbody>
+                            </tr>
+                            </tbody>
                         {% endif %}
 
                     {% endfor %}
-                    <!-- ********* -->
+                    <!-- ** -->
                 </table>
             </div>
 

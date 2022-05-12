@@ -53,7 +53,7 @@ class PostController extends AbstractController
     /**
      * @Route ("/postFront",name="postFront")
      */
-    public function showP(Request $request,SessionManagmentService $sessionManagmentService): Response
+    public function postFront(Request $request,SessionManagmentService $sessionManagmentService): Response
     {
         $currentUser=$sessionManagmentService->getUser();
         $posts = $this->getDoctrine()->getRepository(Post::class)->findByState("Active");
@@ -138,7 +138,7 @@ class PostController extends AbstractController
         $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
         $post->setState("Desactive");
         $em->flush();
-        return $this->redirectToRoute('showP');
+        return $this->redirectToRoute('postFront');
     }
 
     /**
@@ -164,7 +164,7 @@ class PostController extends AbstractController
             }
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->redirectToRoute('showP');
+            return $this->redirectToRoute('postFront');
         }
 
         return $this->render('FrontOffice/postFront.html.twig', array('form' => $formE->createView(), "posts" => $posts));
@@ -204,7 +204,7 @@ class PostController extends AbstractController
 
 
 
-        return $this->redirectToRoute("showP");
+        return $this->redirectToRoute("postFront");
 
     }
 
@@ -224,7 +224,7 @@ class PostController extends AbstractController
         $em->persist($post);
         $em->flush();
 
-        return $this->redirectToRoute("showP");
+        return $this->redirectToRoute("postFront");
 
     }
 
