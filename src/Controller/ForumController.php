@@ -8,6 +8,7 @@ use App\Entity\Event;
 use App\Entity\Forum;
 use App\Entity\Like;
 use App\Entity\Post;
+use App\Entity\ReactedForum;
 use App\Entity\Responded;
 use App\Entity\User;
 use App\Form\ForumType;
@@ -307,5 +308,63 @@ class ForumController extends AbstractController
         dump($forums);
         return $this->render('BackOffice/ForumDashboard.html.twig', ['forums' => $forums]);
         //return $this->redirectToRoute('UserDashboard', ['users' => $users]);
+    }
+
+/**
+* @Route("/reactforum/{id}", name="reacted-forum")
+*/
+    public function react($id,SessionManagmentService $sessionManagmentService): Response
+    {
+        $currentUser=$sessionManagmentService->getUser();
+        $like = new ReactedForum();
+        $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
+        $post = $this->getDoctrine()->getRepository(Forum::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $likes = $this->getDoctrine()->getRepository(ReactedForum::class)->findreact($id, $currentUser->getCinuser());
+
+        if ($likes == null) {
+            $integer = intval($post->getNbrlikesforum()) + 1;
+            $post->setNbrlikesforum($integer);
+            $like->setIdcreater($user->getCinuser());
+            $like->setIdforum($post->getIdforum());
+            $em->persist($like);
+            $em->persist($post);
+
+            $em->flush();
+        } else {
+            $em->remove($likes);
+            $integer = intval($post->getNbrlikesforum()) - 1;
+            $post->setNbrlikesforum($integer);
+
+            $em->persist($post);
+
+            $em->flush();
+        }
+
+
+
+
+        return $this->redirectToRoute("forumFront");
+
+    }
+
+/**
+* @Route("/disreact/{id}", name="disreacted-forum")
+*/
+    public function disreact($id): Response
+    {
+
+        $post = $this->getDoctrine()->getRepository(Forum::class)->find($id);
+        $integer = intval($post->getNbrlikesforum()) - 1;
+
+        $post->setNbrlikesforum($integer);
+
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($post);
+        $em->flush();
+
+        return $this->redirectToRoute("forumFront");
+
     }
 }
