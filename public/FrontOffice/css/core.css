@@ -16418,7 +16418,9 @@ button.button {
 }
 
 .dropdown.is-spaced .dropdown-item .media {
-    align-items: center
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
 }
 
 .dropdown.is-spaced .dropdown-item .media .media-content {
