@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Form\InterestType;
 use App\Repository\OffreRepository;
 use App\Services\SessionManagmentService;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -16,6 +17,11 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Form\OffreType;
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 
 class OffreController extends AbstractController
@@ -296,6 +302,95 @@ class OffreController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('navbar-v2-offres');
     }
+
+    /**
+     * @Route("/api/getoffers", name="offreList", methods={"GET"})
+     */
+    public function offreList(SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $offres=$em->createQueryBuilder()
+            ->select('o.idoffer,o.titleoffer,o.descoffer,o.catoffre,u.cinuser AS offerprovider')
+            ->from('App\Entity\Offre','o')
+            ->innerJoin('App\Entity\User','u','with', "u.cinuser = o.offerprovider")
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($offres, 'json', ['groups' => '$offres']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
+    /**
+     * @Route("/api/addOffer", name="addOfferApi")
+     */
+    public function addOfferApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+
+            //$content=$request->getContent();
+            //$offres=json_decode($content,true);
+            $offre = New Offre();
+            $offre->setTitleoffer($request->get('titleoffer'));//$offres['titleoffer']
+            $offre->setDescoffer($request->get('descoffer'));//$offres['descoffer']
+            $offre->setCatoffre($request->get('categorieoffer'));//$offre->setCatoffre();
+            $user=$this->getDoctrine()->getRepository(User::class)
+                ->find($request->get('offerprovider'));
+            $offre->setOfferprovider($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($offre);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+
+    }
+
+    /**
+     * @Route("/api/updateoffre/{id}", name="updateoffreApi")
+     */
+    public function updateofftrApi(Request $request, SerializerInterface $serializer,$id)
+    {
+        try {
+            $offre=$this->getDoctrine()->getRepository(Forum::class)->find($id);
+
+            $offre->setTitleoffer($request->get('titleoffer'));//$offres['titleoffer']
+            $offre->setDescoffer($request->get('descoffer'));//$offres['descoffer']
+            $offre->setCatoffre($request->get('categorieoffer'));//$offre->setCatoffre();
+            $user=$this->getDoctrine()->getRepository(User::class)
+                ->find($request->get('offerprovider'));
+            $offre->setOfferprovider($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('updated to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
+
+    /**
+     * @Route ("/api/deleteoffre/{id}",name="deletoffreapi")
+     */
+    public function deleteoffreapi(Request $request, SerializerInterface $serializer,$id)
+    {
+        try {
+            $event = $this->getDoctrine()->getRepository(Offre::class)->find($id);
+            $event->setState($request->get('state'));//$content['locationEvent']
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('deleted to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+    }
+
 
 
 }

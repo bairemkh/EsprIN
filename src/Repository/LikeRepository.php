@@ -2,7 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Forum;
 use App\Entity\Like;
+use App\Entity\Post;
+use App\Entity\ReactedForum;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -81,9 +85,36 @@ class LikeRepository extends ServiceEntityRepository
             ->setParameter('cin', $cin)
             ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult()
-            ;
+            ->getOneOrNullResult();
+    }
+    public function addLike($currentUser, $id): int
+    {
+        $user = $this->getEntityManager()
+            ->getRepository(User::class)
+            ->find($currentUser->getCinuser());
+
+        $post = $this->getEntityManager()
+            ->getRepository(Post::class)
+            ->find($id);
+        $like=new Like();
+        $like->setLikeuser($user->getCinuser());
+        $like->setLikepost($id);
+        $em = $this->getEntityManager();
+        $em->persist($like);
+        $em->flush();
+        return $post->getLikenum() + 1;
     }
 
+    public function deleteLike($currentUser, $id): int
+    {
+        $post = $this->getEntityManager()
+            ->getRepository(Post::class)
+            ->find($id);
+        $like=$this->findlike($id,$currentUser->getCinuser());
+        $em = $this->getEntityManager();
+        $em->remove($like);
+        $em->flush();
+        return $post->getLikenum();
+    }
 
 }

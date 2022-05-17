@@ -209,7 +209,9 @@
                                     <!-- Compose form -->
                                     <div class="compose">
                                         <div class="compose-form">
-                                            <img src="{{ asset('FrontOffice/assets/img/post/dan.jpg') }}">
+                                            <img src="{{asset('images/users/'~render(controller(
+                                                'App\\Controller\\DashboardBackOfficeController::renderProfileAvatar'
+                                            )))}}">
 
                                             <div class="control">
 
@@ -588,10 +590,12 @@
                                                 <a href="#">
                                                     {{ item.idower.firstname}} {{  item.idower.lastname}}</a>
                                                 <span class="time">{{ item.createdAt|date("m/d/Y") }}</span>
+
                                             </div>
                                         </div>
                                         <!-- Right side dropdown -->
                                         <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
+                                        {% if item.idower.cinuser==render(controller('App\\Controller\\SecurityController::getCin')) %}
                                         <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
                                             <div>
                                                 <div class="button">
@@ -635,6 +639,7 @@
 
                                             </div>
                                         </div>
+                                        {% endif %}
                                     </div>
                                     <!-- /Post header -->
 
@@ -682,7 +687,7 @@
                                         <div class="social-count">
                                             <div class="likes-count">
                                                 <i data-feather="heart"></i>
-                                                <span>{{ item.likenum }}</span>
+                                                <span class="count">{{ item.likenum }}</span>
                                             </div>
                                             <div class="comments-count">
                                                 <i data-feather="message-circle"></i>
@@ -896,4 +901,7 @@
 
 
 
+{% endblock %}
+{% block JavaScript %}
+<script src="{{ asset('FrontOffice/js/reactions/like.js') }}"></script>
 {% endblock %}

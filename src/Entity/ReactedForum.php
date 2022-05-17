@@ -10,29 +10,23 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ReactedForum
 {
+
     /**
      * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private $id;
-    /**
      * @var int
      * @ORM\Column(name="idCreater", type="integer", nullable=false)
      */
     private $idcreater;
 
     /**
+     * @ORM\Id
      * @var int
      * @ORM\Column(name="idForum", type="integer", nullable=false)
      */
     private $idforum;
 
 
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
+
 
     public function getIdcreater()
     {

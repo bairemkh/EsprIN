@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 
+use App\Entity\Alert;
+use App\Entity\Annoncement;
 use App\Entity\Commented;
 use App\Entity\Event;
 use App\Entity\Forum;
@@ -12,8 +14,10 @@ use App\Entity\ReactedForum;
 use App\Entity\Responded;
 use App\Entity\User;
 use App\Form\ForumType;
+use App\Repository\AlertRepository;
+use App\Repository\AnnoncementRepository;
 use App\Repository\ForumRepository;
-use App\Repository\PostRepository;
+use App\Repository\ReactedRepository;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use App\Services\SessionManagmentService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,17 +25,23 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class ForumController extends AbstractController
 {
+    private SessionManagmentService $sessionManagmentService;
+    private ReactedRepository $ReactRepository;
+
+    public function __construct(SessionManagmentService $ss,ReactedRepository $rp)
+    {
+        $this->sessionManagmentService=$ss;
+        $this->ReactRepository=$rp;
+    }
+
     public function indexAction()
     {
 
         $forms = $this->getDoctrine()->getRepository(Forum::class)->findByState('Active');
-        //$cmts = $this->getDoctrine()->getRepository(R::class)->findAll();
-        //$likes = $this->getDoctrine()->getRepository(Like::class)->findAll();
 
 
         $pieChart = new PieChart();
@@ -54,6 +64,17 @@ class ForumController extends AbstractController
 
         return $pieChart;
     }
+
+    public function verifyParticipation($id):Response{
+        $currentUser=$this->sessionManagmentService->getUser();
+        $response=  $this->ReactRepository->findreact($id,$currentUser->getCinuser())!=null;
+        if($response){
+            return new Response('true');
+        }else{
+            return new Response('false');
+        }
+    }
+
     /**
      * @Route ("/ForumDashboard",name="ForumDashboard")
      */
@@ -197,71 +218,8 @@ class ForumController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route ("api/getforums",name="getforumsApi")
-     */
-    public function getforumsApi(SerializerInterface $serializer, EntityManagerInterface $em): Response
-    {
-        $forums = $em->createQueryBuilder()
-            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
-            ->from('App\Entity\Forum', 'f')
-            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
-            ->getQuery()
-            ->getArrayResult();
-        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
-        $Response = new Response($json);
-        return $Response;
-
-    }
-
-    /**
-     * @Route ("api/getforum/{id}",name="getforumsbyIdApi")
-     */
-    public function getForumByIdApi($id,SerializerInterface $serializer, EntityManagerInterface $em): Response
-    {
-        $forums = $em->createQueryBuilder()
-            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
-            ->from('App\Entity\Forum', 'f')
-            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
-            ->where('f.idforum=:id')
-            ->setParameter('id',$id)
-            ->getQuery()
-            ->getArrayResult();
-        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
-        $Response = new Response($json);
-        return $Response;
-
-    }
-
-    /**
-     * @Route("/api/addforum", name="addForumApi")
-     */
-    public function addForumApi(Request $request, SerializerInterface $serializer)
-    {
-        try {
-            $event = new Event();
-            $json=$request->getContent();
-            $content=json_decode($json,true);
-            $user = $this->getDoctrine()->getRepository(User::class)->find($content['idOwner']);
-            $forum=new Forum();
-            $date = new \DateTime('@' . strtotime('now'));
-            $forum->setDatecreation($date);
-            $forum->setTitle($content['title']);
-            $forum->setContent($content['content']);
-            $forum->setCategorieforum($content['categorieforum']);
-            $forum->setIdowner($user);
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($forum);
-            $manager->flush();
-            return new Response('Added to DataBase',200);
-
-        } catch
-        (\Exception $exception) {
-            return new Response($exception->getMessage());
-        }
 
 
-    }
     /**
      * @Route("/likesl", name="likesl")
      */
@@ -316,6 +274,18 @@ class ForumController extends AbstractController
     public function react($id,SessionManagmentService $sessionManagmentService): Response
     {
         $currentUser=$sessionManagmentService->getUser();
+        if($this->ReactRepository->findreact($id,$currentUser->getCinuser())){
+            $nbr=$this->ReactRepository->deleteReact($currentUser,$id);
+            return  $this->json(['Response'=>'Reaction deleted','nbrParticipation'=>$nbr],200);
+        }
+        else{
+            $nbr=$this->ReactRepository->addReact($currentUser,$id);
+            return $this->json(['Response'=>'Reaction added','nbrParticipation'=>$nbr],200);
+        }
+    }
+  /*  public function react($id,SessionManagmentService $sessionManagmentService): Response
+    {
+        $currentUser=$sessionManagmentService->getUser();
         $like = new ReactedForum();
         $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $post = $this->getDoctrine()->getRepository(Forum::class)->find($id);
@@ -346,7 +316,7 @@ class ForumController extends AbstractController
 
         return $this->redirectToRoute("forumFront");
 
-    }
+    }*/
 
 /**
 * @Route("/disreact/{id}", name="disreacted-forum")
@@ -367,4 +337,120 @@ class ForumController extends AbstractController
         return $this->redirectToRoute("forumFront");
 
     }
+
+
+    /* *************** API ********************** */
+
+
+    /**
+     * @Route("/api/addforum", name="addForumApi")
+     */
+    public function addForumApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get("idowner"));
+            $forum=new Forum();
+            $date = new \DateTime('@' . strtotime('now'));
+            $forum->setDatecreation($date);
+            $forum->setTitle($request->get("title"));//$content['title']
+            $forum->setContent($request->get("content"));//$content['content']
+            $forum->setCategorieforum($request->get("categorieforum"));//$content['categorieforum']
+            $forum->setIdowner($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($forum);
+            $manager->flush();
+            return new Response('Added to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response("not added");
+        }
+
+
+    }
+
+
+    /**
+     * @Route ("api/getforums",name="getforumsApi")
+     */
+    public function getforumsApi(SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $state = "Active";
+        $forums = $em->createQueryBuilder()
+            ->select('f.idforum,f.datecreation,f.title,f.content,f.categorieforum,f.nbrlikesforum,f.nbrresponseforum,u.cinuser AS idOwner')
+            ->from('App\Entity\Forum', 'f')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = f.idowner")
+            ->where('f.state=:state')
+            ->setParameter('state',$state)
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($forums, 'json', ['groups' => 'forums']);
+        $Response = new Response($json);
+        return $Response;
+
+    }
+
+
+    /**
+     * @Route("/api/updateforum/{id}", name="updateForumApi")
+     */
+    public function updateForumApi(Request $request, SerializerInterface $serializer,$id)
+    {
+        try {
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get("idowner"));
+            $forum=$this->getDoctrine()->getRepository(Forum::class)->find($id);
+            $date = new \DateTime('@' . strtotime('now'));
+            $forum->setDatecreation($date);
+            $forum->setTitle($request->get("title"));//$content['title']
+            $forum->setContent($request->get("content"));//$content['content']
+            $forum->setCategorieforum($request->get("categorieforum"));//$content['categorieforum']
+            $forum->setIdowner($user);
+            $manager = $this->getDoctrine()->getManager();
+            //$manager->persist($forum);
+            $manager->flush();
+            return new Response('updated',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response("not added");
+        }
+
+
+    }
+
+
+    /**
+     * @Route ("/api/deletforum/{id}",name="deletforumapi")
+     */
+    public function deleteforumapi(Request $request, SerializerInterface $serializer,$id)
+    {
+        try {
+            $event = $this->getDoctrine()->getRepository(Forum::class)->find($id);
+            $event->setState($request->get('state'));//$content['locationEvent']
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('deleted to DataBase',200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+    }
+
+    /**
+     * @Route ("/test/upload",name="testupload")
+     */
+    public function testUpload(Request $request,AnnoncementRepository $annoncementRepository,AlertRepository $alertRepository): Response
+    {
+        $ann = $annoncementRepository
+            ->findByStateField('Active');
+        $alerts = $alertRepository
+            ->findByExampleField('Active');
+        $list=array_merge($ann,$alerts);
+        shuffle($list);
+        dump(array_filter($list));
+        return $this->render("test/new.html.twig",["list"=>$list]);
+    }
+
+
 }

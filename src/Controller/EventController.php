@@ -6,8 +6,10 @@ use App\Entity\Event;
 use App\Entity\Participate;
 use App\Entity\User;
 use App\Repository\EventRepository;
+use App\Repository\ParticipateRepository;
 use App\Services\SessionManagmentService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DomCrawler\Image;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,14 +19,22 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Doctrine\Persistence\ManagerRegistry;
 
 class EventController extends AbstractController
 {
     private EntityManagerInterface $entityManager;
+    private ParticipateRepository $parRepository;
+    private SessionManagmentService $sessionManagmentService;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, ParticipateRepository $pr, SessionManagmentService $sm)
     {
         $this->entityManager = $em;
+        $this->parRepository = $pr;
+        $this->sessionManagmentService = $sm;
     }
 
     /**
@@ -148,11 +158,11 @@ class EventController extends AbstractController
     /**
      * @Route("/addEvent", name="addevent")
      */
-    public function addevent(Request $request,SessionManagmentService $sessionManagmentService): Response
+    public function addevent(Request $request, SessionManagmentService $sessionManagmentService): Response
     {
         dump($request);
         $event = new Event();
-        $currentUser=$sessionManagmentService->getUser();
+        $currentUser = $sessionManagmentService->getUser();
         $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $event->setTitleevent($request->get('TitleEvent'));
         $event->setContentevent($request->get('ContentEvent'));
@@ -161,7 +171,7 @@ class EventController extends AbstractController
         $dateF = new \DateTime($request->get('DateFin'));
         $event->setDatedebut($dateD);
         $event->setDatefin($dateF);
-        $uploadedFile =$request->get('imgURL');
+        $uploadedFile = $request->get('imgURL');
         if ($uploadedFile) {
             $destination = $this->getParameter('kernel.project_dir') . '\public\images\events';
             $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -198,13 +208,13 @@ class EventController extends AbstractController
     /**
      * @Route ("/ParticipateListEvents/{id}",name="ParticipateList")
      */
-    public function ParticipateList($id):Response
+    public function ParticipateList($id): Response
     {
-        $participates= $this->getDoctrine()
+        $participates = $this->getDoctrine()
             ->getRepository(Participate::class)
             ->findAll();
 //        dd($participates);
-        return $this->render('BackOffice/ParticipatesDashboard.html.twig',['participates'=>$participates,'id'=>$id]);
+        return $this->render('BackOffice/ParticipatesDashboard.html.twig', ['participates' => $participates, 'id' => $id]);
     }
 
 
@@ -222,15 +232,21 @@ class EventController extends AbstractController
     }
 
 
-
-
     //// add participate Front
+    public function verifyParticipation($id): Response
+    {
+        $currentUser = $this->sessionManagmentService->getUser();
+        $response = $this->parRepository->userReacted($currentUser, $id);
+        if ($response) {
+            return new Response('true');
+        } else {
+            return new Response('false');
+        }
+    }
 
-    /**
-     * @Route ("/eventsFront/Participate/{id}",name="addParticipate")
-     */
-    public function addParticipate(Request $request, $id,SessionManagmentService $sessionManagmentService): Response
-    {$currentUser=$sessionManagmentService->getUser();
+    public function addParticipate(Request $request, $id, SessionManagmentService $sessionManagmentService): Response
+    {
+        $currentUser = $sessionManagmentService->getUser();
         dump($request);
         $user = $this->getDoctrine()
             ->getRepository(User::class)
@@ -247,15 +263,31 @@ class EventController extends AbstractController
         return $this->redirectToRoute('eventsFront');
     }
 
+    /**
+     * @Route ("/eventsFront/Participate/{id}",name="addParticipate")
+     */
+    public function addParticipation(Request $request, $id, SessionManagmentService $sessionManagmentService, ParticipateRepository $repository): Response
+    {
+        $currentUser = $sessionManagmentService->getUser();
+        if ($repository->userReacted($currentUser, $id)) {
+            $nbr = $repository->deleteParticipate($currentUser, $id);
+            return $this->json(['Response' => 'Participation deleted', 'nbrParticipation' => $nbr], 200);
+        } else {
+            $nbr = $repository->addParticipate($currentUser, $id);
+            return $this->json(['Response' => 'Participation added', 'nbrParticipation' => $nbr], 200);
+        }
+
+    }
+
 
     // delete Part Front
 
     /**
      * @Route ("/eventsFront/delPart/{id}",name="deleteParticipate")
      */
-    public function deleteParticipate($id,SessionManagmentService $sessionManagmentService)
+    public function deleteParticipate($id, SessionManagmentService $sessionManagmentService)
     {
-        $currentUser=$sessionManagmentService->getUser();
+        $currentUser = $sessionManagmentService->getUser();
         $em = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()
             ->getRepository(User::class)
@@ -332,6 +364,9 @@ class EventController extends AbstractController
     }
 
 
+    /* *************** API ********************** */
+
+
     /**
      * @Route ("api/getevents",name="get-events-api")
      */
@@ -341,7 +376,7 @@ class EventController extends AbstractController
              ->getRepository(Event::class)
              ->findAll();*/
         $events = $em->createQueryBuilder()
-            ->select('e.idevent,e.titleevent,e.contentevent,e.contentevent,e.eventlocal,e.nbrparticipant,e.datedebut,e.datefin,u.cinuser AS idOrganizer')
+            ->select('e.idevent,e.titleevent,e.contentevent,e.contentevent,e.eventlocal,e.nbrparticipant,e.datedebut,e.imgurl,e.datefin,u.cinuser AS idOrganizer')
             ->from('App\Entity\Event', 'e')
             ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
             ->getQuery()
@@ -372,6 +407,7 @@ class EventController extends AbstractController
         return $Response;
     }
 
+
     /**
      * @Route("/api/addevent", name="addEventApi")
      */
@@ -379,14 +415,14 @@ class EventController extends AbstractController
     {
         try {
             $event = new Event();
-            $json = $request->getContent();
-            $content = json_decode($json, true);
-            $user = $this->getDoctrine()->getRepository(User::class)->find($content['idOrganizer']);
-            $event->setTitleevent($content['titleEvent']);
-            $event->setContentevent($content['contentEvent']);
-            $event->setEventlocal($content['locationEvent']);
-            $dateD = new \DateTime($content['dateDebut']);
-            $dateF = new \DateTime($content['dateFin']);
+            //$json=$request->getContent();
+            //$content=json_decode($json,true);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('idOrganizer'));
+            $event->setTitleevent($request->get('titleevent'));//$content['titleEvent']
+            $event->setContentevent($request->get('contentevent'));//$content['contentEvent']
+            $event->setEventlocal($request->get('locationEvent'));//$content['locationEvent']
+            $dateD = new \DateTime($request->get('dateDebut'));
+            $dateF = new \DateTime($request->get('dateFin'));
             $event->setDatedebut($dateD);
             $event->setDatefin($dateF);
             $event->setIdorganizer($user);
@@ -399,21 +435,68 @@ class EventController extends AbstractController
         (\Exception $exception) {
             return new Response($exception->getMessage());
         }
-
-
     }
 
-    public function setEventCard(): Response
+
+    /**
+     * @Route ("/api/deleteevent/{id}",name="deleteventapi")
+     */
+    public function deleteeventapi(Request $request, SerializerInterface $serializer, $id)
     {
-        $event = $this->entityManager->createQueryBuilder()
-            ->select('e.titleevent,u.firstname,u.lastname,u.imgurl')
-            ->from('App\Entity\Event', 'e')
-            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = e.idorganizer")
-            ->orderBy('e.idevent', 'desc')
-            ->getQuery()
-            ->getArrayResult();
-        return $this->render('FrontOffice/cells/NewEventCell.html.twig', [
-            'event' => $event[0],
-        ]);
+        try {
+            $event = $this->getDoctrine()->getRepository(Event::class)->find($id);
+            $event->setState($request->get('state'));//$content['locationEvent']
+            $manager = $this->getDoctrine()->getManager();
+            $manager->flush();
+            return new Response('deleted to DataBase', 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
     }
+
+
+    /**
+     * @Route("/api/updateevent/{id}", name="updateEventApi")
+     */
+    public function updateeventApi(Request $request, SerializerInterface $serializer, $id)
+    {
+        try {
+            $event = $this->getDoctrine()->getRepository(Event::class)->find($id);
+            //$json=$request->getContent();
+            //$content=json_decode($json,true);
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get('idOrganizer'));
+            $event->setTitleevent($request->get('titleevent'));//$content['titleEvent']
+            $event->setContentevent($request->get('contentevent'));//$content['contentEvent']
+            $event->setEventlocal($request->get('locationEvent'));//$content['locationEvent']
+            // $dateD = new \DateTime($content['dateDebut']);
+            // $dateF = new \DateTime($content['dateFin']);
+            //$event->setDatedebut($dateD);
+            //$event->setDatefin($dateF);
+            $event->setIdorganizer($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($event);
+            $manager->flush();
+            return new Response('updated to DataBase', 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response($exception->getMessage());
+        }
+
+    }
+
+    /**
+     * @Route("/imageParticipents/{id}", name="imageParticipents")
+     */
+    public function imageParticipents($id): Response
+    {
+        $event = $this->entityManager->getRepository(Event::class)->find($id);
+        $list = $this->entityManager->getRepository(Participate::class)->findBy(['event' => $event]);
+        dump($list);
+        return $this->render('FrontOffice/cells/ImageParticipents.html.twig', ['list' => $list,'listnbr' => count($list)]);
+    }
+
+
 }

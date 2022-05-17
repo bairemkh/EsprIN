@@ -377,7 +377,7 @@
                     </div>
 
 
-                    {% if render(controller('App\\Controller\\SecurityController::getCurrentUserRole'))=='Professeur' %}
+                    {% if render(controller('App\\Controller\\SecurityController::getCurrentUserRole'))=='Professor' %}
                         <button id="open" class="btnAdd" value="click me">Add Alert</button>
                     {% endif %}
                     <button><a href="{{ path('GeneratePdfAnnounce') }}">Generate Pdf Announces</a></button>

@@ -105,16 +105,19 @@ class SecurityController extends AbstractController
             if($hash){
 
                 $response=new JsonResponse(['token' => $JWTManager->create($user)]);
+                $response->setStatusCode(200);
 
                 //$JWTManager->create($user)
                 //$response->setContent(getTokenUser($user)) ;
             }
             else{
                 $response->setContent(json_encode(['Error'=>'Wrong Password']));
+                $response->setStatusCode(400);
             }
         }
         else{
             $response->setContent(json_encode(['Error'=>'User Not Found']));
+            $response->setStatusCode(404);
         }
 
 

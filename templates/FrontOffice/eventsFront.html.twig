@@ -22,37 +22,41 @@
                 <div class="title">Create</div>
                 <div class="subtitle">Let's create a new Event..</div>
                 <div class="input-container ic1">
-                    <input id="field1" class="input" name="TitleEvent" type="text" placeholder=" " />
+                    <input id="field1" class="input" name="TitleEvent" type="text" placeholder=" "/>
                     <div class="lab"></div>
                     <label for="field1" class="placeholder">Enter title</label>
                 </div>
                 <div class="input-container ic2">
-                    <input id="field2" class="input" name="ContentEvent" type="text" placeholder=" " />
+                    <input id="field2" class="input" name="ContentEvent" type="text" placeholder=" "/>
                     <div class="lab"></div>
                     <label for="field2" class="placeholder">Enter Content..</label>
                 </div>
                 <div class="input-container ic3">
-                    <input id="field2" class="input" name="LocationEvent" type="text" placeholder=" " />
+                    <input id="field2" class="input" name="LocationEvent" type="text" placeholder=" "/>
                     <div class="lab"></div>
                     <label for="field2" class="placeholder">Enter Event Location..</label>
                 </div>
                 <div class="input-container ic4">
                     <div class="lab">Start Date</div>
-                    <input id="field3" class="input" name="DateDebut" type="date" placeholder=" " />
+                    <input id="field3" class="input" name="DateDebut" type="date" placeholder=" "/>
                 </div>
                 <div class="input-container ic5">
                     <div class="lab">End Date</div>
-                    <input id="field4" class="input" name="DateFin" type="date" placeholder=" " />
+                    <input id="field4" class="input" name="DateFin" type="date" placeholder=" "/>
                 </div>
                 <!-- General basic options -->
                 <div id="basic-options" class="compose-options">
                     <!-- Upload action -->
                     <div class="compose-option">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="feather feather-camera">
                             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                            <circle cx="12" cy="13" r="4"></circle></svg>
+                            <circle cx="12" cy="13" r="4"></circle>
+                        </svg>
                         <!--<span>Media</span>-->
-                        <input id="feed-upload-input-2" type="file" name="imgURL" accept=".png, .jpg, .jpeg" onchange="readURL(this)">
+                        <input id="feed-upload-input-2" type="file" name="imgURL" accept=".png, .jpg, .jpeg"
+                               onchange="readURL(this)">
                     </div>
                 </div>
                 <!-- /General basic options -->
@@ -66,7 +70,7 @@
 
 {% endblock %}
 
-{% block navigation%}
+{% block navigation %}
     <div class="sub-nav">
         <div class="sub-nav-tabs">
             <div class="tabs is-centered">
@@ -74,10 +78,10 @@
                     <li>
                         <a href="{{ path('postFront') }}">Posts</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="{{ path('announceFront') }}">Announces</a>
                     </li>
-                    <li >
+                    <li>
                         <a href="{{ path('forumFront') }}">Forums</a>
                     </li>
                     <li class="is-active">
@@ -112,7 +116,6 @@
             <!-- this holds the animated content placeholders that show up before content -->
             <div id="shadow-dom" class="view-wrap">
                 <div class="columns">
-
 
 
                     <div class="column is-3">
@@ -368,7 +371,6 @@
             <div class="model-container" id="model-container">
 
 
-
             </div>
             <div class="columns">
                 <!-- Left side column -->
@@ -380,7 +382,7 @@
                 <div class="column is-6">
 
 
-                    {% if render(controller('App\\Controller\\SecurityController::getCurrentUserRole'))=='Club'%}
+                    {% if render(controller('App\\Controller\\SecurityController::getCurrentUserRole'))=='Club' %}
                         <button id="open" class="btnAdd" value="click me">Add Event</button>
                     {% endif %}
 
@@ -393,41 +395,46 @@
                                 <div class="card-heading">
                                     <!-- /Event header -->
                                     <div class="TitleEv-text">
-                                        {{ event.titleevent}}
+                                        {{ event.titleevent }}
                                     </div>
-                                    <div class="off">
-                                        <div class="card-heading">
-                                            <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
-                                                <div>
-                                                    <div class="button">
-                                                        <i data-feather="more-vertical"></i>
+                                    {% if event.idorganizer.cinuser==render(controller('App\\Controller\\SecurityController::getCin')) %}
+                                        <div class="off">
+                                            <div class="card-heading">
+                                                <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
+                                                    <div>
+                                                        <div class="button">
+                                                            <i data-feather="more-vertical"></i>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="dropdown-menu" role="menu">
-                                                    <div class="dropdown-content">
-                                                        <a href="{{ path('eventDetails', {'id':event.idevent})  }}" class="dropdown-item">
-                                                            <div class="media">
-                                                                <i data-feather="flag"></i>
-                                                                <div class="media-content">
-                                                                    <h3>Details</h3>
-                                                                    <small>event details.</small>
+                                                    <div class="dropdown-menu" role="menu">
+                                                        <div class="dropdown-content">
+                                                            <a href="{{ path('eventDetails', {'id':event.idevent}) }}"
+                                                               class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="flag"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Details</h3>
+                                                                        <small>event details.</small>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </a>
-                                                        <a href="{{ path('deleteventfront', {'id':event.idevent})  }}" class="dropdown-item">
-                                                            <div class="media">
-                                                                <i data-feather="flag"></i>
-                                                                <div class="media-content">
-                                                                    <h3>Delete</h3>
-                                                                    <small>Delete this event.</small>
+                                                            </a>
+                                                            <a href="{{ path('deleteventfront', {'id':event.idevent}) }}"
+                                                               class="dropdown-item">
+                                                                <div class="media">
+                                                                    <i data-feather="flag"></i>
+                                                                    <div class="media-content">
+                                                                        <h3>Delete</h3>
+                                                                        <small>Delete this event.</small>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                        </a>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    {% endif %}
+
                                 </div>
 
                                 <!-- Event body -->
@@ -435,10 +442,11 @@
                                     <!-- Event body text -->
 
 
-
                                     <!-- Featured image -->
                                     <div class="post-image">
-                                        <img src="{{asset('images/events/'~event.imgurl)}}" data-demo-src="{{asset('images/events/'~event.imgurl)}}" height="1067" width="1600" alt="">
+                                        <img src="{{ asset('images/events/'~event.imgurl) }}"
+                                             data-demo-src="{{ asset('images/events/'~event.imgurl) }}" height="1067"
+                                             width="1600" alt="">
                                     </div>
                                     <div class="post-text">
                                         <p>{{ event.contentevent }}</p>
@@ -448,15 +456,24 @@
                                         <div class="user-block">
 
                                             <div class="image">
-                                                <img src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-demo-src="{{asset('images/users/'~event.idorganizer.imgurl)}}" data-user-popover="1" alt="">
+                                                <img src="{{ asset('images/users/'~event.idorganizer.imgurl) }}"
+                                                     data-demo-src="{{ asset('images/users/'~event.idorganizer.imgurl) }}"
+                                                     data-user-popover="1" alt="">
                                             </div>
                                             <div class="user-info">
                                                 <a href="{{ path('profile',{'userCin':event.idorganizer.cinuser}) }}">{{ event.idorganizer.firstname }} {{ event.idorganizer.lastname }}</a>
-                                                <!--<span class="time">{{ event.datedebut|date }}</span>-->
+
                                             </div>
                                             <div class="event-subtitle">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-map-pin"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
-                                                <small> {{ event.eventlocal}} | {{ event.datedebut|date }} - {{ event.datefin|date }}</small>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                     class="feather feather-map-pin">
+                                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                                    <circle cx="12" cy="10" r="3"></circle>
+                                                </svg>
+                                                <small> {{ event.eventlocal }} | {{ event.datedebut|date }}
+                                                    - {{ event.datefin|date }}</small>
                                             </div>
                                         </div>
                                         <!-- Right side dropdown -->
@@ -469,39 +486,34 @@
                                 <!-- Event footer -->
                                 <div class="card-footer">
                                     <!-- Followers avatars -->
-                                    <div class="likers-group">
-                                        <img src="../../FrontOffice/assets/img/images/img-1.jpg" data-demo-src="../../FrontOffice/assets/img/images/img-1.jpg" data-user-popover="1" alt="">
-                                        <img src="../../FrontOffice/assets/img/images/img-2.jpg" data-demo-src="../../FrontOffice/assets/img/images/img-2.jpg" data-user-popover="4" alt="">
-                                        <img src="../../FrontOffice/assets/img/images/img-3.jpg" data-demo-src="../../FrontOffice/assets/img/images/img-3.jpg" data-user-popover="5" alt="">
-                                        <img src="../../FrontOffice/assets/img/images/img-4.jpg" data-demo-src="../../FrontOffice/assets/img/images/img-4.jpg" data-user-popover="7" alt="">
-                                    </div>
-                                    <!-- Followers text -->
-                                    <div class="likers-text">
-                                        <p>
-                                            <a href="{{ path('sendEmail') }}">Milly</a>,
-                                            <a href="{{ path('ParticipateListFront', {'id':event.idevent})  }}">David</a>
-                                        </p>
-                                        {% if event.nbrparticipant>2 %}
-                                            <p >
-                                                <a href="{{ path('ParticipateListFront', {'id':event.idevent})  }}">and {{ event.nbrparticipant-2 }}  more Participates </a>
-
-                                            </p>
-                                        {% endif %}
-                                    </div>
+                                    {{ render(controller(
+                                        'App\\Controller\\EventController::imageParticipents',{'id': event.idevent}
+                                    )) }}
                                     <!-- Event statistics -->
                                     <div class="social-count">
                                         <div class="likes-count">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-heart">
-                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
-                                            <span name="NbParticipate">{{ event.nbrparticipant }}</span>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round"
+                                                 class="feather feather-heart">
+                                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                            </svg>
+                                            <span class="count">{{ event.nbrparticipant }}</span>
                                         </div>
                                     </div>
                                     <div class="like-wrapper">
-                                        <a href="{{ path('addParticipate', {'id': event.idevent}) }}" class="like-button">
-                                            <i class="mdi mdi-participate not-liked bouncy"></i>
-                                            <i class="mdi mdi-participate is-liked bouncy"></i>
-                                            <span class="like-overlay"></span>
-                                        </a>
+                                        {% if render(controller('App\\Controller\\EventController::verifyParticipation', {'id': event.idevent}))=='true' %}
+                                        <a href="{{ path('addParticipate', {'id': event.idevent}) }}"
+                                           class="like-button is-active">
+                                            {% else %}
+                                            <a href="{{ path('addParticipate', {'id': event.idevent}) }}"
+                                               class="like-button">
+                                                {% endif %}
+
+                                                <i class="mdi mdi-participate not-liked bouncy"></i>
+                                                <i class="mdi mdi-participate is-liked bouncy"></i>
+                                                <span class="like-overlay"></span>
+                                            </a>
                                     </div>
                                 </div>
                                 <!-- /Event footer -->
@@ -521,4 +533,8 @@
 
 
 
+{% endblock %}
+
+{% block JavaScript %}
+    <script src="{{ asset('FrontOffice/js/reactions/participate.js') }}"></script>
 {% endblock %}

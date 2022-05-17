@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\ParticipateRepository;
+use App\Repository\ReactedRepository;
 use App\Repository\UserRepository;
 use App\Services\SessionManagmentService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -143,7 +145,7 @@ class UserController extends AbstractController
     /**
      * @Route("/addExtern", name="add_new_Extern_Account", methods={"GET", "POST"})
      */
-    public function addExtern(Request $request, UserPasswordEncoderInterface $encoder,MailController $mail): Response
+    public function addExtern(Request $request, UserPasswordEncoderInterface $encoder, MailController $mail): Response
     {
         dump($request);
         if ($request->request->count() > 0) {
@@ -153,7 +155,7 @@ class UserController extends AbstractController
             $user->setCinuser($request->get('compId'));
             $passwd = $request->get('password');
             $user->setEmail($request->get('compEmail'));
-            $mail->sendMailToExtern($user->getEmail(),$user->getEntreprisename(),$passwd);
+            $mail->sendMailToExtern($user->getEmail(), $user->getEntreprisename(), $passwd);
             $hash = $encoder->encodePassword($user, $passwd);
             $user->setPasswd($hash);
             $user->setRole('Extern');
@@ -248,12 +250,12 @@ class UserController extends AbstractController
     /**
      * @Route ("/UserDashboard",name="UserDashboard")
      */
-    public function getUsers(SessionManagmentService $s,EntityManagerInterface $em): Response
+    public function getUsers(SessionManagmentService $s, EntityManagerInterface $em): Response
     {
         /*$users = $this->getDoctrine()
             ->getRepository(User::class)
             ->findAll();*/
-        $users=$em->createQueryBuilder()
+        $users = $em->createQueryBuilder()
             ->select('u')
             ->from('App\Entity\User', 'u')
             ->where('u.state!=\'Deleted\'')
@@ -411,25 +413,49 @@ class UserController extends AbstractController
     /**
      * @Route("/test4", name="test4")
      */
-    public function test4Query(UserRepository $userRepository)
+    public function test4Query(ReactedRepository $parRepository, SessionManagmentService $sessionManagmentService, $id, EntityManagerInterface $em): Response
     {
+        $list = $em->createQueryBuilder()
+            ->select('r')
+            ->from('App\Entity\Responded', 'r')
+            ->innerJoin('App\Entity\Forum', 'f', 'with', "r.cinuser = f.idower")
+            ->getQuery()
+            ->getArrayResult();
+        dump($list);
 
-        dump($userRepository->getUserEvent(10020855));
+        $currentUser = $sessionManagmentService->getUser();
+
         die;
     }
 
 //</editor-fold>
 
 //<editor-fold desc="API">
+
+    /* *************** API ********************** */
+
+
     /**
      * @Route("/api/createNewAccount", name="create_new_AccountAPI",methods={"GET", "POST"})
      */
-    public function StudentRegisterAPI(Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer): Response
+    public function createNewAccountAPI(Request $request, UserPasswordEncoderInterface $encoder, SerializerInterface $serializer): Response
     {
         try {
 
             $content = $request->getContent();
-            $user = $serializer->deserialize($content, User::class, 'json');
+            //$user = $serializer->deserialize($content, User::class, 'json');
+            $user = new User();
+            $user->setCinuser($request->get('cinuser'));
+            $user->setEmail($request->get('email'));
+            $user->setPasswd($request->get('password'));
+            $user->setFirstname($request->get('firstname'));
+            $user->setLastname($request->get('lastname'));
+            $user->setRole($request->get('role'));
+            $user->setClass($request->get('classe'));
+            $user->setDepartement($request->get('departement'));
+            $user->setTypeclub($request->get('typeclub'));
+            $user->setLocalisation($request->get('localisation'));
+            $user->setDomaine($request->get('domaine'));
             $user->setCreatedat(new \DateTime('@' . strtotime('now')));
             $user->setPasswd($encoder->encodePassword($user, $user->getPasswd()));
             $manager = $this->getDoctrine()->getManager();
@@ -475,7 +501,10 @@ class UserController extends AbstractController
                 ->where('u.email=:email')
                 ->setParameter('email', $email)
                 ->getQuery()
-                ->getArrayResult();
+                ->getArrayResult()[0];
+            if ($students["state"] == "Deleted") {
+                return new Response("User Deleted", 403);
+            }
             dump($students);
             $json = $serializer->serialize($students, 'json');
             return new Response($json, 200);
@@ -486,6 +515,7 @@ class UserController extends AbstractController
         }
 
     }
+
 //</editor-fold>
 
 }

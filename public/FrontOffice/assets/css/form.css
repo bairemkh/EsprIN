@@ -134,7 +134,7 @@
     background: linear-gradient(to bottom, #FF8080  0%, #E00203 100%);
 }
 .tabs-wrapper{
-    display: flex;
+    display: flow-root;
     /* Push the buttons to the right */
     justify-content: flex-end;
 }

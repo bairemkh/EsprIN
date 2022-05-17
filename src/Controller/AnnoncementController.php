@@ -8,6 +8,7 @@ use App\Entity\Catannonce;
 use App\Entity\Event;
 use App\Entity\User;
 use App\Entity\Catalert;
+use Doctrine\ORM\EntityManagerInterface;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Knp\Component\Pager\PaginatorInterface;
@@ -17,6 +18,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Repository\AnnoncementRepository;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 class  AnnoncementController extends AbstractController
 {
@@ -25,14 +31,16 @@ class  AnnoncementController extends AbstractController
     /**
      * @Route("/announcementDashboard",name="announcementDashboard")
      */
-    public function GetAnnoucement():Response{
-        $announcement=$this->getDoctrine()
+    public function GetAnnoucement(): Response
+    {
+        $announcement = $this->getDoctrine()
             ->getRepository(Annoncement::class)
             ->findAll();
-        return $this->render('BackOffice/AnnounceDashboard.html.twig',[
-           'announcement'=>$announcement
+        return $this->render('BackOffice/AnnounceDashboard.html.twig', [
+            'announcement' => $announcement
         ]);
     }
+
     /**
      * @Route("/annoncement", name="app_annoncement")
      */
@@ -48,7 +56,7 @@ class  AnnoncementController extends AbstractController
      */
     public function delete($id)
     {
-        $em=$this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
         $post = $this->getDoctrine()
             ->getRepository(Annoncement::class)
             ->find($id);
@@ -57,33 +65,33 @@ class  AnnoncementController extends AbstractController
         return $this->redirectToRoute('AnnounceDashboard');
     }
 
-        /**
-         * @Route("/addAnnoncement", name="add_new_annoncement", methods={"GET", "POST"})
-         */
-        public function addAnnounce(Request $request,SessionManagmentService $sessionManagmentService): Response
-        {
-            dump($request);
-            if ($request->request->count() > 0) {
-                $announce=new Annoncement();
-                $announce->setSubject($request->get('subject'));
-                $currentUser=$sessionManagmentService->getUser();
-                $user=$this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
-                echo $user->getLastname()." ".$user->getFirstname();
-                $announce->setIdsender($user);
-                $announce->setCreatedat(new \DateTime('@' . strtotime('now')));
-                $announce->setContent($request->get('content'));
-                $announce->setDestination($request->get('destination'));//libCatAnn
-                $catAnn=$this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann'=>$request->get('Category')]);
-                $announce->setCatann($catAnn);
-                $manager = $this->getDoctrine()->getManager();
-                $manager->persist($announce);
-                $manager->flush();
-                return $this->redirectToRoute('announcementDashboard',[]);
-            }
-
-            return $this->render('BackOffice/AddNewAnnounce.html.twig', [
-            ]);
+    /**
+     * @Route("/addAnnoncement", name="add_new_annoncement", methods={"GET", "POST"})
+     */
+    public function addAnnounce(Request $request, SessionManagmentService $sessionManagmentService): Response
+    {
+        dump($request);
+        if ($request->request->count() > 0) {
+            $announce = new Annoncement();
+            $announce->setSubject($request->get('subject'));
+            $currentUser = $sessionManagmentService->getUser();
+            $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
+            echo $user->getLastname() . " " . $user->getFirstname();
+            $announce->setIdsender($user);
+            $announce->setCreatedat(new \DateTime('@' . strtotime('now')));
+            $announce->setContent($request->get('content'));
+            $announce->setDestination($request->get('destination'));//libCatAnn
+            $catAnn = $this->getDoctrine()->getRepository(Catannonce::class)->findOneBy(['libcatann' => $request->get('Category')]);
+            $announce->setCatann($catAnn);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($announce);
+            $manager->flush();
+            return $this->redirectToRoute('announcementDashboard', []);
         }
+
+        return $this->render('BackOffice/AddNewAnnounce.html.twig', [
+        ]);
+    }
 
     /* *********** FRONT *********** */
 
@@ -95,7 +103,7 @@ class  AnnoncementController extends AbstractController
     /**
      * @Route("/announceFront", name="announceFront")
      */
-    public function getlistann():Response
+    public function getlistann(): Response
     {
         $ann = $this->getDoctrine()
             ->getRepository(Annoncement::class)
@@ -105,9 +113,9 @@ class  AnnoncementController extends AbstractController
             ->findByExampleField('Active');
 
         return $this->render('FrontOffice/announceFront.html.twig',
-            array('alerts'=>$alerts,
-            'ann'=>$ann)
-            );
+            array('alerts' => $alerts,
+                'ann' => $ann)
+        );
     }
 
     /**
@@ -117,7 +125,7 @@ class  AnnoncementController extends AbstractController
     {
         dump($request);
         $alert = new Alert();
-        $catalert=new Catalert();
+        $catalert = new Catalert();
 
         $user = $this->getDoctrine()->getRepository(User::class)->find(10020855);
         $alert->setAlerttitle($request->get('SubjectAlert'));
@@ -139,48 +147,48 @@ class  AnnoncementController extends AbstractController
     /**
      * @Route("/SearchMultipleChoice", name="SearchMultipleChoice" , methods={"GET", "POST"})
      */
-    public function getlistannn(Request $request ,PaginatorInterface $paginator): Response
+    public function getlistannn(Request $request, PaginatorInterface $paginator): Response
     {
         dump($request);
         $title = $request->get('title');
         $dest = $request->get('destination');
         $data = [];
-        $data1=[];
-        if($title != "" || $dest!="") {
+        $data1 = [];
+        if ($title != "" || $dest != "") {
             $data = $this->getDoctrine()
                 ->getRepository(Annoncement::class)
-                ->findBytitle($title,$dest);
+                ->findBytitle($title, $dest);
             $data1 = $this->getDoctrine()
                 ->getRepository(Alert::class)
-                ->findBytitle($title,$dest);
+                ->findBytitle($title, $dest);
         } else {
-            $data= $this->getDoctrine()
+            $data = $this->getDoctrine()
                 ->getRepository(Annoncement::class)
                 ->findAll();
-            $data1= $this->getDoctrine()
+            $data1 = $this->getDoctrine()
                 ->getRepository(Alert::class)
                 ->findAll();
         }
 
 
-        $ann= $paginator->paginate(
+        $ann = $paginator->paginate(
             $data,
-            $request->query->getInt('page',1),
+            $request->query->getInt('page', 1),
             4
         );
-        $alerts= $paginator->paginate(
+        $alerts = $paginator->paginate(
             $data1,
-            $request->query->getInt('page',1),
+            $request->query->getInt('page', 1),
             4
         );
 
-        return $this->render('FrontOffice/announceFront.html.twig',['ann'=>$ann ,'alerts'=>$alerts ]);
+        return $this->render('FrontOffice/announceFront.html.twig', ['ann' => $ann, 'alerts' => $alerts]);
     }
 
     /**
      * @Route("/GeneratePdfAnnounce", name="GeneratePdfAnnounce")
      */
-    public function getListPDF(AnnoncementRepository $annoncementRepository):Response
+    public function getListPDF(AnnoncementRepository $annoncementRepository): Response
     {
         // Configure Dompdf according to your needs
         $pdfOptions = new Options();
@@ -193,7 +201,7 @@ class  AnnoncementController extends AbstractController
         $dompdf = new Dompdf($pdfOptions);
 
         // Retrieve the HTML generated in our twig file
-        $html = $this->renderView('FrontOffice/announcePDF.html.twig',['announces'=>$announces]);
+        $html = $this->renderView('FrontOffice/announcePDF.html.twig', ['announces' => $announces]);
 
         // Load HTML to Dompdf
         $dompdf->loadHtml($html);
@@ -216,7 +224,7 @@ class  AnnoncementController extends AbstractController
     /**
      * @Route("/test5", name="test5")
      */
-    public function test():Response
+    public function test(): Response
     {
         $ann = $this->getDoctrine()
             ->getRepository(Event::class)
@@ -224,7 +232,73 @@ class  AnnoncementController extends AbstractController
 
         dump($ann);
         //dump($ann['idsender']);
-       // echo $ann->getIdsender()->getCinuser();
+        // echo $ann->getIdsender()->getCinuser();
+        die;
+    }
+
+
+
+    /* *************** API ********************** */
+
+
+    /**
+     * @Route("/api/getanns", name="annoucementList", methods={"GET"})
+     */
+    public function annoncementList(SerializerInterface $serializer, EntityManagerInterface $em): Response
+    {
+        $annoncements = $em->createQueryBuilder()
+            ->select('a.idann, a.subject, a.content, a.destination, a.createdat, u.cinuser AS idsender')
+            ->from('App\Entity\Annoncement', 'a')
+            ->innerJoin('App\Entity\User', 'u', 'with', "u.cinuser = a.idsender")
+            ->getQuery()
+            ->getArrayResult();
+        $json = $serializer->serialize($annoncements, 'json', ['groups' => '$annoncements']);
+        $Response = new Response($json);
+        return $Response;
+    }
+
+
+    /**
+     * @Route("/api/addannounce", name="addAnnounceApi")
+     */
+    public function addAnnounceApi(Request $request, SerializerInterface $serializer)
+    {
+        try {
+            $user = $this->getDoctrine()->getRepository(User::class)->find($request->get("idowner"));
+            $announce = new Annoncement();
+            $date = new \DateTime('@' . strtotime('now'));
+            $announce->setCreatedat($date);
+            $announce->setSubject($request->get("subject"));//$content['title']
+            $announce->setContent($request->get("content"));//$content['content']
+            $announce->setDestination($request->get("destination"));//$content['categorieforum']
+            $announce->setIdsender($user);
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($announce);
+            $manager->flush();
+            return new Response('Added to DataBase', 200);
+
+        } catch
+        (\Exception $exception) {
+            return new Response("not added");
+        }
+
+
+    }
+
+    /**
+     * @Route("/testrandom", name="testrandom")
+     */
+    public function testRandomList(EntityManagerInterface $entityManager)
+    {
+        $ann = $this->getDoctrine()
+            ->getRepository(Annoncement::class)
+            ->findByStateField('Active');
+        $alerts = $this->getDoctrine()
+            ->getRepository(Alert::class)
+            ->findByExampleField('Active');
+        $list=array_merge($ann,$alerts);
+        shuffle($list);
+        dump(array_filter($list));
         die;
     }
 }

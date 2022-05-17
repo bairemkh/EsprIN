@@ -1,0 +1,29 @@
+<div class="likers-group">
+    {% for key,value in list %}
+        {% if key<4 %}
+            <img src="{{ asset ('/images/users/' ~ value.participent.imgurl) }}"
+                 data-demo-src="{{ asset ('/images/users/' ~ value.participent.imgurl) }}"
+                 data-user-popover="1" alt="">
+        {% endif %}
+    {% endfor %}
+
+</div>
+<!-- Followers text -->
+<div class="likers-text">
+    <p>
+        {% for key,value in list %}
+            {% if key<3 %}
+                <a href="#">{{ value.participent.firstname }}</a>
+            {% endif %}
+        {% endfor %}
+    </p>
+    {% if listnbr>3%}
+        <a href="#">and {{ listnbr-2 }}
+            more Participates </a>
+    {% endif %}
+    <p>
+
+
+    </p>
+
+</div>

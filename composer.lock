@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/api-platform/core.git",
-                "reference": "2cb4a72ef852cf0c43e1582651d8d90f1db80770"
+                "reference": "d876e6638acad4b82887a4f93fd4eca361584d00"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/api-platform/core/zipball/2cb4a72ef852cf0c43e1582651d8d90f1db80770",
-                "reference": "2cb4a72ef852cf0c43e1582651d8d90f1db80770",
+                "url": "https://api.github.com/repos/api-platform/core/zipball/d876e6638acad4b82887a4f93fd4eca361584d00",
+                "reference": "d876e6638acad4b82887a4f93fd4eca361584d00",
                 "shasum": ""
             },
             "require": {
@@ -172,7 +172,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-04T12:20:11+00:00"
+            "time": "2022-05-13T09:12:26+00:00"
         },
         {
             "name": "cmen/google-charts-bundle",
@@ -309,12 +309,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce"
+                "reference": "9f0d81726ebd74952750146bd32f0a9d6536c30e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/331b4d5dbaeab3827976273e9356b3b453c300ce",
-                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/9f0d81726ebd74952750146bd32f0a9d6536c30e",
+                "reference": "9f0d81726ebd74952750146bd32f0a9d6536c30e",
                 "shasum": ""
             },
             "require": {
@@ -326,13 +326,13 @@
             "require-dev": {
                 "alcaeus/mongo-php-adapter": "^1.1",
                 "cache/integration-tests": "dev-master",
-                "doctrine/coding-standard": "^8.0",
+                "doctrine/coding-standard": "^9",
                 "mongodb/mongodb": "^1.1",
-                "phpunit/phpunit": "^7.0 || ^8.0 || ^9.0",
+                "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
                 "predis/predis": "~1.0",
                 "psr/cache": "^1.0 || ^2.0 || ^3.0",
-                "symfony/cache": "^4.4 || ^5.2 || ^6.0@dev",
-                "symfony/var-exporter": "^4.4 || ^5.2 || ^6.0@dev"
+                "symfony/cache": "^4.4 || ^5.4 || ^6",
+                "symfony/var-exporter": "^4.4 || ^5.4 || ^6"
             },
             "suggest": {
                 "alcaeus/mongo-php-adapter": "Required to use legacy MongoDB driver"
@@ -385,7 +385,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/2.1.1"
+                "source": "https://github.com/doctrine/cache/tree/2.1.x"
             },
             "funding": [
                 {
@@ -401,7 +401,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-17T14:49:29+00:00"
+            "time": "2022-05-11T16:17:03+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -569,12 +569,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "2deb141194c962c62a19f53edfdca482190eb5b0"
+                "reference": "c6be41256d676e7e21cf66f5ecfa1c3632f108f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/2deb141194c962c62a19f53edfdca482190eb5b0",
-                "reference": "2deb141194c962c62a19f53edfdca482190eb5b0",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/c6be41256d676e7e21cf66f5ecfa1c3632f108f0",
+                "reference": "c6be41256d676e7e21cf66f5ecfa1c3632f108f0",
                 "shasum": ""
             },
             "require": {
@@ -672,7 +672,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-08T19:19:17+00:00"
+            "time": "2022-05-14T15:10:25+00:00"
         },
         {
             "name": "doctrine/deprecations",
@@ -719,16 +719,16 @@
         },
         {
             "name": "doctrine/doctrine-bundle",
-            "version": "2.6.2",
+            "version": "2.7.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineBundle.git",
-                "reference": "53cf797feda995299629bed081ffb51776f36e9f"
+                "reference": "f9339b2bc1ccfc84a4b51757a5711b186d22f23c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/53cf797feda995299629bed081ffb51776f36e9f",
-                "reference": "53cf797feda995299629bed081ffb51776f36e9f",
+                "url": "https://api.github.com/repos/doctrine/DoctrineBundle/zipball/f9339b2bc1ccfc84a4b51757a5711b186d22f23c",
+                "reference": "f9339b2bc1ccfc84a4b51757a5711b186d22f23c",
                 "shasum": ""
             },
             "require": {
@@ -813,7 +813,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/DoctrineBundle/issues",
-                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.6.1"
+                "source": "https://github.com/doctrine/DoctrineBundle/tree/2.7.x"
             },
             "funding": [
                 {
@@ -829,7 +829,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-02T16:17:41+00:00"
+            "time": "2022-05-10T09:42:42+00:00"
         },
         {
             "name": "doctrine/doctrine-migrations-bundle",
@@ -1360,12 +1360,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/orm.git",
-                "reference": "31a9c9c49b5ad3bf91dcc293c02d4a6274df9f16"
+                "reference": "70087782e86972d2ad0d3bb222ca51178aa517fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/orm/zipball/31a9c9c49b5ad3bf91dcc293c02d4a6274df9f16",
-                "reference": "31a9c9c49b5ad3bf91dcc293c02d4a6274df9f16",
+                "url": "https://api.github.com/repos/doctrine/orm/zipball/70087782e86972d2ad0d3bb222ca51178aa517fb",
+                "reference": "70087782e86972d2ad0d3bb222ca51178aa517fb",
                 "shasum": ""
             },
             "require": {
@@ -1452,20 +1452,20 @@
                 "issues": "https://github.com/doctrine/orm/issues",
                 "source": "https://github.com/doctrine/orm/tree/2.13.x"
             },
-            "time": "2022-05-10T14:00:54+00:00"
+            "time": "2022-05-12T07:05:51+00:00"
         },
         {
             "name": "doctrine/persistence",
-            "version": "2.4.1",
+            "version": "3.1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/persistence.git",
-                "reference": "092a52b71410ac1795287bb5135704ef07d18dd0"
+                "reference": "25ec98a8cbd1f850e60fdb62c0ef77c162da8704"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/persistence/zipball/092a52b71410ac1795287bb5135704ef07d18dd0",
-                "reference": "092a52b71410ac1795287bb5135704ef07d18dd0",
+                "url": "https://api.github.com/repos/doctrine/persistence/zipball/25ec98a8cbd1f850e60fdb62c0ef77c162da8704",
+                "reference": "25ec98a8cbd1f850e60fdb62c0ef77c162da8704",
                 "shasum": ""
             },
             "require": {
@@ -1483,8 +1483,10 @@
                 "doctrine/annotations": "^1.7",
                 "doctrine/coding-standard": "^9.0",
                 "doctrine/common": "^3.0",
-                "phpstan/phpstan": "1.4.6",
-                "phpunit/phpunit": "^7.5.20 || ^8.5 || ^9.5",
+                "phpstan/phpstan": "1.5.0",
+                "phpstan/phpstan-phpunit": "^1",
+                "phpstan/phpstan-strict-rules": "^1.1",
+                "phpunit/phpunit": "^8.5 || ^9.5",
                 "symfony/cache": "^4.4 || ^5.4 || ^6.0",
                 "vimeo/psalm": "4.22.0"
             },
@@ -1535,9 +1537,23 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/persistence/issues",
-                "source": "https://github.com/doctrine/persistence/tree/2.4.1"
+                "source": "https://github.com/doctrine/persistence/tree/3.0.2"
             },
-            "time": "2022-03-22T06:44:40+00:00"
+            "funding": [
+                {
+                    "url": "https://www.doctrine-project.org/sponsorship.html",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.patreon.com/phpdoctrine",
+                    "type": "patreon"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/doctrine%2Fpersistence",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-05-06T06:10:05+00:00"
         },
         {
             "name": "doctrine/sql-formatter",
@@ -3484,12 +3500,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "721600488c16197bbd2d25c85002225d1b9d8c8c"
+                "reference": "cce7a9f99e22937a71a16b23afa762558808d587"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/721600488c16197bbd2d25c85002225d1b9d8c8c",
-                "reference": "721600488c16197bbd2d25c85002225d1b9d8c8c",
+                "url": "https://api.github.com/repos/symfony/console/zipball/cce7a9f99e22937a71a16b23afa762558808d587",
+                "reference": "cce7a9f99e22937a71a16b23afa762558808d587",
                 "shasum": ""
             },
             "require": {
@@ -3566,7 +3582,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-09T20:12:38+00:00"
+            "time": "2022-05-14T12:35:33+00:00"
         },
         {
             "name": "symfony/debug",
@@ -4558,12 +4574,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "1ebfe9ee486d19a081fc74bb617df76f7ee1c7d5"
+                "reference": "465da28444f0a747c045e4d9bdc8663a9d9f0bb9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/1ebfe9ee486d19a081fc74bb617df76f7ee1c7d5",
-                "reference": "1ebfe9ee486d19a081fc74bb617df76f7ee1c7d5",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/465da28444f0a747c045e4d9bdc8663a9d9f0bb9",
+                "reference": "465da28444f0a747c045e4d9bdc8663a9d9f0bb9",
                 "shasum": ""
             },
             "require": {
@@ -4616,7 +4632,7 @@
                 "phpdocumentor/reflection-docblock": "^3.0|^4.0|^5.0",
                 "symfony/asset": "^3.4|^4.0|^5.0",
                 "symfony/browser-kit": "^4.3|^5.0",
-                "symfony/console": "^4.4.21|^5.0",
+                "symfony/console": "^4.4.42|^5.4.9",
                 "symfony/css-selector": "^3.4|^4.0|^5.0",
                 "symfony/dom-crawler": "^4.4.30|^5.3.7",
                 "symfony/dotenv": "^4.3.6|^5.0",
@@ -4696,7 +4712,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-04-26T13:36:00+00:00"
+            "time": "2022-05-14T12:35:33+00:00"
         },
         {
             "name": "symfony/google-mailer",
@@ -4993,18 +5009,18 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "2db7a38ebf3d504a13eac2e26a5063dc3ff23782"
+                "reference": "486baf0d6e9872294844d4aa9e7acfc871ec69da"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/2db7a38ebf3d504a13eac2e26a5063dc3ff23782",
-                "reference": "2db7a38ebf3d504a13eac2e26a5063dc3ff23782",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/486baf0d6e9872294844d4aa9e7acfc871ec69da",
+                "reference": "486baf0d6e9872294844d4aa9e7acfc871ec69da",
                 "shasum": ""
             },
             "require": {
                 "php": ">=7.1.3",
                 "psr/log": "^1|^2",
-                "symfony/error-handler": "^4.4",
+                "symfony/error-handler": "^4.4|^5.0",
                 "symfony/event-dispatcher": "^4.4",
                 "symfony/http-client-contracts": "^1.1|^2",
                 "symfony/http-foundation": "^4.4.30|^5.3.7",
@@ -5089,7 +5105,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-05-10T09:28:26+00:00"
+            "time": "2022-05-11T15:13:50+00:00"
         },
         {
             "name": "symfony/inflector",
