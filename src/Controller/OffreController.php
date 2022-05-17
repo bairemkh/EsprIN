@@ -68,17 +68,17 @@ class OffreController extends AbstractController
     /**
      * @Route("/deleteOffer/{id}", name="deleteOffer")
      */
-    public function deleteOffer(Offre $offre): Response
+    public function deleteOffer($id,SessionManagmentService $sessionManagmentService): Response
     {
         $em=$this->getDoctrine()->getManager();
-        /*$offer = $this->getDoctrine()
+        $currentUser=$sessionManagmentService->getUser();
+        $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
+        $offer = $this->getDoctrine()
             ->getRepository(Offre::class)
             ->find($id);
         $offer->setState("Deleted");
-        $em->flush();*/
-        $em->remove($offre);
         $em->flush();
-       return $this->redirectToRoute('offreFront');
+       return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
 
     }
 
@@ -112,28 +112,31 @@ class OffreController extends AbstractController
             $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
             $offre->setOfferprovider($user);
             $em = $this->getDoctrine()->getManager();
-
             $em->persist($offre);
             $em->flush();
-            return $this->redirectToRoute('offreFront');
+            return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
         }
 
         return $this->render('FrontOffice/addOffre.html.twig',['f'=>$form->createView()]);
 
     }
 
+
+
     /**
      * @Route("/updateOffer/{id}", name="updateOffer")
      */
-    public function updateOffer(Request $request, $id): Response
+    public function updateOffer(Request $request, $id,SessionManagmentService $sessionManagmentService): Response
     {
         $offre = $this->getDoctrine()->getManager()->getRepository(Offre::class)->find($id);
         $form = $this->createForm(OffreType::class,$offre);
+        $currentUser=$sessionManagmentService->getUser();
+        $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $em = $this->getDoctrine()->getManager();
             $em->flush();
-            return $this->redirectToRoute('offreFront');
+            return $this->redirectToRoute('profile', ['userCin' => $user->getCinuser()]);
         }
 
         return $this->render('FrontOffice/updateOffre.html.twig',['f'=>$form->createView()]);
@@ -172,28 +175,6 @@ class OffreController extends AbstractController
         return $this->redirectToRoute('offreFront');
     }
 
-    /**
-     * @Route ("/offreFront/deleteIntrest/{id}",name="deleteIntrest")
-     */
-    public function deleteIntrest($id)
-    {
-        $em=$this->getDoctrine()->getManager();
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->find(1010101);
-
-        $offre = $this->getDoctrine()
-            ->getRepository(Offre::class)
-            ->find($id);
-        $offre->removeCinintrested($user);
-        $em=$this->getDoctrine()->getManager();
-        $em->flush();
-        $this->addFlash(
-            'info',
-            'Intrest Deleted Successfully'
-        );
-        return $this->redirectToRoute('offreFront');
-    }
 
     /**
      * @Route("/Generate Pdf", name="Generate Pdf")
@@ -239,23 +220,30 @@ class OffreController extends AbstractController
         $menus = $offreRepository->findAll();
 
 //Data Category
+        $state = "Active";
+        $catoffre2 = "Offre de travail";
+        $catoffre1 = "Stage";
+        $catoffre = "Alternance";
         $Alternance = $offreRepository->createQueryBuilder('o')
             ->select('count(o.idoffer)')
             ->Where('o.catoffre= :catoffre')
-            ->setParameter('catoffre', "Alternance")
+            ->andWhere('o.state= :state')
+            ->setParameters(array('catoffre'=>$catoffre,'state'=>$state))
             ->getQuery()
             ->getSingleScalarResult();
 
         $Stage = $offreRepository->createQueryBuilder('o')
             ->select('count(o.idoffer)')
             ->Where('o.catoffre= :catoffre')
-            ->setParameter('catoffre', "Stage")
+            ->andWhere('o.state= :state')
+            ->setParameters(array('catoffre'=>$catoffre1,'state'=>$state))
             ->getQuery()
             ->getSingleScalarResult();
         $Offre_de_travail = $offreRepository->createQueryBuilder('o')
             ->select('count(o.idoffer)')
             ->Where('o.catoffre= :catoffre')
-            ->setParameter('catoffre', "Offre de travail")
+            ->andWhere('o.state= :state')
+            ->setParameters(array('catoffre'=>$catoffre2,'state'=>$state))
             ->getQuery()
             ->getSingleScalarResult();
 
@@ -282,25 +270,6 @@ class OffreController extends AbstractController
         $offer->setState("Deleted");
         $em->flush();
         return $this->redirectToRoute('OfferDashboard');
-    }
-
-
-
-
-
-    // delete front
-    /**
-     * @Route ("/navbar-v2-offres/{id}",name="deleteoffresfront")
-     */
-    public function deleteoffersfront($id)
-    {
-        $em=$this->getDoctrine()->getManager();
-        $offer = $this->getDoctrine()
-            ->getRepository(Offre::class)
-            ->find($id);
-        $offer->setState("Deleted");
-        $em->flush();
-        return $this->redirectToRoute('navbar-v2-offres');
     }
 
     /**

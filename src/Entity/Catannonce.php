@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Catannonce
  *
  * @ORM\Table(name="catannonce")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=App\Repository\CatannonceRepository::class)
  */
 class Catannonce
 {

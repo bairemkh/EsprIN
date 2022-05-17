@@ -28,7 +28,8 @@
                         </thead>
 
                         {% for announce in announcement %}
-                        <tbody>
+                            {% if announce.state == "Active" %}
+                            <tbody>
                         <tr>
                             <!-- Title -->
                             <td>
@@ -48,7 +49,7 @@
                             </td>
                             <!-- Category -->
                             <td>
-                                <span class="badge-default">aaa</span>
+                                {{ announce.catann.libcatann }}
                             </td>
                             <!-- Edit -->
                             <td>
@@ -66,6 +67,7 @@
                         </tr>
 
                         </tbody>
+                            {%endif%}
                         {% endfor %}
                     </table>
                 </div>

@@ -3,12 +3,9 @@
 {% block title %}New Test{% endblock %}
 
 {% block body %}
-    <form action="{{ path('testupload') }}">
-        <input type="file" name="imageSubmited" id="img" accept=".gif, .jpg, .png">
-        <button type="submit">submit</button>
-    </form>
-    {% for item in list %}
-    {% if item is Alert %}
-        <p>alert</p>
-    {% endfor %}
+    <h1>Create new Test</h1>
+
+    {{ include('test/_form.html.twig') }}
+
+    <a href="{{ path('app_test_index') }}">back to list</a>
 {% endblock %}

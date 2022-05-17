@@ -7,7 +7,6 @@ use App\Entity\Like;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
-use App\Repository\LikeRepository;
 use App\Repository\PostRepository;
 use App\Services\SessionManagmentService;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
@@ -25,12 +24,6 @@ use Doctrine\Persistence\ManagerRegistry;
 
 class PostController extends AbstractController
 {
-
-    private LikeRepository $LikeRepository;
-    public function __construct(LikeRepository $LikeRepository)
-    {
-        $this->LikeRepository=$LikeRepository;
-    }
 
     public function indexAction()
     {
@@ -187,18 +180,6 @@ class PostController extends AbstractController
      */
     public function love($id, SessionManagmentService $sessionManagmentService): Response
     {
-        $currentUser=$sessionManagmentService->getUser();
-        if($this->LikeRepository->findlike($id,$currentUser->getCinuser())!=null){
-            $nbr=$this->LikeRepository->deleteLike($currentUser,$id);
-            return  $this->json(['Response'=>'Like deleted','nbrParticipation'=>$nbr],200);
-        }
-        else{
-            $nbr=$this->LikeRepository->addLike($currentUser,$id);
-            return $this->json(['Response'=>'Like added','nbrParticipation'=>$nbr],200);
-        }
-    }
-    /*public function love($id, SessionManagmentService $sessionManagmentService): Response
-    {
         $currentUser = $sessionManagmentService->getUser();
         $like = new Like();
         $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
@@ -228,7 +209,7 @@ class PostController extends AbstractController
 
         return $this->redirectToRoute("postFront");
 
-    }*/
+    }
 
     /**
      * @Route("/unlove/{id}", name="unlove")

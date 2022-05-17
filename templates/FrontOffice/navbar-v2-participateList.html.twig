@@ -15,13 +15,13 @@
     {% for participate in participates %}
     <div class="card" >
         <div class="contentPart">
-            <div class="img"><img src="../../FrontOffice/assets/img/images/img-5.jpg" alt=""></div>
+            <div class="img"><img src="{{asset('images/users/'~participate.imgurl)}}" data-demo-src="{{asset('images/users/'~participate.imgurl)}}" data-user-popover="1" alt=""></div>
+
             <div class="details">
                 <span class="name">{{ participate.getFirstname() }}  {{ participate.getLastname }}</span>
                 <p>{{ participate.getRole() }}</p>
             </div>
         </div>
-        <a class="profBtn" href="#">Profile</a>
     </div>
     {% endfor %}
 

@@ -5,6 +5,7 @@
         <div class="sub-nav-tabs">
             <div class="tabs is-centered">
                 <ul>
+                    {% if user.role=="Student" or user.role=="Professor"%}
                     <li>
                         <a href="{{ path('postFront') }}">Posts</a>
                     </li>
@@ -20,6 +21,24 @@
                     <li>
                         <a href="{{ path('offreFront') }}">Offers</a>
                     </li>
+                    {% endif %}
+
+                    {% if user.role=="Club" %}
+                        <li>
+                            <a href="{{ path('postFront') }}">Posts</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('announceFront') }}">Announces</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('forumFront') }}">Forums</a>
+                        </li>
+                        <li class="is-active">
+                            <a href="{{ path('eventsFront') }}">Events</a>
+                        </li>
+                    {%endif%}
+
+
                     {% if user.role=="Admin" %}
                         <li>
                             <a href="{{ path('app_dashboard_back_office') }}">Dashboard</a>
@@ -246,13 +265,15 @@
                     </div>
 
                     <div class="column is-8">
-                        <div id="profile-timeline-posts" class="box-heading">
-                            <h4>Posts</h4>
 
-                        </div>
 
                         <div class="profile-timeline">
                             {% if user.role=="Admin" %}
+                                <div id="profile-timeline-posts" class="box-heading">
+
+                                    <h4>Announcement</h4>
+                                </div>
+
                                 {% for announce in posts %}
                                     <!--#region Announce -->
                                     <!-- /partials/pages/feed/posts/feed-post1.html -->
@@ -303,7 +324,74 @@
                                     </div>
                                     <!--#endregion Announce -->
                                 {% endfor %}
+                            {% elseif user.role=="Professor" %}
+                            <div id="profile-timeline-posts" class="box-heading">
+                            <h4>Alert</h4>
+                            </div>
+
                             {% elseif user.role=="Club" %}
+                                <div id="profile-timeline-posts" class="box-heading">
+                                    <h4>Events</h4>
+                                </div>
+                                {% block form %}
+
+                                    <div class="model-container" id="model-container">
+
+                                        <form action="{{ path('addevent') }}" method="post">
+                                            <div class="form  has-slimscroll">
+                                                <div class="tabs-wrapper">
+                                                    <div class="tabs is-boxed is-fullwidth">
+                                                        <button type="button" class="exit" id="close">X</button>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="title">Create</div>
+                                                <div class="subtitle">Let's create a new Event..</div>
+                                                <div class="input-container ic1">
+                                                    <input id="field1" class="input" name="TitleEvent" type="text" placeholder=" " />
+                                                    <div class="lab"></div>
+                                                    <label for="field1" class="placeholder">Enter title</label>
+                                                </div>
+                                                <div class="input-container ic2">
+                                                    <input id="field2" class="input" name="ContentEvent" type="text" placeholder=" " />
+                                                    <div class="lab"></div>
+                                                    <label for="field2" class="placeholder">Enter Content..</label>
+                                                </div>
+                                                <div class="input-container ic3">
+                                                    <input id="field2" class="input" name="LocationEvent" type="text" placeholder=" " />
+                                                    <div class="lab"></div>
+                                                    <label for="field2" class="placeholder">Enter Event Location..</label>
+                                                </div>
+                                                <div class="input-container ic4">
+                                                    <div class="lab">Start Date</div>
+                                                    <input id="field3" class="input" name="DateDebut" type="date" placeholder=" " />
+                                                </div>
+                                                <div class="input-container ic5">
+                                                    <div class="lab">End Date</div>
+                                                    <input id="field4" class="input" name="DateFin" type="date" placeholder=" " />
+                                                </div>
+                                                <!-- General basic options -->
+                                                <div id="basic-options" class="compose-options">
+                                                    <!-- Upload action -->
+                                                    <div class="compose-option">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-camera">
+                                                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                                                            <circle cx="12" cy="13" r="4"></circle></svg>
+                                                        <!--<span>Media</span>-->
+                                                        <input id="feed-upload-input-2" type="file" name="imgURL" accept=".png, .jpg, .jpeg" onchange="readURL(this)">
+                                                    </div>
+                                                </div>
+                                                <!-- /General basic options -->
+
+                                                <button type="submit" class="submit">Add Event</button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                {% endblock %}
+                                <br>
+                                    <button id="open" class="btnAdd" value="click me">Add Event</button>
                                 {% for event in posts %}
                                     <div class="card is-post">
                                         <!-- Main wrap -->
@@ -341,6 +429,16 @@
                                                                             <div class="media-content">
                                                                                 <h3>Delete</h3>
                                                                                 <small>Delete this event.</small>
+                                                                            </div>
+                                                                        </div>
+                                                                    </a>
+                                                                    <a href="{{ path('updateEvent', {'id':event.idevent}) }}"
+                                                                       class="dropdown-item">
+                                                                        <div class="media">
+                                                                            <i data-feather="flag"></i>
+                                                                            <div class="media-content">
+                                                                                <h3>Update</h3>
+                                                                                <small>Update this event.</small>
                                                                             </div>
                                                                         </div>
                                                                     </a>
@@ -457,6 +555,10 @@
                                     </div>
                                 {% endfor %}
                             {% elseif user.role=="Student" %}
+
+                                <div id="profile-timeline-posts" class="box-heading">
+                                    <h4>Post</h4>
+                                </div>
                                 {% for item in posts %}
                                     <div id="feed-post-1" class="card is-post">
                                         <!-- Main wrap -->
@@ -580,145 +682,17 @@
                                             </div>
                                             <!-- /Post footer -->
                                         </div>
-                                        <!-- /Main wrap -->
-
-                                        <!-- comments under post -->
-                                        {#
-                                        <div class="comments-wrap is-hidden">
-                                            <!-- Header -->
-                                            <div class="comments-heading">
-                                                <h4>Comments
-                                                    <small>(8)</small>
-                                                </h4>
-                                                <div class="close-comments">
-                                                    <i data-feather="x"></i>
-                                                </div>
-                                            </div>
-                                            <!-- /Header -->
-
-                                            <!-- Comments body -->
-                                            <div class="comments-body has-slimscroll">
-
-                                                <!-- Comment -->
-                                                <div class="media is-comment">
-                                                    <!-- User image -->
-                                                    <div class="media-left">
-                                                        <div class="image">
-                                                            <img src="https://via.placeholder.com/300x300"
-                                                                 data-demo-src="FrontOffice/assets/img/avatars/dan.jpg"
-                                                                 data-user-popover="1"
-                                                                 alt="">
-                                                        </div>
-                                                    </div>
-                                                    <!-- Content -->
-                                                    <div class="media-content">
-                                                        <a href="#">Dan Walker</a>
-                                                        <span class="time">28 minutes ago</span>
-                                                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                            eiusmod
-                                                            tempo incididunt ut labore et
-                                                            dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                                                            exercitation
-                                                            ullamco laboris consequat.</p>
-                                                        <!-- Actions -->
-                                                        <div class="controls">
-                                                            <div class="like-count">
-                                                                <i data-feather="thumbs-up"></i>
-                                                                <span>4</span>
-                                                            </div>
-                                                            <div class="reply">
-                                                                <a href="#">Reply</a>
-                                                            </div>
-                                                            <div class="edit">
-                                                                <a href="#">Edit</a>
-                                                            </div>
-                                                        </div>
-
-                                                        <!-- Nested Comment -->
-                                                        <div class="media is-comment">
-                                                            <!-- User image -->
-                                                            <div class="media-left">
-                                                                <div class="image">
-                                                                    <img src="https://via.placeholder.com/300x300"
-                                                                         data-demo-src="FrontOffice/assets/img/avatars/david.jpg"
-                                                                         data-user-popover="4" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <!-- Content -->
-                                                            <div class="media-content">
-                                                                <a href="#">David Kim</a>
-                                                                <span class="time">15 minutes ago</span>
-                                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed
-                                                                    do
-                                                                    eiusmod tempo incididunt ut labore et
-                                                                    dolore magna aliqua.</p>
-                                                                <!-- Actions -->
-                                                                <div class="controls">
-                                                                    <div class="like-count">
-                                                                        <i data-feather="thumbs-up"></i>
-                                                                        <span>0</span>
-                                                                    </div>
-                                                                    <div class="reply">
-                                                                        <a href="#">Reply</a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <!-- Right side dropdown -->
-
-                                                        </div>
-                                                        <!-- /Nested Comment -->
-
-                                                    </div>
-
-                                                </div>
-
-                                            </div>
-                                            <!-- /Comments body -->
-
-                                            <!-- Comments footer -->
-                                            <div class="card-footer">
-                                                <div class="media post-comment has-emojis">
-                                                    <!-- Comment Textarea -->
-                                                    <div class="media-content">
-                                                        <div class="field">
-                                                            <p class="control">
-
-                                                            <div class="textarea comment-textarea">
-                                                            </div>
-
-                                                        </div>
-                                                        </p>
-                                                    </div>
-                                                    <!-- Additional actions -->
-                                                    <div class="actions">
-                                                        <div class="image is-32x32">
-                                                            <img class="is-rounded" src="https://via.placeholder.com/300x300"
-                                                                 data-demo-src="FrontOffice/assets/img/avatars/jenna.png"
-                                                                 data-user-popover="0" alt="">
-                                                        </div>
-                                                        <div class="toolbar">
-                                                            <div class="action is-emoji">
-                                                                <i data-feather="smile"></i>
-                                                            </div>
-                                                            <div class="action is-upload">
-                                                                <i data-feather="camera"></i>
-                                                                <input type="file">
-                                                            </div>
-
-                                                            <a class="button is-solid primary-button raised">Post Comment</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        #}
-                                        <!--end  comments under post -->
                                     </div>
-
-
-
                                 {% endfor %}
+
                             {% elseif user.role=="Extern" %}
+                                <div id="profile-timeline-posts" class="box-heading">
+                                    <h4>Offers</h4>
+                                </div>
+                                <br>
+                                <button type="button" style="background-color:#ff641e1a;border-radius: 12px;border:none;width:100px;height:30px;"><a href="{{ path('addOffer') }}"><p style="color:#c30007">Add Offer</p></a> </button>
+                                <br>
+                                <br>
                                 {% for offre in posts %}
                                     {% if offre.state == "Active" %}
                                         <div  class="card is-post">
@@ -779,14 +753,8 @@
                                                         <p> {{ offre.titleoffer }}
                                                         </p>
                                                         <p>{{ offre.descoffer }}</p>
-
-
                                                     </div>
                                                 </div>
-
-                                                <button> <a href={{ path('addIntrest', {'id': offre.idoffer}) }} class="like-button">Interested </a></li> </button>
-                                                <button> <a href={{ path('deleteIntrest', {'id': offre.idoffer}) }} class="like-button">Uninterested </a></li> </button>
-
                                             </div>
                                         </div>
                                     {% endif %}

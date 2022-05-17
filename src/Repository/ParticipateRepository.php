@@ -2,14 +2,11 @@
 
 namespace App\Repository;
 
-use App\Entity\Event;
 use App\Entity\Participate;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
-use http\Env\Response;
 
 /**
  * @extends ServiceEntityRepository<Participate>
@@ -78,43 +75,4 @@ class ParticipateRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function userReacted($currentUser,$id):bool{
-        $event=$this->getEntityManager()
-            ->getRepository(Event::class)
-            ->find($id);
-        $participate = $this->getEntityManager()
-            ->getRepository(Participate::class)
-            ->findOneBy(['participent'=>$currentUser,'event'=>$event]);
-        dump($participate);
-        return $participate!=null;
-    }
-
-    public function addParticipate($currentUser,$id):int{
-        $user = $this->getEntityManager()
-            ->getRepository(User::class)
-            ->find($currentUser->getCinuser());
-
-
-        $event = $this->getEntityManager()
-            ->getRepository(Event::class)
-            ->find($id);
-        $event->addCinuser($user);
-        $em = $this->getEntityManager();
-        $em->flush();
-        return $event->getNbrparticipant()+1;
-    }
-    public function deleteParticipate($currentUser,$id):int{
-        $user = $this->getEntityManager()
-            ->getRepository(User::class)
-            ->find($currentUser->getCinuser());
-        $event = $this->getEntityManager()
-            ->getRepository(Event::class)
-            ->find($id);
-        $event->removeCinuser($user);
-        $em = $this->getEntityManager();
-        $em->flush();
-        return $event->getNbrparticipant()-1;
-    }
-
-
 }

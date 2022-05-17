@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 
-use App\Entity\Alert;
-use App\Entity\Annoncement;
 use App\Entity\Commented;
 use App\Entity\Event;
 use App\Entity\Forum;
@@ -14,10 +12,8 @@ use App\Entity\ReactedForum;
 use App\Entity\Responded;
 use App\Entity\User;
 use App\Form\ForumType;
-use App\Repository\AlertRepository;
-use App\Repository\AnnoncementRepository;
 use App\Repository\ForumRepository;
-use App\Repository\ReactedRepository;
+use App\Repository\PostRepository;
 use CMEN\GoogleChartsBundle\GoogleCharts\Charts\PieChart;
 use App\Services\SessionManagmentService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,56 +21,22 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Doctrine\Persistence\ManagerRegistry;;
 
 class ForumController extends AbstractController
 {
-    private SessionManagmentService $sessionManagmentService;
-    private ReactedRepository $ReactRepository;
-
-    public function __construct(SessionManagmentService $ss,ReactedRepository $rp)
-    {
-        $this->sessionManagmentService=$ss;
-        $this->ReactRepository=$rp;
-    }
-
     public function indexAction()
     {
 
         $forms = $this->getDoctrine()->getRepository(Forum::class)->findByState('Active');
-
-
-        $pieChart = new PieChart();
-        $pieChart->getData()->setArrayToDataTable(
-            [['Task', 'Hours per Day'],
-                ['Posts',     count($forms)],
-                ['Comments',      count($forms)],
-                ['likes',  count($forms)],
-
-            ]
-        );
-        $pieChart->getOptions()->setTitle('Statistique Posts');
-        $pieChart->getOptions()->setHeight(500);
-        $pieChart->getOptions()->setWidth(900);
-        $pieChart->getOptions()->getTitleTextStyle()->setBold(true);
-        $pieChart->getOptions()->getTitleTextStyle()->setColor('#009900');
-        $pieChart->getOptions()->getTitleTextStyle()->setItalic(true);
-        $pieChart->getOptions()->getTitleTextStyle()->setFontName('Arial');
-        $pieChart->getOptions()->getTitleTextStyle()->setFontSize(20);
-
-        return $pieChart;
+        //$cmts = $this->getDoctrine()->getRepository(R::class)->findAll();
+        //$likes = $this->getDoctrine()->getRepository(Like::class)->findAll();
     }
-
-    public function verifyParticipation($id):Response{
-        $currentUser=$this->sessionManagmentService->getUser();
-        $response=  $this->ReactRepository->findreact($id,$currentUser->getCinuser())!=null;
-        if($response){
-            return new Response('true');
-        }else{
-            return new Response('false');
-        }
-    }
-
     /**
      * @Route ("/ForumDashboard",name="ForumDashboard")
      */
@@ -274,18 +236,6 @@ class ForumController extends AbstractController
     public function react($id,SessionManagmentService $sessionManagmentService): Response
     {
         $currentUser=$sessionManagmentService->getUser();
-        if($this->ReactRepository->findreact($id,$currentUser->getCinuser())){
-            $nbr=$this->ReactRepository->deleteReact($currentUser,$id);
-            return  $this->json(['Response'=>'Reaction deleted','nbrParticipation'=>$nbr],200);
-        }
-        else{
-            $nbr=$this->ReactRepository->addReact($currentUser,$id);
-            return $this->json(['Response'=>'Reaction added','nbrParticipation'=>$nbr],200);
-        }
-    }
-  /*  public function react($id,SessionManagmentService $sessionManagmentService): Response
-    {
-        $currentUser=$sessionManagmentService->getUser();
         $like = new ReactedForum();
         $user = $this->getDoctrine()->getRepository(User::class)->find($currentUser->getCinuser());
         $post = $this->getDoctrine()->getRepository(Forum::class)->find($id);
@@ -316,7 +266,7 @@ class ForumController extends AbstractController
 
         return $this->redirectToRoute("forumFront");
 
-    }*/
+    }
 
 /**
 * @Route("/disreact/{id}", name="disreacted-forum")
@@ -435,21 +385,6 @@ class ForumController extends AbstractController
         (\Exception $exception) {
             return new Response($exception->getMessage());
         }
-    }
-
-    /**
-     * @Route ("/test/upload",name="testupload")
-     */
-    public function testUpload(Request $request,AnnoncementRepository $annoncementRepository,AlertRepository $alertRepository): Response
-    {
-        $ann = $annoncementRepository
-            ->findByStateField('Active');
-        $alerts = $alertRepository
-            ->findByExampleField('Active');
-        $list=array_merge($ann,$alerts);
-        shuffle($list);
-        dump(array_filter($list));
-        return $this->render("test/new.html.twig",["list"=>$list]);
     }
 
 

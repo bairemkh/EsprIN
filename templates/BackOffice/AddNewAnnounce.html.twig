@@ -33,12 +33,13 @@
                 </label>
                 <label class="form-label-wrapper">
                     <p class="form-label">Category</p>
+
                     <select class="form-select" name="Category" id="CategoryF">
                         <option value ="selectCategory" selected>Select a Category</option>
-                        <option value ="Administrative decisions">Administrative decisions</option>
-                        <option value ="Schedule">Schedule</option>
-                        <option value ="Checkout">Checkout</option>
-                        <option value ="Distribution of exams">Distribution of exams</option>
+                        {%for cat in cat%}
+                            <option>{{cat.libcatann}}</option>
+                        {%endfor%}
+
                     </select>
                     <div class="msg">
                         </i>

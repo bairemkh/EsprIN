@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -24,6 +26,8 @@ class Offre
 
     /**
      * @var string
+     * @Assert\NotBlank(message=" category must not be blank")
+     * @Assert\Choice({"Offre de travail", "Stage", "Alternance"})
      *
      * @ORM\Column(name="catOffre", type="string", length=20, nullable=false)
      */
@@ -31,10 +35,10 @@ class Offre
 
     /**
      * @var string
-     * @Assert\NotBlank(message=" titre doit etre non vide")
+     * @Assert\NotBlank(message=" title must not be blank")
      * @Assert\Length(
      *      min = 5,
-     *      minMessage=" Entrer un titre au mini de 5 caracteres"
+     *      minMessage=" Title must be at least 5 characters length"
      *
      *     )
      *
@@ -45,7 +49,7 @@ class Offre
     /**
      * @var string
      *
-     * @Assert\NotBlank(message=" description doit etre non vide")
+     * @Assert\NotBlank(message=" description must not be blank")
      * @ORM\Column(name="descOffer", type="text", length=65535, nullable=false)
      */
     private $descoffer;

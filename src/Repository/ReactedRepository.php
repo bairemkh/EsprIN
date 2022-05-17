@@ -1,11 +1,7 @@
 <?php
 
 namespace App\Repository;
-
-use App\Entity\Event;
-use App\Entity\Forum;
 use App\Entity\ReactedForum;
-use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
@@ -17,6 +13,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method ReactedForum[]    findAll()
  * @method ReactedForum[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
+
 class ReactedRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -76,7 +73,7 @@ class ReactedRepository extends ServiceEntityRepository
         ;
     }
     */
-    public function findreact($id, $cin): ?ReactedForum
+    public function findreact($id,$cin): ?ReactedForum
     {
         return $this->createQueryBuilder('r')
             ->Where('r.idcreater = :cin')
@@ -85,36 +82,6 @@ class ReactedRepository extends ServiceEntityRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
-    }
-
-    public function addReact($currentUser, $id): int
-    {
-        $user = $this->getEntityManager()
-            ->getRepository(User::class)
-            ->find($currentUser->getCinuser());
-
-        $forum = $this->getEntityManager()
-            ->getRepository(Forum::class)
-            ->find($id);
-        $react=new ReactedForum();
-        $react->setIdcreater($user->getCinuser());
-        $react->setIdforum($id);
-        $em = $this->getEntityManager();
-        $em->persist($react);
-        $em->flush();
-        return $forum->getNbrlikesforum() + 1;
-    }
-
-    public function deleteReact($currentUser, $id): int
-    {
-        $forum = $this->getEntityManager()
-            ->getRepository(Forum::class)
-            ->find($id);
-        $react=$this->findreact($id,$currentUser->getCinuser());
-        $em = $this->getEntityManager();
-        $em->remove($react);
-        $em->flush();
-        return $forum->getNbrlikesforum() - 1;
     }
 
 }

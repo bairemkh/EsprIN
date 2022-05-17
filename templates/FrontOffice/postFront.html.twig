@@ -209,9 +209,7 @@
                                     <!-- Compose form -->
                                     <div class="compose">
                                         <div class="compose-form">
-                                            <img src="{{asset('images/users/'~render(controller(
-                                                'App\\Controller\\DashboardBackOfficeController::renderProfileAvatar'
-                                            )))}}">
+                                            <img src="{{ asset('FrontOffice/assets/img/post/dan.jpg') }}">
 
                                             <div class="control">
 
@@ -590,56 +588,8 @@
                                                 <a href="#">
                                                     {{ item.idower.firstname}} {{  item.idower.lastname}}</a>
                                                 <span class="time">{{ item.createdAt|date("m/d/Y") }}</span>
-
                                             </div>
                                         </div>
-                                        <!-- Right side dropdown -->
-                                        <!-- /partials/pages/feed/dropdowns/feed-post-dropdown.html -->
-                                        {% if item.idower.cinuser==render(controller('App\\Controller\\SecurityController::getCin')) %}
-                                        <div class="dropdown is-spaced is-right is-neutral dropdown-trigger">
-                                            <div>
-                                                <div class="button">
-                                                    <i data-feather="more-vertical"></i>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="dropdown-menu" role="menu">
-                                                <div class="dropdown-content">
-                                                    <a href="{{ path('deleteP',{'id':item.idpost}) }}"
-                                                       class="dropdown-item">
-                                                        <div class="media">
-                                                            <i data-feather="trash-2"></i>
-                                                            <div class="media-content">
-
-                                                                <h3>Delete</h3>
-
-                                                                <small>Delete this post </small>
-
-                                                            </div>
-                                                        </div>
-                                                    </a>
-                                                </div>
-                                                <div class="dropdown-content">
-                                                    <a href="{{ path('editP',{'id':item.idpost}) }}"
-                                                       class="dropdown-item">
-                                                        <div class="media">
-                                                            <i data-feather="edit"></i>
-                                                            <div class="media-content">
-
-                                                                <h3>Edit</h3>
-
-                                                                <small>Edit this post </small>
-
-                                                            </div>
-                                                        </div>
-                                                    </a>
-
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        {% endif %}
                                     </div>
                                     <!-- /Post header -->
 
@@ -687,7 +637,7 @@
                                         <div class="social-count">
                                             <div class="likes-count">
                                                 <i data-feather="heart"></i>
-                                                <span class="count">{{ item.likenum }}</span>
+                                                <span>{{ item.likenum }}</span>
                                             </div>
                                             <div class="comments-count">
                                                 <i data-feather="message-circle"></i>
@@ -901,7 +851,4 @@
 
 
 
-{% endblock %}
-{% block JavaScript %}
-<script src="{{ asset('FrontOffice/js/reactions/like.js') }}"></script>
 {% endblock %}

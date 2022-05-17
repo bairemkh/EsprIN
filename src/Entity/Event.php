@@ -107,14 +107,12 @@ class Event
      */
     private $cinuser;
 
-
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->cinuser = new \Doctrine\Common\Collections\ArrayCollection();
-
     }
 
     /**
